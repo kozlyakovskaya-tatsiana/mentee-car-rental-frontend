@@ -1,13 +1,11 @@
 import React from 'react';
 
-// import '.styles.scss';
+import DesktopHeader from "./Desktop";
 
 const Header = () => {
     return (
-        <div>
-
-        </div>
-    )
+        <DesktopHeader />
+    );
 }
 
 export default Header;

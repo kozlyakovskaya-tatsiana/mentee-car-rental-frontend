@@ -1,9 +1,9 @@
 import React from 'react'
 
-// import '.styles.scss';
+import DesktopHeader from './Desktop'
 
 function Header() {
-    return <div />
+    return <DesktopHeader />
 }
 
 export default Header

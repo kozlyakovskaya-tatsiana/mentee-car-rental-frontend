@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import Header from './components/Header'
 import Main from './components/pages/Main'
-import Authorize from './components/pages/Authorize'
+import Authorize from './components/pages/Login'
 
 import './App.scss'
 

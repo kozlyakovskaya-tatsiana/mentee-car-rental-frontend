@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -10,12 +11,20 @@ import Box from '@mui/material/Box'
 
 import { useStyles } from './styles'
 
-function FormFooterComponent() {
-    const styles = useStyles()
+type FormValues = {
+    email: string
+    password: string
+}
 
+function FormFooter() {
+    const styles = useStyles()
+    const { register, handleSubmit } = useForm<FormValues>()
+    // eslint-disable-next-line no-console
+    const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
     return (
         <Box
             component="form"
+            onSubmit={handleSubmit(onSubmit)}
             noValidate
             sx={{ mt: 1, width: '100%' }}
         >
@@ -52,4 +61,4 @@ function FormFooterComponent() {
     )
 }
 
-export default FormFooterComponent
+export default FormFooter

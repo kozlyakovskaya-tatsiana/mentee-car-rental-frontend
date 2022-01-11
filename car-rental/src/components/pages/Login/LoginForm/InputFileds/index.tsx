@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import TextField from '@mui/material/TextField'
 
@@ -52,6 +53,20 @@ function InputFiled() {
                     },
                 }}
             />
+            <Link
+                to="restore"
+                style={{
+                    fontSize: 10,
+                    color: 'white',
+                    textAlign: 'left',
+                    margin: 0,
+                    padding: 0,
+                    textDecoration: 'none',
+                    marginLeft: 'auto',
+                }}
+            >
+                Forgot password?
+            </Link>
         </>
     )
 }

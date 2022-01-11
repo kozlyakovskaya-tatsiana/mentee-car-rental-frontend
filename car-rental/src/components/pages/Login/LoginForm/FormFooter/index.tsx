@@ -13,12 +13,12 @@ import { useStyles } from './styles'
 function FormFooterComponent() {
     const styles = useStyles()
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const data = new FormData(event.currentTarget)
-    }
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box
+            component="form"
+            noValidate
+            sx={{ mt: 1, width: '100%' }}
+        >
             <FormControlLabel
                 control={
                     <Checkbox
@@ -41,13 +41,8 @@ function FormFooterComponent() {
             >
                 Sign In
             </Button>
-            <Grid container>
+            <Grid container style={{ display: 'block', textAlign: 'center' }}>
                 <Grid item xs>
-                    <Link to="restore" className={styles.text}>
-                        Forgot password?
-                    </Link>
-                </Grid>
-                <Grid item>
                     <Link to="/Signup" className={styles.text}>
                         Don&apos;t have an account? Sign Up
                     </Link>

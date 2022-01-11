@@ -23,6 +23,7 @@
     "react-hooks"
   ],
   "rules": {
+    "no-unused-vars": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "react/jsx-filename-extension": [
@@ -35,6 +36,8 @@
       "error",
       "ignorePackages",
       {
+        "js": "never",
+        "jsx": "never",
         "ts": "never",
         "tsx": "never"
       }

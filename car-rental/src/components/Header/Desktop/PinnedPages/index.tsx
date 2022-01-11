@@ -49,7 +49,7 @@ function PinnedPages() {
             >
                 {pages.map((page) => (
                     <Link
-                        to={page}
+                        to={page.toLowerCase()}
                         key={page}
                         style={{ textDecoration: 'none' }}
                     >

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -62,9 +63,17 @@ function Profile() {
                 >
                     {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center" color="secondary">
-                                {setting}
-                            </Typography>
+                            <Link
+                                to={setting.toLowerCase()}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <Typography
+                                    textAlign="center"
+                                    color="secondary"
+                                >
+                                    {setting}
+                                </Typography>
+                            </Link>
                         </MenuItem>
                     ))}
                 </Menu>

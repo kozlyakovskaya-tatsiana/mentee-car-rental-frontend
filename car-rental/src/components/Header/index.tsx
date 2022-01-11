@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import DesktopHeader from "./Desktop";
 
@@ -8,4 +8,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default Header

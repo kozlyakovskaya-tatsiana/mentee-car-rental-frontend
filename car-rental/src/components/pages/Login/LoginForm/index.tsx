@@ -121,7 +121,7 @@ function LoginForm() {
                 )}
             />
             <Link
-                to="restore"
+                to="/restore"
                 style={{
                     fontSize: 10,
                     color: 'white',

@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem'
 
 import { settings } from '../styles'
 
-function ProfileComponent() {
+function Profile() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
     )
@@ -73,4 +73,4 @@ function ProfileComponent() {
     )
 }
 
-export default ProfileComponent
+export default Profile

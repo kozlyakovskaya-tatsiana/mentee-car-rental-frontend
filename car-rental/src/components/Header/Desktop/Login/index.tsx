@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import Button from '@mui/material/Button'
 
-function LoginComponent() {
+function Login() {
     return (
         <div>
             <Link to="Login" style={{ textDecoration: 'none' }}>
@@ -13,4 +13,4 @@ function LoginComponent() {
     )
 }
 
-export default LoginComponent
+export default Login

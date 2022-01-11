@@ -1,13 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 // import '.styles.scss';
 
-const Authorize = () => {
-    return (
-        <div>
-
-        </div>
-    )
+function Authorize() {
+    return <div />
 }
 
-export default Authorize;
+export default Authorize

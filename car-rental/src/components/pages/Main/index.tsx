@@ -1,13 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 // import '.styles.scss';
 
-const Main = () => {
-    return (
-        <div>
-
-        </div>
-    )
+function Main() {
+    return <div />
 }
 
-export default Main;
+export default Main

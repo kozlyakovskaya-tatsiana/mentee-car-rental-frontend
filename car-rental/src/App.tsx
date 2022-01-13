@@ -2,8 +2,8 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import Header from './components/Header'
-import Main from './components/pages/Main'
-import Authorize from './components/pages/Authorize'
+import Main from './pages/Main'
+import Authorize from './pages/Authorize'
 
 import './App.scss'
 

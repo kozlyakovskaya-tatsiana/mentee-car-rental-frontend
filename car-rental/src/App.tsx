@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import Header from './components/Header'
 import Main from './components/pages/Main'
-import Authorize from './components/pages/Authorize'
+import Login from './components/pages/Login'
 
 import './App.scss'
 
@@ -13,7 +13,7 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<Main />} />
-                <Route path="/Login" element={<Authorize />} />
+                <Route path="/Login" element={<Login />} />
             </Routes>
         </div>
     )

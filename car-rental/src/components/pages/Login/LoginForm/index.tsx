@@ -162,7 +162,7 @@ function LoginForm() {
                     style={{ display: 'block', textAlign: 'center' }}
                 >
                     <Grid item xs>
-                        <Link to="/Signup" className={styles.text}>
+                        <Link to="/Register" className={styles.text}>
                             Don&apos;t have an account? Sign Up
                         </Link>
                     </Grid>

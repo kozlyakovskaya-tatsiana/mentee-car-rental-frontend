@@ -12,7 +12,7 @@ import Login from './Login'
 
 function DesktopHeader() {
     // Authenticate statement
-    const [auth, setAuth] = React.useState(true)
+    const [auth, setAuth] = React.useState(false)
 
     return (
         <ThemeProvider theme={themeOptions}>

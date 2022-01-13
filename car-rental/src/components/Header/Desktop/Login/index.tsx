@@ -6,6 +6,9 @@ import Button from '@mui/material/Button'
 function Login() {
     return (
         <div>
+            <Link to="Register" style={{ textDecoration: 'none' }}>
+                <Button color="secondary">Sign Up</Button>
+            </Link>
             <Link to="login" style={{ textDecoration: 'none' }}>
                 <Button color="secondary">Login</Button>
             </Link>

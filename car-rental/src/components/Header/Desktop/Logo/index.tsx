@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import Typography from '@mui/material/Typography'
 
-function LogoComponent() {
+function Logo() {
     return (
         <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
@@ -19,4 +19,4 @@ function LogoComponent() {
     )
 }
 
-export default LogoComponent
+export default Logo

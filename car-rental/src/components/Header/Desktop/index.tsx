@@ -5,22 +5,22 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import themeOptions from './styles'
 
-import LogoComponent from './LogoComponent'
-import PinnedPagesComponent from './PinnedPagesComponent'
-import ProfileComponent from './ProfileComponent'
-import LoginComponent from './LoginComponent'
+import Logo from './Logo'
+import PinnedPages from './PinnedPages'
+import Profile from './Profile'
+import Login from './Login'
 
 function DesktopHeader() {
     // Authenticate statement
-    const [auth, setAuth] = React.useState(false)
+    const [auth, setAuth] = React.useState(true)
 
     return (
         <ThemeProvider theme={themeOptions}>
             <AppBar position="static" color="primary">
                 <Toolbar>
-                    <LogoComponent />
-                    <PinnedPagesComponent />
-                    {(auth && <ProfileComponent />) || <LoginComponent />}
+                    <Logo />
+                    <PinnedPages />
+                    {(auth && <Profile />) || <Login />}
                 </Toolbar>
             </AppBar>
         </ThemeProvider>

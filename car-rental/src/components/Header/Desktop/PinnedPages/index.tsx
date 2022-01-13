@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 
 import { pages } from '../styles'
 
-function PinnedPagesComponent() {
+function PinnedPages() {
     return (
         <>
             <Box
@@ -29,28 +29,6 @@ function PinnedPagesComponent() {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                    open
-                    sx={{
-                        display: { xs: 'block', md: 'none' },
-                    }}
-                >
-                    {pages.map((page) => (
-                        <MenuItem key={page}>
-                            <Typography textAlign="center">{page}</Typography>
-                        </MenuItem>
-                    ))}
-                </Menu>
             </Box>
             <Typography
                 variant="h6"
@@ -70,7 +48,11 @@ function PinnedPagesComponent() {
                 }}
             >
                 {pages.map((page) => (
-                    <Link to={page} style={{ textDecoration: 'none' }}>
+                    <Link
+                        to={page.toLowerCase()}
+                        key={page}
+                        style={{ textDecoration: 'none' }}
+                    >
                         <Button
                             key={page}
                             sx={{
@@ -88,4 +70,4 @@ function PinnedPagesComponent() {
     )
 }
 
-export default PinnedPagesComponent
+export default PinnedPages

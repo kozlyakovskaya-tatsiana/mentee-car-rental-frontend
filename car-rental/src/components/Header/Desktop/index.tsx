@@ -12,7 +12,7 @@ import Login from './Login'
 
 function DesktopHeader() {
     // Authenticate statement
-    const [auth, setAuth] = React.useState(true)
+    const [auth, setAuth] = React.useState<boolean>(true)
 
     return (
         <ThemeProvider theme={themeOptions}>
@@ -20,7 +20,7 @@ function DesktopHeader() {
                 <Toolbar>
                     <Logo />
                     <PinnedPages />
-                    {(auth && <Profile />) || <Login />}
+                    {/*auth ? <Profile /> :*/ <Login />}
                 </Toolbar>
             </AppBar>
         </ThemeProvider>

@@ -13,6 +13,8 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
 import useStyles from './styles'
+import themeOptions from '../../../../styles'
+import { useTheme } from '@mui/material'
 
 type FormValues = {
     email: string
@@ -21,6 +23,8 @@ type FormValues = {
 
 function LoginForm() {
     const styles = useStyles()
+
+    const theme = useTheme();
 
     const { control, handleSubmit } = useForm<FormValues>()
     const onSubmit = async (data: FormValues) => {
@@ -46,7 +50,7 @@ function LoginForm() {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                 <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5" color="text.primary">
+            <Typography component="h1" variant="h5" color={theme.palette.text.primary}>
                 Sign in
             </Typography>
             <Controller

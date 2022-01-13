@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 
 import Typography from '@mui/material/Typography'
 
+
+// const Logo : React.FC<ILogoProps> = (props :ILOgoProps) => {
+//}
 function Logo() {
     return (
         <Link to="/" style={{ textDecoration: 'none' }}>

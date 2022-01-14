@@ -3,14 +3,14 @@ import { Route, Routes } from 'react-router-dom'
 
 import { ThemeProvider } from '@mui/material'
 
-import Header from './components/Header'
+import Header from './components/AppBar'
 import Main from './pages/Main'
 import Authorize from './pages/Authorize'
 
 import './App.scss'
 import themeOptions from './Theme'
 
-function App() {
+const App = () => {
     return (
         <div className="App">
             <ThemeProvider theme={themeOptions}>

@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material'
 
 import Header from './components/AppBar'
 import Main from './pages/Main'
-import Authorize from './pages/Authorize'
+import Login from './pages/Login'
 
 import './App.scss'
 import themeOptions from './Theme'
@@ -17,7 +17,7 @@ const App = () => {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/Login" element={<Authorize />} />
+                    <Route path="/login" element={<Login />} />
                 </Routes>
             </ThemeProvider>
         </div>

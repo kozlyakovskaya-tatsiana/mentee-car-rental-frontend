@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentProps, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useTheme } from '@mui/material'
@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
 import useStyles, { boxStyle, linkStyle } from './styles'
+import { login } from '../../../services/auth.service'
 
 type FormValues = {
     email: string
@@ -22,12 +23,29 @@ type FormValues = {
 
 const LoginForm = () => {
     const styles = useStyles()
-
+    const [message, setMessage] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
     const theme = useTheme()
 
     const { control, handleSubmit } = useForm<FormValues>()
     const onSubmit = async (data: FormValues) => {
         console.log(data)
+        login(data.email, data.password).then(
+            () => {
+                window.location.reload()
+            },
+            (error) => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString()
+
+                setLoading(false)
+                setMessage(resMessage)
+            }
+        )
     }
 
     return (

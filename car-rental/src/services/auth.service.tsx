@@ -7,7 +7,7 @@ export const register = (
     email: string,
     password: string
 ) => {
-    return axios.post(`${API_URL}register`, {
+    return axios.post(`${API_URL}/auth/register`, {
         firstname,
         lastname,
         email,
@@ -17,7 +17,7 @@ export const register = (
 
 export const login = (email: string, password: string) => {
     return axios
-        .post('https://localhost:5001/api/login', {
+        .post(`${API_URL}/auth/login`, {
             email,
             password,
         })

@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const API_URL = 'https://localhost:5001/api/auth/'
+import { API_URL } from 'Consts'
 
 export const register = (
     firstname: string,
@@ -18,7 +17,7 @@ export const register = (
 
 export const login = (email: string, password: string) => {
     return axios
-        .post(`${API_URL}login`, {
+        .post('https://localhost:5001/api/login', {
             email,
             password,
         })

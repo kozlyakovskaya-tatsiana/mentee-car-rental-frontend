@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import LoginForm from './LoginForm'
 import Copyright from '../../components/Copyright'
 
-const Login = () => {
+const LoginPage = () => {
     return (
         <Container maxWidth="xs">
             <LoginForm />
@@ -14,4 +14,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginPage

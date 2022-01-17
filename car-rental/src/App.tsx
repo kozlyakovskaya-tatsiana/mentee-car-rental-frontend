@@ -4,8 +4,8 @@ import { Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 
 import Header from './components/AppBar'
-import Main from './pages/Main'
-import Login from './pages/Login'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
 
 import './App.scss'
 import themeOptions from './Theme'
@@ -16,8 +16,8 @@ const App = () => {
             <ThemeProvider theme={themeOptions}>
                 <Header />
                 <Routes>
-                    <Route path="/" element={<Main />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/login" element={<LoginPage />} />
                 </Routes>
             </ThemeProvider>
         </div>

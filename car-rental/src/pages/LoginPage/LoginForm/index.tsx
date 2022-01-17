@@ -21,7 +21,7 @@ type FormValues = {
     password: string
 }
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
     const styles = useStyles()
     const [message, setMessage] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)

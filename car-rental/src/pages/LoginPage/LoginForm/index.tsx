@@ -1,4 +1,4 @@
-import React, { ComponentProps, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useTheme } from '@mui/material'
@@ -13,8 +13,8 @@ import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
-import useStyles, { boxStyle, linkStyle } from './styles'
-import { login } from '../../../services/auth.service'
+import { login } from 'services/auth.service'
+import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
 
 type FormValues = {
     email: string
@@ -30,22 +30,16 @@ const LoginForm: React.FC = () => {
     const { control, handleSubmit } = useForm<FormValues>()
     const onSubmit = async (data: FormValues) => {
         console.log(data)
-        login(data.email, data.password).then(
-            () => {
+        login(data.email, data.password)
+            .then(() => {
                 window.location.reload()
-            },
-            (error) => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString()
-
-                setLoading(false)
-                setMessage(resMessage)
-            }
-        )
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setLoading(false)
+                    setMessage(error.response.data.Title)
+                }
+            })
     }
 
     return (
@@ -109,6 +103,7 @@ const LoginForm: React.FC = () => {
                     fieldState: { error },
                 }) => (
                     <TextField
+                        className={styles.field}
                         color="secondary"
                         margin="normal"
                         required
@@ -135,24 +130,36 @@ const LoginForm: React.FC = () => {
                     />
                 )}
             />
-            <Link to="/restore" style={linkStyle}>
-                Forgot password?
-            </Link>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Typography
+                        color={theme.palette.error.main}
+                        style={errorStyle}
+                    >
+                        {message}
+                    </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Link to="/restore" style={linkStyle}>
+                        Forgot password?
+                    </Link>
+                </Grid>
+            </Grid>
             <Box sx={{ mt: 1, width: '100%' }}>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            className={styles.checkbox}
-                            value="remember"
-                            color="secondary"
-                        />
-                    }
-                    label={
-                        <Typography className={styles.controlLabel}>
-                            Remember me
-                        </Typography>
-                    }
-                />
+                {/* <FormControlLabel */}
+                {/*    control={ */}
+                {/*        <Checkbox */}
+                {/*            className={styles.checkbox} */}
+                {/*            value="remember" */}
+                {/*            color="secondary" */}
+                {/*        /> */}
+                {/*    } */}
+                {/*    label={ */}
+                {/*        <Typography className={styles.controlLabel}> */}
+                {/*            Remember me */}
+                {/*        </Typography> */}
+                {/*    } */}
+                {/* /> */}
                 <Button
                     type="submit"
                     fullWidth

@@ -40,11 +40,22 @@ export const boxStyle = {
 export const linkStyle = {
     fontSize: 10,
     color: 'white',
-    textAlign: 'left',
+    textAlign: 'right',
+    float: 'right',
     margin: 0,
     padding: 0,
     textDecoration: 'none',
     marginLeft: 'auto',
+} as const
+
+export const errorStyle = {
+    fontSize: 10,
+    color: '#ff2142',
+    textAlign: 'left',
+    margin: 0,
+    padding: 0,
+    textDecoration: 'none',
+    marginRight: 'auto',
 } as const
 
 export default useStyles

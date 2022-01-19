@@ -1,5 +1,8 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { API_URL } from 'Consts'
+import React, { useState } from 'react'
+import { verifyAccessToken } from './tokens.service'
+// import { changeErrorMessage } from '../pages/LoginPage/LoginForm'
 
 export const register = (
     firstname: string,
@@ -23,7 +26,9 @@ export const login = (email: string, password: string) => {
         })
         .then((response) => {
             if (response.data.accessToken) {
-                localStorage.setItem('user', JSON.stringify(response.data))
+                localStorage.setItem('accessToken', response.data.accessToken)
+                localStorage.setItem('refreshToken', response.data.refreshToken)
+                verifyAccessToken()
             }
 
             return response.data
@@ -32,11 +37,4 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
     localStorage.removeItem('user')
-}
-
-export const getCurrentUser = () => {
-    const userStr = localStorage.getItem('user')
-    if (userStr) return JSON.parse(userStr)
-
-    return null
 }

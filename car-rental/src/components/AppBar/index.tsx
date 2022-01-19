@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Toolbar } from '@mui/material'
@@ -10,9 +10,7 @@ import LoginSignUpButtons from './LoginSignUpButtons'
 import PinnedPages from './PinnedPages'
 
 const Header = () => {
-    // Authenticate statement
-    const [auth, setAuth] = React.useState(false)
-
+    // const auth = useAuth()
     return (
         <AppBar position="static" color="primary">
             <Toolbar>
@@ -20,7 +18,7 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <PinnedPages />
-                {auth ? <ProfileCircle /> : <LoginSignUpButtons />}
+                {true ? <ProfileCircle /> : <LoginSignUpButtons />}
             </Toolbar>
         </AppBar>
     )

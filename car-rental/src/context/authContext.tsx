@@ -17,6 +17,12 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }: any) => {
+    const [isAuth, setIsAuth] = useState(false)
+
+    const changeAuth = () => {
+        setIsAuth((auth) => !isAuth)
+    }
+
     useEffect(() => {
         const token = localStorage.getItem('accessToken')
         if (token)
@@ -26,12 +32,6 @@ export const AuthProvider = ({ children }: any) => {
                 }
             })
     }, [])
-
-    const [isAuth, setIsAuth] = useState(false)
-
-    const changeAuth = () => {
-        setIsAuth((auth) => !isAuth)
-    }
 
     const value = useMemo(() => ({ isAuth, changeAuth }), [isAuth])
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

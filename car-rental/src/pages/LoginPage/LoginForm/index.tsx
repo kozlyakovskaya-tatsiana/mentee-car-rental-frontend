@@ -32,8 +32,8 @@ const LoginForm: React.FC = () => {
     const onSubmit = async (data: FormValues) => {
         console.log(data)
         AuthService.login(data.email, data.password)
-            .then((respone) => {
-                if (respone) {
+            .then((response) => {
+                if (response) {
                     console.log('call:')
                     changeAuth()
                 }

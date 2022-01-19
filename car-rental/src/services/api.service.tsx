@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { verifyAccessToken } from './tokens.service'
+import { refreshTokenPair, verifyAccessToken } from './tokens.service'
 
 axios.interceptors.request.use(
     (config) => {
@@ -24,7 +24,7 @@ axios.interceptors.response.use(
         const originalRequest = error.config
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
-            return verifyAccessToken()
+            return refreshTokenPair()
         }
         return Promise.reject(error)
     }

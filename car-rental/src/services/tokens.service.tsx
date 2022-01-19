@@ -21,16 +21,14 @@ export const refreshTokenPair = () => {
         })
 }
 
-export const verifyAccessToken = async () => {
+export const verifyAccessToken = () => {
     const accessToken = localStorage.getItem('accessToken')
     return axios
         .post(`${API_URL}/auth/token/verify`, {
             accessToken,
         })
         .then((response: AxiosResponse<any>) => {
-            localStorage.setItem('id', JSON.stringify(response.data.id))
-            localStorage.setItem('role', JSON.stringify(response.data.role))
-            return response
+            return true
         })
         .catch((error) => {
             if (error.response) {

@@ -8,9 +8,11 @@ import Logo from './Logo'
 import ProfileCircle from './ProfileCircle'
 import LoginSignUpButtons from './LoginSignUpButtons'
 import PinnedPages from './PinnedPages'
+import { AuthContext } from '../../context/authContext'
 
 const Header = () => {
-    // const auth = useAuth()
+    const { isAuth, changeAuth } = useContext(AuthContext)
+
     return (
         <AppBar position="static" color="primary">
             <Toolbar>
@@ -18,7 +20,7 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <PinnedPages />
-                {true ? <ProfileCircle /> : <LoginSignUpButtons />}
+                {isAuth ? <ProfileCircle /> : <LoginSignUpButtons />}
             </Toolbar>
         </AppBar>
     )

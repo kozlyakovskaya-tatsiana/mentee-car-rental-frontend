@@ -10,27 +10,24 @@ import ManagementPage from './pages/ManagementPage'
 
 import './App.scss'
 import themeOptions from './Theme'
-import { verifyAccessToken } from './services/tokens.service'
+import { AuthProvider } from './context/authContext'
 
 const App = () => {
-    useEffect(() => {
-        verifyAccessToken().then(() => {})
-    }, [])
     return (
-        // <AuthContext>
-        <div className="App">
-            <ThemeProvider theme={themeOptions}>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/admin/*" element={<ManagementPage />}>
-                        <Route path="car" element={<LoginPage />} />
-                    </Route>
-                </Routes>
-            </ThemeProvider>
-        </div>
-        // </AuthContext>
+        <AuthProvider>
+            <div className="App">
+                <ThemeProvider theme={themeOptions}>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/admin/*" element={<ManagementPage />}>
+                            <Route path="car" element={<LoginPage />} />
+                        </Route>
+                    </Routes>
+                </ThemeProvider>
+            </div>
+        </AuthProvider>
     )
 }
 

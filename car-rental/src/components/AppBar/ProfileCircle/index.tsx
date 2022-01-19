@@ -9,7 +9,10 @@ import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
+import AuthService from 'services/auth.service'
 import { settings } from '../consts'
+import { useAuth } from '../../../context/authContext'
+import { linkStyle } from '../styles'
 
 const ProfileCircle = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -33,6 +36,8 @@ const ProfileCircle = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
     }
+
+    const { isAuth, changeAuth } = useAuth()
 
     return (
         <div>
@@ -63,10 +68,7 @@ const ProfileCircle = () => {
                 >
                     {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                            <Link
-                                to={setting.toLowerCase()}
-                                style={{ textDecoration: 'none' }}
-                            >
+                            <Link to={setting.toLowerCase()} style={linkStyle}>
                                 <Typography
                                     textAlign="center"
                                     color="secondary"
@@ -76,6 +78,20 @@ const ProfileCircle = () => {
                             </Link>
                         </MenuItem>
                     ))}
+                    <MenuItem key="Logout" onClick={() => handleCloseNavMenu()}>
+                        <Link
+                            to="/"
+                            style={linkStyle}
+                            onClick={() => {
+                                changeAuth()
+                                AuthService.logout()
+                            }}
+                        >
+                            <Typography textAlign="center" color="secondary">
+                                Logout
+                            </Typography>
+                        </Link>
+                    </MenuItem>
                 </Menu>
             </Box>
         </div>

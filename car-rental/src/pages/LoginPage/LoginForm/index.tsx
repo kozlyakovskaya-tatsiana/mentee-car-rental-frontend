@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useTheme } from '@mui/material'
 
@@ -24,18 +24,22 @@ type FormValues = {
 
 const LoginForm: React.FC = () => {
     const styles = useStyles()
+    const theme = useTheme()
+
+    const { isAuth, changeAuth } = useContext(AuthContext)
+    const navigate = useNavigate()
+
     const [message, setMessage] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
-    const theme = useTheme()
-    const { isAuth, changeAuth } = useContext(AuthContext)
     const { control, handleSubmit } = useForm<FormValues>()
+
     const onSubmit = async (data: FormValues) => {
         console.log(data)
         AuthService.login(data.email, data.password)
             .then((response) => {
                 if (response) {
-                    console.log('call:')
                     changeAuth()
+                    navigate('../', { replace: true })
                 }
                 // TODO redirect
                 // window.location.reload()

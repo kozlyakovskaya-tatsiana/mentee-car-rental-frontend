@@ -2,25 +2,18 @@ import React from 'react'
 import axios from 'axios'
 import { API_URL } from 'Consts'
 import { verifyAccessToken } from './tokens.service'
+import { registerValues } from '../shared/Types/Auth'
 
 class AuthService {
     // Make request for register new user into system
     // Nothing to return
-    public register = (
-        firstname: string,
-        lastname: string,
-        email: string,
-        password: string
-    ) => {
+    public register = (data: registerValues) => {
         return axios
             .post(`${API_URL}/auth/register`, {
-                firstname,
-                lastname,
-                email,
-                password,
+                ...data,
             })
             .then((response) => {
-                return this.login(email, password)
+                return true
             })
             .catch((error) => {
                 console.log(error.data)

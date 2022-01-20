@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useTheme } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Avatar from '@mui/material/Avatar'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -14,21 +14,37 @@ import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 
 import useStyles from './styles'
-
-type FormValues = {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-}
+import AuthService from '../../../services/auth.service'
+import { registerValues } from '../../../shared/Types/Auth'
+import { useAuth } from '../../../context/authContext'
 
 function RegisterForm() {
     const styles = useStyles()
     const theme = useTheme()
 
-    const { control, handleSubmit } = useForm<FormValues>()
-    const onSubmit = async (data: FormValues) => {
-        console.log(data)
+    const { isAuth, changeAuth } = useAuth()
+    const { control, handleSubmit } = useForm<registerValues>()
+    const [message, setMessage] = useState<string>('')
+
+    const navigate = useNavigate()
+
+    const onSubmit = async (data: registerValues) => {
+        AuthService.register(data)
+            .then((response) => {
+                console.log(response, 'netnet')
+                if (response) {
+                    AuthService.login(data.email, data.password).then(() => {
+                        changeAuth()
+                        navigate('../', { replace: true })
+                    })
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data.Title, 'dada')
+                    setMessage(error.response.data.Title)
+                }
+            })
     }
 
     return (

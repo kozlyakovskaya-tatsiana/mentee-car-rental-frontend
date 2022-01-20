@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { API_URL } from 'Consts'
 import { verifyAccessToken } from './tokens.service'
-import { registerValues } from '../shared/Types/Auth'
+import { registerValues } from '../shared/types/Auth'
 
 class AuthService {
     // Make request for register new user into system
@@ -41,9 +41,6 @@ class AuthService {
                 }
 
                 return response.data
-            })
-            .catch((error) => {
-                console.log(error.data)
             })
     }
 

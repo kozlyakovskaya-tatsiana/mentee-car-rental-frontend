@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material'
+import { Form, useFormik } from 'formik'
 
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
@@ -10,17 +11,12 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 
 import AuthService from 'services/auth.service'
 import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
 import { AuthContext } from '../../../context/authContext'
-
-type FormValues = {
-    email: string
-    password: string
-}
+import { loginValues } from '../../../shared/types/Auth'
+import { loginInitialValues, loginSchema } from '../../../shared/schemes/login'
 
 const LoginForm: React.FC = () => {
     const styles = useStyles()
@@ -31,9 +27,9 @@ const LoginForm: React.FC = () => {
 
     const [message, setMessage] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
-    const { control, handleSubmit } = useForm<FormValues>()
+    const { control, handleSubmit } = useForm<loginValues>()
 
-    const onSubmit = async (data: FormValues) => {
+    const onSubmit = async (data: loginValues) => {
         console.log(data)
         AuthService.login(data.email, data.password)
             .then((response) => {
@@ -41,8 +37,6 @@ const LoginForm: React.FC = () => {
                     changeAuth()
                     navigate('../', { replace: true })
                 }
-                // TODO redirect
-                // window.location.reload()
             })
             .catch((error) => {
                 if (error.response) {
@@ -52,13 +46,16 @@ const LoginForm: React.FC = () => {
             })
     }
 
+    const formik = useFormik({
+        initialValues: { email: '', password: '' },
+        validationSchema: loginSchema,
+        onSubmit: (values: loginInitialValues) => {
+            onSubmit(values)
+        },
+    })
+
     return (
-        <Box
-            sx={boxStyle}
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-        >
+        <Box sx={boxStyle}>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                 <LockOutlinedIcon />
             </Avatar>
@@ -69,126 +66,115 @@ const LoginForm: React.FC = () => {
             >
                 Sign in
             </Typography>
-            <Controller
-                name="email"
-                control={control}
-                defaultValue=""
-                render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                }) => (
-                    <TextField
-                        className={styles.field}
-                        color="secondary"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoFocus
-                        inputProps={{
-                            classes: {
-                                root: styles.input,
-                            },
-                        }}
-                        InputLabelProps={{
-                            classes: {
-                                root: styles.label,
-                            },
-                        }}
-                        value={value}
-                        onChange={onChange}
-                        error={!!error}
-                        helperText={error ? error.message : null}
-                    />
-                )}
-            />
-            <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                }) => (
-                    <TextField
-                        className={styles.field}
-                        color="secondary"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        inputProps={{
-                            classes: {
-                                root: styles.input,
-                            },
-                        }}
-                        InputLabelProps={{
-                            classes: {
-                                root: styles.label,
-                            },
-                        }}
-                        value={value}
-                        onChange={onChange}
-                        error={!!error}
-                        helperText={error ? error.message : null}
-                    />
-                )}
-            />
-            <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <Typography
-                        color={theme.palette.error.main}
-                        style={errorStyle}
-                    >
-                        {message}
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to="/restore" style={linkStyle}>
-                        Forgot password?
-                    </Link>
-                </Grid>
-            </Grid>
-            <Box sx={{ mt: 1, width: '100%' }}>
-                {/* <FormControlLabel */}
-                {/*    control={ */}
-                {/*        <Checkbox */}
-                {/*            className={styles.checkbox} */}
-                {/*            value="remember" */}
-                {/*            color="secondary" */}
-                {/*        /> */}
-                {/*    } */}
-                {/*    label={ */}
-                {/*        <Typography className={styles.controlLabel}> */}
-                {/*            Remember me */}
-                {/*        </Typography> */}
-                {/*    } */}
-                {/* /> */}
-                <Button
-                    type="submit"
+            <form onSubmit={formik.handleSubmit}>
+                <TextField
+                    className={styles.field}
+                    color="secondary"
+                    margin="normal"
                     fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, bgcolor: 'secondary.main' }}
-                >
-                    Sign In
-                </Button>
-                <Grid
-                    container
-                    style={{ display: 'block', textAlign: 'center' }}
-                >
-                    <Grid item xs>
-                        <Link to="/Signup" className={styles.text}>
-                            Don&apos;t have an account? Sign Up
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoFocus
+                    inputProps={{
+                        classes: {
+                            root: styles.input,
+                        },
+                    }}
+                    InputLabelProps={{
+                        classes: {
+                            root: styles.label,
+                        },
+                    }}
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                />
+
+                <TextField
+                    className={styles.field}
+                    color="secondary"
+                    margin="normal"
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    inputProps={{
+                        classes: {
+                            root: styles.input,
+                        },
+                    }}
+                    InputLabelProps={{
+                        classes: {
+                            root: styles.label,
+                        },
+                    }}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                    }
+                    helperText={
+                        formik.touched.password && formik.errors.password
+                    }
+                />
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <Typography
+                            color={theme.palette.error.main}
+                            style={errorStyle}
+                        >
+                            {message}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Link to="/restore" style={linkStyle}>
+                            Forgot password?
                         </Link>
                     </Grid>
                 </Grid>
-            </Box>
+                <Box sx={{ mt: 1, width: '100%' }}>
+                    {/* <FormControlLabel */}
+                    {/*    control={ */}
+                    {/*        <Checkbox */}
+                    {/*            className={styles.checkbox} */}
+                    {/*            value="remember" */}
+                    {/*            color="secondary" */}
+                    {/*        /> */}
+                    {/*    } */}
+                    {/*    label={ */}
+                    {/*        <Typography className={styles.controlLabel}> */}
+                    {/*            Remember me */}
+                    {/*        </Typography> */}
+                    {/*    } */}
+                    {/* /> */}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2, bgcolor: 'secondary.main' }}
+                    >
+                        Sign In
+                    </Button>
+                    <Grid
+                        container
+                        style={{
+                            display: 'block',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <Grid item xs>
+                            <Link to="/Signup" className={styles.text}>
+                                Don&apos;t have an account? Sign Up
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </form>
         </Box>
     )
 }

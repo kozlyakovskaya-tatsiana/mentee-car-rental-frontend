@@ -5,4 +5,7 @@ export type registerValues = {
     password: string
 }
 
-export type s = {}
+export type loginValues = {
+    email: string
+    password: string
+}

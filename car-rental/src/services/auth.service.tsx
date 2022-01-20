@@ -7,16 +7,21 @@ import { registerValues } from '../shared/types/Auth'
 class AuthService {
     // Make request for register new user into system
     // Nothing to return
-    public register = (data: registerValues) => {
+    public register = (
+        firstName: string,
+        lastName: string,
+        email: string,
+        password: string
+    ) => {
         return axios
             .post(`${API_URL}/auth/register`, {
-                ...data,
+                firstName,
+                lastName,
+                email,
+                password,
             })
             .then((response) => {
-                return true
-            })
-            .catch((error) => {
-                console.log(error.data)
+                return response
             })
     }
 

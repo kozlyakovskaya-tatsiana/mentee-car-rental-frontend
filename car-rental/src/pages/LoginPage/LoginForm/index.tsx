@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material'
-import { Form, useFormik } from 'formik'
+import { useFormik } from 'formik'
 
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
@@ -16,7 +16,7 @@ import AuthService from 'services/auth.service'
 import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
 import { AuthContext } from '../../../context/authContext'
 import { loginValues } from '../../../shared/types/Auth'
-import { loginInitialValues, loginSchema } from '../../../shared/schemes/login'
+import { loginSchema } from '../../../shared/schemes/login'
 
 const LoginForm: React.FC = () => {
     const styles = useStyles()
@@ -29,8 +29,7 @@ const LoginForm: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const { control, handleSubmit } = useForm<loginValues>()
 
-    const onSubmit = async (data: loginValues) => {
-        console.log(data)
+    const onSubmit = (data: loginValues) => {
         AuthService.login(data.email, data.password)
             .then((response) => {
                 if (response) {
@@ -49,7 +48,7 @@ const LoginForm: React.FC = () => {
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: loginSchema,
-        onSubmit: (values: loginInitialValues) => {
+        onSubmit: (values: loginValues) => {
             onSubmit(values)
         },
     })
@@ -138,20 +137,6 @@ const LoginForm: React.FC = () => {
                     </Grid>
                 </Grid>
                 <Box sx={{ mt: 1, width: '100%' }}>
-                    {/* <FormControlLabel */}
-                    {/*    control={ */}
-                    {/*        <Checkbox */}
-                    {/*            className={styles.checkbox} */}
-                    {/*            value="remember" */}
-                    {/*            color="secondary" */}
-                    {/*        /> */}
-                    {/*    } */}
-                    {/*    label={ */}
-                    {/*        <Typography className={styles.controlLabel}> */}
-                    {/*            Remember me */}
-                    {/*        </Typography> */}
-                    {/*    } */}
-                    {/* /> */}
                     <Button
                         type="submit"
                         fullWidth

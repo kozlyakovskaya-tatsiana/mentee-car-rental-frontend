@@ -11,6 +11,9 @@ export const themeOptions = createTheme({
         text: {
             primary: '#ffffff',
         },
+        error: {
+            main: '#ff2142',
+        },
     },
 })
 

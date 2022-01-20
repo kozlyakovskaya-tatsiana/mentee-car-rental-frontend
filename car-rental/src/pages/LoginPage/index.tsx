@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import LoginForm from './LoginForm'
 import Copyright from '../../components/Copyright'
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
     return (
         <Container maxWidth="xs">
             <LoginForm />

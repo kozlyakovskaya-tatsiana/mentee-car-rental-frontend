@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { refreshTokenPair, verifyAccessToken } from './tokens.service'
+import { refreshTokenPair } from './tokens.service'
 
 axios.interceptors.request.use(
     (config) => {

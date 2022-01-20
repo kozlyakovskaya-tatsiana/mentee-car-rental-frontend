@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import RegisterForm from './RegisterForm'
 import Copyright from '../../components/Copyright'
 
-function RegisterPage() {
+const RegisterPage: React.FC = () => {
     return (
         <Container component="main" maxWidth="xs">
             <RegisterForm />

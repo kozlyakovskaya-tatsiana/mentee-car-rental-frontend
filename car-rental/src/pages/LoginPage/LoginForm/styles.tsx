@@ -40,12 +40,12 @@ export const boxStyle = {
 export const linkStyle = {
     fontSize: 10,
     color: 'white',
-    textAlign: 'right',
-    float: 'right',
+    textAlign: 'left',
+    float: 'left',
     margin: 0,
     padding: 0,
     textDecoration: 'none',
-    marginLeft: 'auto',
+    marginRight: 'auto',
 } as const
 
 export const errorStyle = {

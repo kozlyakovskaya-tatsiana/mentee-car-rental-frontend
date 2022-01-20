@@ -1,12 +1,10 @@
 import React from 'react'
 import axios from 'axios'
-import { API_URL } from 'Consts'
+import { LOGIN_REQUEST, REGISTER_REQUEST } from 'Consts'
 import { verifyAccessToken } from './tokens.service'
-import { registerValues } from '../shared/types/Auth'
 
 class AuthService {
     // Make request for register new user into system
-    // Nothing to return
     public register = (
         firstName: string,
         lastName: string,
@@ -14,7 +12,7 @@ class AuthService {
         password: string
     ) => {
         return axios
-            .post(`${API_URL}/auth/register`, {
+            .post(`${REGISTER_REQUEST}`, {
                 firstName,
                 lastName,
                 email,
@@ -29,7 +27,7 @@ class AuthService {
     // Return token pair {accessToken, refreshToken} and sets them into local storage
     public login = (email: string, password: string) => {
         return axios
-            .post(`${API_URL}/auth/login`, {
+            .post(`${LOGIN_REQUEST}`, {
                 email,
                 password,
             })
@@ -52,10 +50,6 @@ class AuthService {
     // Clear local storage and make user unauthorized
     public logout = () => {
         localStorage.clear()
-    }
-
-    public verifyAuth = () => {
-        return verifyAccessToken()
     }
 }
 

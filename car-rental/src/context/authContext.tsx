@@ -5,7 +5,7 @@ import React, {
     useMemo,
     useState,
 } from 'react'
-import { verifyAccessToken } from '../services/tokens.service'
+import { verifyAccessToken } from 'services/tokens.service'
 
 export const AuthContext = createContext({
     isAuth: false,

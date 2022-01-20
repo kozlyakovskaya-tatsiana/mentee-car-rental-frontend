@@ -13,7 +13,6 @@ import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { ChevronRight } from '@mui/icons-material'
-import BuildIcon from '@mui/icons-material/Build'
 
 import { mainBoxStyles, paperStyles, toolBarStyles, useStyles } from './styles'
 import { itemsList } from './lists'

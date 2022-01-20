@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import { useFormik } from 'formik'
 import { useTheme } from '@mui/material'
 
@@ -14,22 +13,21 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 
-import { registerValues } from 'shared/types/Auth'
+import { registerValues } from 'shared/types/auth'
 import { registerSchema } from 'shared/schemes/register'
 
-import { AuthContext, useAuth } from 'context/authContext'
+import { useAuth } from 'context/authContext'
 import AuthService from 'services/auth.service'
 
 import useStyles, { boxStyle, errorStyle } from './styles'
 
-function RegisterForm() {
+const RegisterForm: React.FC = () => {
     const styles = useStyles()
     const theme = useTheme()
 
-    const { isAuth, changeAuth } = useContext(AuthContext)
+    const { changeAuth } = useAuth()
     const [message, setMessage] = useState<string>('')
-    const [loading, setLoading] = useState<boolean>(false)
-    const { control, handleSubmit } = useForm<registerValues>()
+    const [, setLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
 

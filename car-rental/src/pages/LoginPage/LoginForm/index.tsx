@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material'
 import { useFormik } from 'formik'
 
@@ -12,23 +11,29 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
+import { loginValues } from 'shared/types/auth'
+import { loginSchema } from 'shared/schemes/login'
+
 import AuthService from 'services/auth.service'
+import { useAuth } from 'context/authContext'
+
 import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
-import { AuthContext } from '../../../context/authContext'
-import { loginValues } from '../../../shared/types/Auth'
-import { loginSchema } from '../../../shared/schemes/login'
 
 const LoginForm: React.FC = () => {
+    // Using custom styles
     const styles = useStyles()
     const theme = useTheme()
 
-    const { isAuth, changeAuth } = useContext(AuthContext)
+    // Stuff for check global authorization
+    const { changeAuth } = useAuth()
     const navigate = useNavigate()
 
+    // Error statement handler
     const [message, setMessage] = useState<string>('')
-    const [loading, setLoading] = useState<boolean>(false)
-    const { control, handleSubmit } = useForm<loginValues>()
+    const [, setLoading] = useState<boolean>(false)
 
+    // Login request. Getting data from form and
+    // return 200(Access Token, Refresh Token) or error context
     const onSubmit = (data: loginValues) => {
         AuthService.login(data.email, data.password)
             .then((response) => {
@@ -45,6 +50,7 @@ const LoginForm: React.FC = () => {
             })
     }
 
+    // Formic configurations
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: loginSchema,

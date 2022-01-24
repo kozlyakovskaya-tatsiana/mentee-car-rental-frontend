@@ -2,8 +2,8 @@ import React from 'react'
 
 import Container from '@mui/material/Container'
 
+import Copyright from 'components/Copyright'
 import LoginForm from './LoginForm'
-import Copyright from '../../components/Copyright'
 
 const LoginPage: React.FC = () => {
     return (

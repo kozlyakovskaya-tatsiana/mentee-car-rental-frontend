@@ -20,6 +20,9 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <PinnedPages />
+                <div style={{ marginRight: '25px' }}>
+                    Is it your city? Hrodno
+                </div>
                 {isAuth ? (
                     <ProfileCircle />
                 ) : (

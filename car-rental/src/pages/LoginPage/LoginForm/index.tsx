@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField'
 import { loginValues } from 'shared/types/auth'
 import { loginSchema } from 'shared/schemes/login'
 
-import AuthService from 'services/auth.service'
+import { login } from 'services/auth.service'
 import { useAuth } from 'context/authContext'
 
 import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
     // Login request. Getting data from form and
     // return 200(Access Token, Refresh Token) or error context
     const onSubmit = (data: loginValues) => {
-        AuthService.login(data.email, data.password)
+        login(data.email, data.password)
             .then((response) => {
                 if (response) {
                     changeAuth()

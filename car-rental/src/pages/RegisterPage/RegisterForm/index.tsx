@@ -17,7 +17,7 @@ import { registerValues } from 'shared/types/auth'
 import { registerSchema } from 'shared/schemes/register'
 
 import { useAuth } from 'context/authContext'
-import AuthService from 'services/auth.service'
+import { login, register } from 'services/auth.service'
 
 import useStyles, { boxStyle, errorStyle } from './styles'
 
@@ -32,15 +32,10 @@ const RegisterForm: React.FC = () => {
     const navigate = useNavigate()
 
     const onSubmit = (data: registerValues) => {
-        AuthService.register(
-            data.firstName,
-            data.lastName,
-            data.email,
-            data.password
-        )
+        register(data.firstName, data.lastName, data.email, data.password)
             .then((response) => {
                 if (response) {
-                    AuthService.login(data.email, data.password).then(() => {
+                    login(data.email, data.password).then(() => {
                         changeAuth()
                         navigate('../', { replace: true })
                     })

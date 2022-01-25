@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export const papersHandlerStyle = {
     display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'column',
     paddingTop: '15px',
-    width: '100%',
 } as const
 
 export const lotPaperStyle = {
@@ -32,7 +32,7 @@ export const useStyles = makeStyles({
         color: 'white',
     },
     label: {
-        color: '#ff2172',
+        color: 'white',
         '&.Mui-focused': {
             color: 'white',
         },

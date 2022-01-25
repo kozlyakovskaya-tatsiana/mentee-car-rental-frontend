@@ -1,3 +1,5 @@
+import { makeStyles } from '@material-ui/core/styles'
+
 export const papersHandlerStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -5,40 +7,49 @@ export const papersHandlerStyle = {
     width: '100%',
 } as const
 
-export const customStyledImgStyles = {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-}
-
 export const lotPaperStyle = {
     p: 2,
     margin: 'auto',
     marginTop: '10px',
     backgroundColor: '#1a1a1a',
     width: '60%',
+    height: '400px',
 }
 
-export const lotPictureStyles = {
-    width: '100%',
-    height: 128,
-}
-
-export const lotHeaderStyles = {
-    color: '#ff2172',
-    marginRight: 'auto',
-} as const
-
-export const lotPriceStyles = {
-    color: 'white',
-    paddingRight: '10px',
-} as const
-
-export const bookButtonStyles = {
-    color: 'white',
-    border: '1px black solid',
-    borderRadius: '5px',
-    padding: '2px 10px 2px 10px',
-    backgroundColor: '#ff2172',
-} as const
+export const useStyles = makeStyles({
+    text: {
+        color: 'white',
+        textDecoration: 'none',
+    },
+    field: {
+        color: 'white',
+    },
+    input: {
+        color: 'white',
+    },
+    label: {
+        color: '#ff2172',
+        '&.Mui-focused': {
+            color: 'white',
+        },
+    },
+    labelFocused: {
+        color: '#ff2172',
+    },
+    autoComplete: {
+        '& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)': {
+            transform: 'translate(34px, 20px) scale(1);',
+        },
+        color: '#ff2172',
+        '& .MuiOutlinedInput-notchedOutline': {
+            color: 'white',
+            borderColor: 'white',
+        },
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+        },
+        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#ff2172',
+        },
+    },
+})

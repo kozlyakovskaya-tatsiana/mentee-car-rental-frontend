@@ -21,6 +21,10 @@ export const useStyles = makeStyles({
         color: 'white',
         textDecoration: 'none',
     },
+    paper: {
+        backgroundColor: '#1a1a1a',
+        border: 'solid 1px white',
+    },
     field: {
         color: 'white',
     },

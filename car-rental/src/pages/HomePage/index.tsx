@@ -40,7 +40,10 @@ const HomePage: React.FC = () => {
                 <Box component="main" style={papersHandlerStyle}>
                     <Paper sx={lotPaperStyle}>
                         <Autocomplete
-                            classes={{ inputRoot: styles.autoComplete }}
+                            classes={{
+                                inputRoot: styles.autoComplete,
+                                paper: styles.paper,
+                            }}
                             id="country-select"
                             options={countries.map(
                                 (option: CountryType) => option.label
@@ -55,7 +58,7 @@ const HomePage: React.FC = () => {
                                     variant="outlined"
                                     InputProps={{
                                         ...params.InputProps,
-                                        type: 'search',
+                                        readOnly: true,
                                         classes: {
                                             root: styles.input,
                                         },

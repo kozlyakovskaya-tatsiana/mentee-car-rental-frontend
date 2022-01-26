@@ -1,7 +1,9 @@
 export interface CountryType {
-    label: string
+    id: string
+    name: string
 }
 
 export interface CityType {
-    label: string
+    id: string
+    name: string
 }

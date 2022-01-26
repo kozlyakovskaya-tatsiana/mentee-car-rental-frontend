@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
 import { logout } from 'services/auth.service'
-import { useAuth } from 'context/authContext'
+import { useAuth } from 'contextes/authContext'
 
 import { settings } from '../consts'
 import { linkStyle } from '../styles'

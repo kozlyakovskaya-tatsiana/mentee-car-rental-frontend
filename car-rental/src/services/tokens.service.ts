@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { TOKEN_REFRESH_REQUEST, TOKEN_VERIFY_REQUEST } from '../Consts'
+import { TOKEN_REFRESH_REQUEST, TOKEN_VERIFY_REQUEST } from '../consts'
 
 export const refreshTokenPair = () => {
     const accessToken = localStorage.getItem('accessToken')

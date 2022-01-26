@@ -5,13 +5,14 @@ import { Toolbar } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
 
+import { useAuth } from 'contextes/authContext'
+
 import Logo from './Logo'
 import ProfileCircle from './ProfileCircle'
 import PinnedPages from './PinnedPages'
-import { useAuth } from '../../context/authContext'
 
 const Header = () => {
-    const { isAuth, changeAuth } = useAuth()
+    const { isAuth } = useAuth()
 
     return (
         <AppBar position="static" color="primary">
@@ -20,9 +21,6 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <PinnedPages />
-                <div style={{ marginRight: '25px' }}>
-                    Is it your city? Hrodno
-                </div>
                 {isAuth ? (
                     <ProfileCircle />
                 ) : (

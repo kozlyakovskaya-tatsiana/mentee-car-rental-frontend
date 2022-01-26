@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@material-ui/core/TextField'
-import { Autocomplete, Grid, Grow, useTheme } from '@mui/material'
+import { Autocomplete, Grid, Grow } from '@mui/material'
 import Button from '@mui/material/Button'
 
 import { CityType, CountryType } from 'shared/types/Locations'
+import { getCities, getCountries } from 'services/location.service'
 
 import {
     papersHandlerStyle,
@@ -19,13 +20,21 @@ import {
 
 const HomePage: React.FC = () => {
     const styles = useStyles()
-    const theme = useTheme()
 
-    // Countries from backend
-    const countries = [{ label: 'Andorra' }, { label: 'United Arab Emirates' }]
+    const [countries, setCountries] = useState<Array<CountryType>>([
+        { id: '', name: '' },
+    ])
+    const [cities, setCities] = useState<Array<CityType>>([
+        { id: '', name: '' },
+    ])
 
-    // Cities from backend
-    const cities = [{ label: 'New-York' }, { label: 'Nepal' }]
+    useEffect(() => {
+        const getAllCountries = async () => {
+            const countriesResponse = await getCountries()
+            setCountries(countriesResponse.data)
+        }
+        getAllCountries()
+    }, [])
 
     const formik = useFormik({
         initialValues: {},
@@ -45,6 +54,19 @@ const HomePage: React.FC = () => {
         setCityChecked((prev) => true)
     }
 
+    const getCitiesByCountry = async (countryName: string) => {
+        const country = countries.find((element, index, array) => {
+            if (element.name === countryName) {
+                return true
+            }
+            return false
+        })
+        if (country) {
+            const cityResponse = await getCities(country)
+            setCities(cityResponse.data)
+        }
+    }
+
     return (
         <Box component="main" style={PageHandlerStyle}>
             <Box style={papersHandlerStyle}>
@@ -58,10 +80,15 @@ const HomePage: React.FC = () => {
                                 }}
                                 id="country-select"
                                 options={countries.map(
-                                    (option: CountryType) => option.label
+                                    (option: CountryType) => option.name
                                 )}
                                 forcePopupIcon={false}
-                                onChange={handleCountryFieldChange}
+                                onChange={(event, value) => {
+                                    if (value) {
+                                        getCitiesByCountry(value)
+                                        handleCountryFieldChange()
+                                    }
+                                }}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
@@ -98,10 +125,14 @@ const HomePage: React.FC = () => {
                                     }}
                                     id="city-select"
                                     options={cities.map(
-                                        (option: CityType) => option.label
+                                        (option: CityType) => option.name
                                     )}
                                     forcePopupIcon={false}
-                                    onChange={handleCityFieldChange}
+                                    onChange={(event, value) => {
+                                        if (value) {
+                                            handleCityFieldChange()
+                                        }
+                                    }}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}

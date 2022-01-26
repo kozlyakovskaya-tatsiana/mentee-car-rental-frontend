@@ -7,7 +7,9 @@ import Grid from '@mui/material/Grid'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 
-import { useAuth } from 'context/authContext'
+import { carType, FuelType, TransmissionType } from 'shared/types/Car'
+
+import { useAuth } from 'contextes/authContext'
 import { styled } from '@mui/material/styles'
 import {
     bookButtonStyles,
@@ -18,11 +20,6 @@ import {
     lotPriceStyles,
     papersHandlerStyle,
 } from './styles'
-import { carType, FuelType, TransmissionType } from 'shared/types/car'
-
-
-
-
 
 const Img = styled('img')(customStyledImgStyles)
 
@@ -30,7 +27,19 @@ const CarPage: React.FC = (filter: any) => {
     const { isAuth } = useAuth()
 
     // Here we get filtered car list by props from form on Home page
-    const cars: Array<carType> = []
+    const cars: Array<carType> = [
+        {
+            brand: { name: 'Audi', id: '1' },
+            model: 'A4',
+            fuel: 1,
+            fuelConsumption: 5.3,
+            transmission: 0,
+            quantityOfSeats: 5,
+            pricePerHour: 50,
+            Photos: [],
+            rentalPoint: { location: '1.23245, 3.112341212', id: '1' },
+        },
+    ]
 
     return (
         <div>

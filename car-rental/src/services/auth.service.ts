@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN_REQUEST, REGISTER_REQUEST } from 'Consts'
+import { LOGIN_REQUEST, REGISTER_REQUEST } from 'consts'
 
 // Make request for register new user into system
 export const register = (

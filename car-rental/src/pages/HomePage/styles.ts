@@ -1,10 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-export const papersHandlerStyle = {
+export const PageHandlerStyle = {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'column',
+    width: '100%',
+} as const
+
+export const papersHandlerStyle = {
     paddingTop: '15px',
+    width: '800px',
 } as const
 
 export const lotPaperStyle = {
@@ -12,8 +18,6 @@ export const lotPaperStyle = {
     margin: 'auto',
     marginTop: '10px',
     backgroundColor: '#1a1a1a',
-    width: '60%',
-    height: '400px',
 }
 
 export const useStyles = makeStyles({
@@ -27,19 +31,26 @@ export const useStyles = makeStyles({
     },
     field: {
         color: 'white',
+        '& .MuiInput-underline:before': {
+            borderBottomColor: 'white',
+        },
+        '&:hover .MuiInput-underline': {
+            borderBottomColor: 'white',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#ff2172',
+        },
     },
     input: {
-        color: 'white',
+        color: '#ffffff',
     },
     label: {
         color: 'white',
         '&.Mui-focused': {
-            color: 'white',
+            color: '#ff2172',
         },
     },
-    labelFocused: {
-        color: '#ff2172',
-    },
+
     autoComplete: {
         '& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)': {
             transform: 'translate(34px, 20px) scale(1);',
@@ -56,4 +67,6 @@ export const useStyles = makeStyles({
             borderColor: '#ff2172',
         },
     },
+
+    stack: {},
 })

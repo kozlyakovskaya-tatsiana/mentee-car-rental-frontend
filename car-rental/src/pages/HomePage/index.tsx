@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import { Autocomplete, Grid, Grow } from '@mui/material'
 import Button from '@mui/material/Button'
 
-import { CityType, CountryType } from 'shared/types/Locations'
+import { City, Country } from 'shared/types/Locations'
 import { getCities, getCountries } from 'services/location.service'
 
 import {
@@ -21,30 +21,24 @@ import {
 const HomePage: React.FC = () => {
     const styles = useStyles()
 
-    const [countries, setCountries] = useState<Array<CountryType>>([
+    const [countries, setCountries] = useState<Array<Country>>([
         { id: '', name: '' },
     ])
-    const [cities, setCities] = useState<Array<CityType>>([
+    const [cities, setCities] = useState<Array<City>>([
         { id: '', name: '' },
     ])
-
-    useEffect(() => {
-        const getAllCountries = async () => {
-            const countriesResponse = await getCountries()
-            setCountries(countriesResponse.data)
-        }
-        getAllCountries()
-    }, [])
-
-    const formik = useFormik({
-        initialValues: {},
-        onSubmit: (values: any) => {
-            console.log(values)
-        },
-    })
 
     const [countryChecked, setCountryChecked] = React.useState(false)
     const [cityChecked, setCityChecked] = React.useState(false)
+
+    useEffect(() => {
+        getAllCountries()
+    }, [])
+
+    const getAllCountries = async () => {
+        const countriesResponse = await getCountries()
+        setCountries(countriesResponse.data)
+    }
 
     const handleCountryFieldChange = () => {
         setCountryChecked((prev) => true)
@@ -67,6 +61,13 @@ const HomePage: React.FC = () => {
         }
     }
 
+    const formik = useFormik({
+        initialValues: {},
+        onSubmit: (values: any) => {
+            console.log(values)
+        },
+    })
+
     return (
         <Box component="main" style={PageHandlerStyle}>
             <Box style={papersHandlerStyle}>
@@ -80,7 +81,7 @@ const HomePage: React.FC = () => {
                                 }}
                                 id="country-select"
                                 options={countries.map(
-                                    (option: CountryType) => option.name
+                                    (option: Country) => option.name
                                 )}
                                 forcePopupIcon={false}
                                 onChange={(event, value) => {
@@ -125,7 +126,7 @@ const HomePage: React.FC = () => {
                                     }}
                                     id="city-select"
                                     options={cities.map(
-                                        (option: CityType) => option.name
+                                        (option: City) => option.name
                                     )}
                                     forcePopupIcon={false}
                                     onChange={(event, value) => {

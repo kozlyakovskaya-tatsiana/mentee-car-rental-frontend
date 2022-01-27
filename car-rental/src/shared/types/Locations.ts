@@ -1,9 +1,9 @@
-export interface CountryType {
+export interface Country {
     id: string
     name: string
 }
 
-export interface CityType {
+export interface CityW {
     id: string
     name: string
 }

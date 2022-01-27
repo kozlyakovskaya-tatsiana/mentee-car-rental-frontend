@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN_REQUEST, REGISTER_REQUEST } from 'consts'
+import { LOGIN_REQUEST_URL, REGISTER_REQUEST_URL } from 'consts'
 
 // Make request for register new user into system
 export const register = (
@@ -9,7 +9,7 @@ export const register = (
     password: string
 ) => {
     return axios
-        .post(`${REGISTER_REQUEST}`, {
+        .post(`${REGISTER_REQUEST_URL}`, {
             firstName,
             lastName,
             email,
@@ -24,7 +24,7 @@ export const register = (
 // Return token pair {accessToken, refreshToken} and sets them into local storage
 export const login = (email: string, password: string) => {
     return axios
-        .post(`${LOGIN_REQUEST}`, {
+        .post(`${LOGIN_REQUEST_URL}`, {
             email,
             password,
         })

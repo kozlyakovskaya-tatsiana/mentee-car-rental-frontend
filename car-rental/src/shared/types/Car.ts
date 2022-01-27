@@ -1,11 +1,11 @@
-export interface brandType {
+export interface Brand {
     name: string
     id: string
 }
 
-export interface carPhotosType {}
+export interface CarPhotos {}
 
-export interface rentalPointType {
+export interface RentalPoint {
     location: string
     id: string
 }
@@ -20,14 +20,14 @@ export const FuelType: { [name: number]: string } = {
     1: 'Bio',
 }
 
-export interface carType {
-    brand: brandType
+export interface car {
+    brand: Brand
     model: string
     fuel: number
     fuelConsumption: number
     transmission: number
     quantityOfSeats: number
     pricePerHour: number
-    Photos: Array<carPhotosType>
-    rentalPoint: rentalPointType
+    Photos: Array<CarPhotos>
+    rentalPoint: RentalPoint
 }

@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 
-import { car, FuelType, TransmissionType } from 'shared/types/Car'
+import { car, Fuels, Transmissions } from 'shared/types/Car'
 
 import { useAuth } from 'contextes/authContext'
 import { styled } from '@mui/material/styles'
@@ -86,7 +86,7 @@ const CarPage: React.FC = (filter: any) => {
                                             >
                                                 Transmission:{' '}
                                                 {
-                                                    TransmissionType[
+                                                    Transmissions[
                                                         car.transmission
                                                     ]
                                                 }
@@ -95,7 +95,7 @@ const CarPage: React.FC = (filter: any) => {
                                                 variant="body2"
                                                 color="text.primary"
                                             >
-                                                Fuel type: {FuelType[car.fuel]}
+                                                Fuel type: {Fuels[car.fuel]}
                                             </Typography>
                                             <Typography
                                                 variant="body2"

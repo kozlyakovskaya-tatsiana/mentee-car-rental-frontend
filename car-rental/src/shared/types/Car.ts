@@ -10,14 +10,15 @@ export interface RentalPoint {
     id: string
 }
 
-export const TransmissionType: { [name: number]: string } = {
-    0: 'Auto',
-    1: 'Mechanic',
+export enum Transmissions {
+    Auto,
+    Mechanic,
 }
-
-export const FuelType: { [name: number]: string } = {
-    0: 'Diesel',
-    1: 'Bio',
+export enum Fuels {
+    Gasoline,
+    Diesel,
+    BioDiesel,
+    Ethanol,
 }
 
 export interface car {

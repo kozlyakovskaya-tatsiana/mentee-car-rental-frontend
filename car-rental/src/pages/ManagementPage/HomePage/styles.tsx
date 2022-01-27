@@ -29,12 +29,12 @@ export const useStyles = makeStyles({
 export const paperStyles = {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'black',
+    backgroundColor: '#1a1a1a',
 } as const
 
 export const mainBoxStyles = {
     flexGrow: 1,
-    height: '100vh',
+    height: '100%',
     overflow: 'auto',
 } as const
 

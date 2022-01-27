@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { ThemeProvider } from '@mui/material'
-import { AuthProvider } from './context/authContext'
+import { AuthProvider } from './contextes/authContext'
 
 import Header from './components/AppBar'
 import HomePage from './pages/HomePage'

@@ -23,6 +23,7 @@
     "react-hooks"
   ],
   "rules": {
+    "react/jsx-props-no-spreading": "off",
     "no-unused-vars": "off",
     "react/function-component-definition": "off",
     "no-use-before-define": "off",

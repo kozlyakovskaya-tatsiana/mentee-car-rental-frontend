@@ -1,12 +1,5 @@
 import * as yup from 'yup'
 
-export interface registerInitialValues {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-}
-
 export const registerSchema = yup.object({
     firstName: yup
         .string()
@@ -25,3 +18,5 @@ export const registerSchema = yup.object({
         )
         .required(),
 })
+
+export default registerSchema

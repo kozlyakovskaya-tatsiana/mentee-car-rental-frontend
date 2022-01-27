@@ -13,10 +13,10 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 
-import { registerValues } from 'shared/types/auth'
-import { registerSchema } from 'shared/schemes/register'
+import { registerValues } from 'shared/types/Auth'
+import { registerSchema } from 'shared/schemes/registerValidationScheme'
 
-import { useAuth } from 'context/authContext'
+import { useAuth } from 'contextes/authContext'
 import { login, register } from 'services/auth.service'
 
 import useStyles, { boxStyle, errorStyle } from './styles'

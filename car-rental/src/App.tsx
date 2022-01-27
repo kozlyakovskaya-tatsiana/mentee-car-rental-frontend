@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import ManagementUserPage from 'pages/ManagementPage/UserPage'
 
 import { ThemeProvider } from '@mui/material'
-import { AuthProvider } from './context/authContext'
+import { AuthProvider } from './contextes/authContext'
 
 import Header from './components/AppBar'
 

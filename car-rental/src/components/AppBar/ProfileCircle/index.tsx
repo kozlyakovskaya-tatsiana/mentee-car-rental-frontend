@@ -9,9 +9,10 @@ import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
-import AuthService from 'services/auth.service'
+import { logout } from 'services/auth.service'
+import { useAuth } from 'contextes/authContext'
+
 import { settings } from '../consts'
-import { useAuth } from '../../../context/authContext'
 import { linkStyle } from '../styles'
 
 const ProfileCircle = () => {
@@ -84,7 +85,7 @@ const ProfileCircle = () => {
                             style={linkStyle}
                             onClick={() => {
                                 changeAuth()
-                                AuthService.logout()
+                                logout()
                             }}
                         >
                             <Typography textAlign="center" color="secondary">

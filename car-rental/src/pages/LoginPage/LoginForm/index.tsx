@@ -11,11 +11,11 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
-import { loginValues } from 'shared/types/auth'
-import { loginSchema } from 'shared/schemes/login'
+import { loginValues } from 'shared/types/Auth'
+import { loginSchema } from 'shared/schemes/loginValidationScheme'
 
-import AuthService from 'services/auth.service'
-import { useAuth } from 'context/authContext'
+import { login } from 'services/auth.service'
+import { useAuth } from 'contextes/authContext'
 
 import useStyles, { boxStyle, errorStyle, linkStyle } from './styles'
 
@@ -33,9 +33,9 @@ const LoginForm: React.FC = () => {
     const [, setLoading] = useState<boolean>(false)
 
     // Login request. Getting data from form and
-    // return 200(Access Token, Refresh Token) or error context
+    // return 200(Access Token, Refresh Token) or error contextes
     const onSubmit = (data: loginValues) => {
-        AuthService.login(data.email, data.password)
+        login(data.email, data.password)
             .then((response) => {
                 if (response) {
                     changeAuth()

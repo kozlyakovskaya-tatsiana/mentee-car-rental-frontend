@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from 'axios'
-import { TOKEN_REFRESH_REQUEST, TOKEN_VERIFY_REQUEST } from '../Consts'
+import { TOKEN_REFRESH_REQUEST_URL, TOKEN_VERIFY_REQUEST_URL } from '../consts'
 
 export const refreshTokenPair = () => {
     const accessToken = localStorage.getItem('accessToken')
     const refreshToken = localStorage.getItem('refreshToken')
     return axios
-        .post(`${TOKEN_REFRESH_REQUEST}`, {
+        .post(`${TOKEN_REFRESH_REQUEST_URL}`, {
             accessToken,
             refreshToken,
         })
@@ -24,7 +24,7 @@ export const refreshTokenPair = () => {
 export const verifyAccessToken = () => {
     const accessToken = localStorage.getItem('accessToken')
     return axios
-        .post(`${TOKEN_VERIFY_REQUEST}`, {
+        .post(`${TOKEN_VERIFY_REQUEST_URL}`, {
             accessToken,
         })
         .then((response: AxiosResponse<any>) => {

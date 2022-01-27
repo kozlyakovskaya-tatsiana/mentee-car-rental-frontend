@@ -3,7 +3,7 @@ export interface Country {
     name: string
 }
 
-export interface CityW {
+export interface City {
     id: string
     name: string
 }

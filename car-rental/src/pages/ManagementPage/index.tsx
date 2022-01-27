@@ -7,7 +7,7 @@ import ToolBar from './ToolBar'
 
 export const ManagementPage: React.FC = () => {
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', height: 'calc(100vh - 69px)' }}>
             <ToolBar />
             <Outlet />
         </Box>

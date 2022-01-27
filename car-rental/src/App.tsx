@@ -1,20 +1,21 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import ManagementUserPage from 'pages/ManagementPage/UserPage'
+
 import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './context/authContext'
 
 import Header from './components/AppBar'
 
 import HomePage from './pages/HomePage'
-
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 
 import ManagementPage from './pages/ManagementPage'
 import ManagementHomePage from './pages/ManagementPage/HomePage'
 import ManagementCarPage from './pages/ManagementPage/CarPage'
-import ManagementUserPage from 'pages/ManagementPage/UserPage'
+
 import ManagementReportsPage from './pages/ManagementPage/ReportsPage'
 import ManagementRentalPointsPage from './pages/ManagementPage/RentalPointsPage'
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef, @typescript-eslint/no-unused-vars,
+no-unused-vars, @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
@@ -8,8 +10,6 @@ import Button from '@mui/material/Button'
 import { getCities, getCountries } from 'services/location.service'
 import { City, Country } from 'shared/types/Locations'
 
-import TextField from '@material-ui/core/TextField'
-
 import TextFieldComponent from './TextFieldComponent'
 
 import { fieldsHandler, mainBoxStyles, paperStyles, useStyles } from './styles'
@@ -18,6 +18,13 @@ import MapComponent from './MapComponent'
 
 export const ManagementRentalPointsPage: React.FC = () => {
     const styles = useStyles()
+
+    const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([])
+
+    const onMapClick = (e: google.maps.MapMouseEvent) => {
+        // avoid directly mutating state
+        setClicks([...clicks, e.latLng!])
+    }
 
     const [countries, setCountries] = useState<Array<Country>>([
         { id: '', name: '' },
@@ -46,6 +53,9 @@ export const ManagementRentalPointsPage: React.FC = () => {
     useEffect(() => {
         getAllCountries()
     }, [])
+    // clicks.map((latLng) => {
+    //     JSON.stringify(latLng.toJSON(), null, 2)
+    // })
 
     return (
         <Box component="main" sx={mainBoxStyles}>
@@ -117,7 +127,11 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                 </Box>
                             </Grid>
                             <Grid item xs={12}>
-                                <MapComponent />
+                                <MapComponent
+                                    clicks={clicks}
+                                    setClicks={setClicks}
+                                    onMapClick={onMapClick}
+                                />
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>

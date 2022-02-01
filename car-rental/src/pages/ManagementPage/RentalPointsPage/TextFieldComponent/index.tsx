@@ -8,11 +8,13 @@ import { City, Country } from 'shared/types/Locations'
 import { useStyles } from './styles'
 
 interface fieldProps {
+    value: string
     readonly: boolean
     fieldLabel: String
 }
 
 export const TextFieldComponent: React.FC<fieldProps> = ({
+    value,
     readonly,
     fieldLabel,
 }) => {
@@ -32,10 +34,13 @@ export const TextFieldComponent: React.FC<fieldProps> = ({
                     },
                 }}
                 InputLabelProps={{
+                    shrink: true,
+                    focused: true,
                     classes: {
                         root: styles.label,
                     },
                 }}
+                value={value}
             />
         </Box>
     )

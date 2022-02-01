@@ -8,20 +8,17 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
+import { RentalPointType } from '../../../../shared/types/RentalPoint'
 
 function createData(name: string, coords: string) {
     return { name, coords }
 }
 
-const rows = [
-    createData('Head Rental Point', '1.213 3.123'),
-    createData('RP.Br.Gr.No1', '1.213 3.123'),
-    createData('RP.Br.Gr.No2', '1.213 3.123'),
-    createData('RP.Ru.Ms.No1', '1.213 3.123'),
-    createData('PR.Ps.Ld.No1', '1.213 3.123'),
-]
+interface TableProps {
+    rentalPoints: Array<RentalPointType>
+}
 
-export const RentalPointsTable: React.FC = () => {
+export const RentalPointsTable: React.FC<TableProps> = ({ rentalPoints }) => {
     return (
         <Box component="div" sx={{ padding: '10px' }}>
             <TableContainer
@@ -40,23 +37,21 @@ export const RentalPointsTable: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.name}
-                                sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {row.coords}
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {/* {rentalPoints.map((row) => ( */}
+                        {/*    <TableRow */}
+                        {/*        key={row.name} */}
+                        {/*        sx={{ */}
+                        {/*            '&:last-child td, &:last-child th': { */}
+                        {/*                border: 0, */}
+                        {/*            }, */}
+                        {/*        }} */}
+                        {/*    > */}
+                        {/*        <TableCell component="th" scope="row"> */}
+                        {/*            {row.name} */}
+                        {/*        </TableCell> */}
+                        {/*        <TableCell align="right">Yep</TableCell> */}
+                        {/*    </TableRow> */}
+                        {/* ))} */}
                     </TableBody>
                 </Table>
             </TableContainer>

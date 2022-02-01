@@ -6,7 +6,6 @@ import { Coordinate, Country } from 'shared/types/Locations'
 import {
     GET_ALL_CITIES_REQUEST_URL,
     GET_ALL_COUNTRIES_REQUEST_URL,
-    GET_ALL_RENTAL_POINTS_REQUEST_URL,
 } from '../consts'
 
 Geocode.setApiKey('AIzaSyBE3ualJBuhhpiQF7d0lM8C6PhuH1TPyDo')
@@ -20,15 +19,11 @@ export const getCities = (country: Country) => {
     return axios.get(`${GET_ALL_CITIES_REQUEST_URL}/${country.id}`, {})
 }
 
-export const getRentalPoints = () => {
-    return axios.get(`${GET_ALL_RENTAL_POINTS_REQUEST_URL}`, {})
-}
-
 export const getAddressByCoordinates = (coords: Coordinate) => {
     return Geocode.fromLatLng(coords.lat, coords.lng).then(
         (response) => {
             const address = response.results[0].formatted_address
-            console.log(address)
+            return address
         },
         (error) => {
             console.error(error)

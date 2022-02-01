@@ -10,7 +10,7 @@ export const getRentalPoints = () => {
     return axios.get(`${GET_ALL_RENTAL_POINTS_REQUEST_URL}`, {})
 }
 
-export const AddRentalPoint = (
+export const createRentalPoint = (
     requestAddress: Address,
     coordinates: Coordinate
 ) => {

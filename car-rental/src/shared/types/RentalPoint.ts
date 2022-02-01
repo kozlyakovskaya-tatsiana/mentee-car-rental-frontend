@@ -13,8 +13,8 @@ export interface RentalPointType {
 }
 
 export interface Address {
-    country: ''
-    city: ''
-    address: ''
-    name: ''
+    country: string
+    city: string
+    address: string
+    name: string
 }

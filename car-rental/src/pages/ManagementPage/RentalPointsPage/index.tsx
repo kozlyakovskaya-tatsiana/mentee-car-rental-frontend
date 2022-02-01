@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField'
 import { getAddressByCoordinates } from 'services/location.service'
 import { Coordinate } from 'shared/types/Locations'
 import { Address, RentalPointType } from 'shared/types/RentalPoint'
-import { AddRentalPoint, getRentalPoints } from 'services/rentalPoint.service'
+import { createRentalPoint, getRentalPoints } from 'services/rentalPoint.service'
 
 import TextFieldComponent from './TextFieldComponent'
 import RentalPointsTable from './TableComponent'
@@ -21,22 +21,9 @@ import { fieldsHandler, mainBoxStyles, paperStyles, useStyles } from './styles'
 
 export const ManagementRentalPointsPage: React.FC = () => {
     const styles = useStyles()
-    const [load, setLoad] = useState<boolean>(true)
-    const [points, setPoints] = React.useState<google.maps.LatLng[]>([])
 
-    const [rentalPoints, setRentalPoints] = useState<Array<RentalPointType>>([
-        {
-            id: '',
-            location: {
-                id: '',
-                cityId: '',
-                address: '',
-                latitude: 0,
-                longitude: 0,
-            },
-            name: '',
-        },
-    ])
+    const [points, setPoints] = React.useState<google.maps.LatLng[]>([])
+    const [rentalPoints, setRentalPoints] = useState<Array<RentalPointType>>([])
 
     const [input, setInput] = useState<Address>({
         country: '',
@@ -44,30 +31,18 @@ export const ManagementRentalPointsPage: React.FC = () => {
         address: '',
         name: '',
     })
-    const [cityName, setCityName] = useState<string>('')
-
-    const loader = async () => {
-        await getAllRentPoints()
-    }
-
-    const pointsLoader = async () => {
-        await loadAllPoints()
-    }
 
     useEffect(() => {
-        if (load) {
-            loader().then(() => {
-                setLoad(false)
-            })
+        loadAllRentalPoints()
+    }, [])
+
+    useEffect(() => {
+        if (rentalPoints) {
+            loadAllPoints()
         }
-    }, [load])
-
-    useEffect(() => {
-        pointsLoader()
     }, [rentalPoints])
 
     const onMapClick = (e: google.maps.MapMouseEvent) => {
-        setPoints([...points, e.latLng!])
         const response = e.latLng!.toJSON()
         const coords: Coordinate = {
             lat: response.lat.toString(),
@@ -75,32 +50,37 @@ export const ManagementRentalPointsPage: React.FC = () => {
         }
         getAddressByCoordinates(coords).then((fullAddress) => {
             const splittedAddress = fullAddress.toString().split(',')
-            splittedAddress.forEach((add: any) => {
-                add.trim()
-            })
-            setInput({
-                address: splittedAddress[0],
-                city: splittedAddress[1],
-                country: splittedAddress[2],
-                name: input.name,
-            })
+            if (splittedAddress.length === 3) {
+                splittedAddress.forEach((add: any) => {
+                    add.trim()
+                })
+                setInput({
+                    address: splittedAddress[0],
+                    city: splittedAddress[1],
+                    country: splittedAddress[2],
+                    name: input.name,
+                })
+                setPoints([...points, e.latLng!])
+            } else {
+                alert()
+            }
         })
     }
 
-    const getAllRentPoints = async () => {
-        const rentPointsResponse = await getRentalPoints()
-        setRentalPoints(rentPointsResponse.data)
+    const loadAllRentalPoints = () => {
+        getRentalPoints().then((res) => {
+            setRentalPoints(res.data)
+        })
     }
 
-    const createNewGeoLock = (lat: number, lng: number) => {
+    const createNewGeoLoc = (lat: number, lng: number) => {
         return new google.maps.LatLng(lat, lng)
     }
 
     const loadAllPoints = () => {
         const coordinates: google.maps.LatLng[] = []
-        console.log(rentalPoints)
         rentalPoints.forEach((rentalPoint) => {
-            const coordinate = createNewGeoLock(
+            const coordinate = createNewGeoLoc(
                 rentalPoint.location.latitude,
                 rentalPoint.location.longitude
             )
@@ -110,13 +90,12 @@ export const ManagementRentalPointsPage: React.FC = () => {
     }
 
     const onSubmit = () => {
-        setInput({ ...input, name: cityName } as Address)
         console.log('input,', input)
         const coordinates: Coordinate = {
             lat: points[points.length - 1].lat.toString(),
             lng: points[points.length - 1].lng.toString(),
         }
-        AddRentalPoint(input, coordinates)
+        createRentalPoint(input, coordinates)
     }
 
     return (
@@ -176,9 +155,10 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                                         },
                                                     }}
                                                     onChange={(e) => {
-                                                        setCityName(
-                                                            e.target.value
-                                                        )
+                                                        setInput({
+                                                            ...input,
+                                                            name: e.target.value.toString(),
+                                                        })
                                                     }}
                                                 />
                                             </Box>

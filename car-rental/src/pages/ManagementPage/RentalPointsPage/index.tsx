@@ -1,40 +1,58 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars,
 no-unused-vars, @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react'
+import Geocode from 'react-geocode'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
-import { getCities, getCountries } from 'services/location.service'
-import { City, Country } from 'shared/types/Locations'
+import {
+    getAddressByCoordinates,
+    getCities,
+    getCountries,
+    getRentalPoints,
+} from 'services/location.service'
+import { City, Coordinate, Country } from 'shared/types/Locations'
 
 import TextFieldComponent from './TextFieldComponent'
+import RentalPointsTable from './TableComponent'
+import MapHandlerComponent from './MapHandlerComponent'
 
 import { fieldsHandler, mainBoxStyles, paperStyles, useStyles } from './styles'
-import DenseTable from './TableComponent'
-import MapComponent from './MapComponent'
+
+const address = {
+    country: '',
+    city: '',
+    address: '',
+}
 
 export const ManagementRentalPointsPage: React.FC = () => {
     const styles = useStyles()
-
     const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([])
-
-    const onMapClick = (e: google.maps.MapMouseEvent) => {
-        // avoid directly mutating state
-        setClicks([...clicks, e.latLng!])
-    }
-
+    const [isClicked, setIsClicked] = useState<boolean>(false)
     const [countries, setCountries] = useState<Array<Country>>([
         { id: '', name: '' },
     ])
     const [cities, setCities] = useState<Array<City>>([{ id: '', name: '' }])
     const [rentalPoints, setRentalPoints] = useState<Array<any>>([{}])
 
-    const getAllCountries = async () => {
-        const countriesResponse = await getCountries()
-        setCountries(countriesResponse.data)
+    const onMapClick = (e: google.maps.MapMouseEvent) => {
+        // avoid directly mutating state
+        setClicks([...clicks, e.latLng!])
+        const response = e.latLng!.toJSON()
+        const coords: Coordinate = {
+            lat: response.lat.toString(),
+            lng: response.lng.toString(),
+        }
+        getAddressByCoordinates(coords)
+    }
+
+    const getAllCountries = () => {
+        getCountries().then((response) => {
+            setCountries(response.data)
+        })
     }
 
     const getCitiesByCountry = async (countryName: string) => {
@@ -50,13 +68,49 @@ export const ManagementRentalPointsPage: React.FC = () => {
         }
     }
 
-    useEffect(() => {
-        getAllCountries()
-    }, [])
-    // clicks.map((latLng) => {
-    //     JSON.stringify(latLng.toJSON(), null, 2)
-    // })
+    const getAllRentPoints = async () => {
+        const rentPointsResponse = await getRentalPoints()
+        setRentalPoints(rentPointsResponse.data)
+        return rentalPoints
+    }
 
+    const [load, setLoad] = useState<boolean>(true)
+
+    const loader = async () => {
+        await getAllCountries()
+        await getAllRentPoints()
+    }
+
+    useEffect(() => {
+        if (load) {
+            loader()
+            setLoad(false)
+        }
+    }, [load])
+
+    const test = async () => {
+        await loadAllPoints()
+    }
+
+    useEffect(() => {
+        test()
+    }, [rentalPoints])
+
+    const createNewGeoLock = (lat: number, lng: number) => {
+        return new google.maps.LatLng(lat, lng)
+    }
+
+    const loadAllPoints = () => {
+        const coordinates: google.maps.LatLng[] = []
+        rentalPoints.forEach((rentalPoint) => {
+            const coordinate = createNewGeoLock(
+                rentalPoint.location.latitude,
+                rentalPoint.location.longitude
+            )
+            coordinates.push(coordinate)
+        })
+        setClicks(coordinates)
+    }
     return (
         <Box component="main" sx={mainBoxStyles}>
             <Paper sx={paperStyles}>
@@ -74,35 +128,28 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                         >
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    ocChangeFunction={
-                                                        getCitiesByCountry
-                                                    }
-                                                    chooseOptionsArray={
-                                                        countries
-                                                    }
+                                                    readonly
                                                     fieldLabel="Country"
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    ocChangeFunction={
-                                                        // get RP locations
-                                                        () => {}
-                                                    }
-                                                    chooseOptionsArray={cities}
+                                                    readonly
                                                     fieldLabel="City"
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    ocChangeFunction={
-                                                        // get RP locations
-                                                        () => {}
-                                                    }
-                                                    chooseOptionsArray={cities}
+                                                    readonly
                                                     fieldLabel="Address"
                                                 />
                                             </Grid>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextFieldComponent
+                                                readonly={false}
+                                                fieldLabel="Name"
+                                            />
                                         </Grid>
                                     </Grid>
                                 </Box>
@@ -127,7 +174,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                 </Box>
                             </Grid>
                             <Grid item xs={12}>
-                                <MapComponent
+                                <MapHandlerComponent
                                     clicks={clicks}
                                     setClicks={setClicks}
                                     onMapClick={onMapClick}
@@ -135,7 +182,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>
-                            <DenseTable />
+                            <RentalPointsTable />
                         </Grid>
                     </Grid>
                 </Box>

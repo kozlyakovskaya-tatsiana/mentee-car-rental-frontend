@@ -26,6 +26,7 @@
     "google-maps-react": "^2.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-geocode": "^0.2.3",
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^7.24.0",
     "react-redux": "^7.2.6",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@types/material-ui": "^0.21.12",
+    "@types/react-geocode": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.6.0",

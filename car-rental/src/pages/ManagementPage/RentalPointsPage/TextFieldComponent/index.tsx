@@ -8,57 +8,34 @@ import { City, Country } from 'shared/types/Locations'
 import { useStyles } from './styles'
 
 interface fieldProps {
-    ocChangeFunction: (a: string) => void
-    // TODO Need to explicitly define the type of the array
-    chooseOptionsArray: Array<any>
+    readonly: boolean
     fieldLabel: String
 }
 
 export const TextFieldComponent: React.FC<fieldProps> = ({
-    ocChangeFunction,
+    readonly,
     fieldLabel,
-    chooseOptionsArray,
 }) => {
     const styles = useStyles()
 
     return (
         <Box>
-            <Autocomplete
-                classes={{
-                    inputRoot: styles.autoComplete,
-                    paper: styles.paper,
+            <TextField
+                className={styles.field}
+                label={fieldLabel}
+                margin="normal"
+                variant="outlined"
+                InputProps={{
+                    readOnly: readonly,
+                    classes: {
+                        root: styles.input,
+                    },
                 }}
-                id={`${fieldLabel}-select`}
-                options={chooseOptionsArray.map(
-                    (option: Country) => option.name
-                )}
-                forcePopupIcon={false}
-                onChange={(event, value) => {
-                    if (value) {
-                        ocChangeFunction(value)
-                    }
+                InputLabelProps={{
+                    classes: {
+                        root: styles.label,
+                    },
                 }}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        className={styles.field}
-                        label={fieldLabel}
-                        margin="normal"
-                        variant="outlined"
-                        InputProps={{
-                            ...params.InputProps,
-                            // readOnly: true,
-                            classes: {
-                                root: styles.input,
-                            },
-                        }}
-                        InputLabelProps={{
-                            classes: {
-                                root: styles.label,
-                            },
-                        }}
-                    />
-                )}
             />
         </Box>
     )

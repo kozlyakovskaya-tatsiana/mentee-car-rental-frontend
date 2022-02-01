@@ -6,6 +6,7 @@ export const useStyles = makeStyles({
         border: 'solid 1px white',
     },
     field: {
+        width: '100%',
         color: 'white',
         '& .MuiInput-underline:before': {
             borderBottomColor: 'white',

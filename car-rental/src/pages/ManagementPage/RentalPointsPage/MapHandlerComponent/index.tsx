@@ -16,13 +16,13 @@ const render = (status: Status) => {
 }
 
 interface Markers {
-    clicks: Array<google.maps.LatLng>
+    points: Array<google.maps.LatLng>
     setClicks: React.Dispatch<React.SetStateAction<google.maps.LatLng[]>>
     onMapClick: (e: google.maps.MapMouseEvent) => void
 }
 
 const MapHandlerComponent: React.VFC<Markers> = ({
-    clicks,
+    points,
     setClicks,
     onMapClick,
 }: Markers) => {
@@ -50,7 +50,7 @@ const MapHandlerComponent: React.VFC<Markers> = ({
                     zoom={zoom}
                     style={mapStyles}
                 >
-                    {clicks.map((latLng, i) => (
+                    {points?.map((latLng, i) => (
                         <Marker key={i.toString()} position={latLng} />
                     ))}
                 </Map>

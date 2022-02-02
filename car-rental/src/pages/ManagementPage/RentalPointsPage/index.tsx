@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars,
 no-unused-vars, @typescript-eslint/no-use-before-define */
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -58,9 +58,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
         getAddressByCoordinates(coords).then((fullAddress) => {
             const splittedAddress = fullAddress.toString().split(',')
             if (splittedAddress.length === 3) {
-                splittedAddress.forEach((add: any) => {
-                    add.trim()
-                })
+                splittedAddress.map((address: any) => address.trim())
                 setInput({
                     address: splittedAddress[0],
                     city: splittedAddress[1],
@@ -138,23 +136,41 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                         >
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    readonly
                                                     fieldLabel="Country"
                                                     value={input.country}
+                                                    onChange={(e: any) => {
+                                                        setInput({
+                                                            ...input,
+                                                            country:
+                                                                e.target.value,
+                                                        })
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    readonly
                                                     fieldLabel="City"
                                                     value={input.city}
+                                                    onChange={(e: any) => {
+                                                        setInput({
+                                                            ...input,
+                                                            city: e.target
+                                                                .value,
+                                                        })
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextFieldComponent
-                                                    readonly
                                                     fieldLabel="Address"
                                                     value={input.address}
+                                                    onChange={(e: any) => {
+                                                        setInput({
+                                                            ...input,
+                                                            address:
+                                                                e.target.value,
+                                                        })
+                                                    }}
                                                 />
                                             </Grid>
                                         </Grid>
@@ -211,7 +227,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <MapHandlerComponent
-                                    clicks={points}
+                                    points={points}
                                     setClicks={setPoints}
                                     onMapClick={onMapClick}
                                 />

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars,
 no-unused-vars, @typescript-eslint/no-use-before-define */
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -91,14 +91,10 @@ export const ManagementRentalPointsPage: React.FC = () => {
         })
     }
 
-    const createNewGeoLoc = (lat: number, lng: number) => {
-        return new google.maps.LatLng(lat, lng)
-    }
-
     const loadAllPoints = () => {
         const coordinates: google.maps.LatLng[] = []
         rentalPoints.forEach((rentalPoint) => {
-            const coordinate = createNewGeoLoc(
+            const coordinate = new google.maps.LatLng(
                 rentalPoint.location.latitude,
                 rentalPoint.location.longitude
             )
@@ -231,6 +227,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                     setClicks={setPoints}
                                     onMapClick={onMapClick}
                                 />
+
                                 {alert && (
                                     <Fade in={alert}>
                                         <Alert severity="error">

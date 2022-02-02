@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 
-import { car, Fuels, Transmissions } from 'shared/types/Car'
+import { Car, Fuels, Transmissions } from 'shared/types/Car'
 
 import { useAuth } from 'contextes/authContext'
 import { styled } from '@mui/material/styles'
@@ -27,7 +27,7 @@ const CarPage: React.FC = (filter: any) => {
     const { isAuth } = useAuth()
 
     // Here we get filtered car list by props from form on Home page
-    const cars: Array<car> = [
+    const cars: Array<Car> = [
         {
             brand: { name: 'Audi', id: '1' },
             model: 'A4',
@@ -43,9 +43,9 @@ const CarPage: React.FC = (filter: any) => {
 
     return (
         <div>
-            {isAuth ? (
+            {true ? (
                 <Box component="main" style={papersHandlerStyle}>
-                    {cars.map((car: car) => (
+                    {cars.map((car: Car) => (
                         <Paper
                             sx={lotPaperStyle}
                             key={`${car.brand.name.toString()} ${car.model}`}

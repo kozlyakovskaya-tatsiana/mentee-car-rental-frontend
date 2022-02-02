@@ -8,12 +8,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PeopleIcon from '@mui/icons-material/People'
 import BarChartIcon from '@mui/icons-material/BarChart'
 import LayersIcon from '@mui/icons-material/Layers'
-import theme from '../../Theme'
-import { linkStyle } from '../LoginPage/LoginForm/styles'
+
+import theme from '../../../Theme'
+import { linkStyle } from '../../LoginPage/LoginForm/styles'
 
 export const itemsList = (
     <div>
-        <Link to="/admin" style={linkStyle}>
+        <Link to="/management/home" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <DashboardIcon
@@ -23,7 +24,7 @@ export const itemsList = (
                 <ListItemText primary="Dashboard" />
             </ListItem>
         </Link>
-        <Link to="/admin/car" style={linkStyle}>
+        <Link to="/management/car" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <ShoppingCartIcon
@@ -33,7 +34,7 @@ export const itemsList = (
                 <ListItemText primary="Car Management" />
             </ListItem>
         </Link>
-        <Link to="/admin/user" style={linkStyle}>
+        <Link to="/management/user" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <PeopleIcon style={{ fill: theme.palette.text.primary }} />
@@ -41,7 +42,7 @@ export const itemsList = (
                 <ListItemText primary="User Management" />
             </ListItem>
         </Link>
-        <Link to="/admin/reports" style={linkStyle}>
+        <Link to="/management/reports" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <BarChartIcon
@@ -51,7 +52,7 @@ export const itemsList = (
                 <ListItemText primary="Reports" />
             </ListItem>
         </Link>
-        <Link to="/admin/rp" style={linkStyle}>
+        <Link to="/management/rp" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <LayersIcon style={{ fill: theme.palette.text.primary }} />

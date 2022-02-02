@@ -1,4 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { styled } from '@mui/material/styles'
+import MuiDrawer from '@mui/material/Drawer'
 
 export const useStyles = makeStyles({
     text: {
@@ -33,12 +35,6 @@ export const toolBarStyles = {
     backgroundColor: '#1a1a1a',
 } as const
 
-export const paperStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'black',
-} as const
-
 export const mainBoxStyles = {
     flexGrow: 1,
     height: '100vh',
@@ -48,5 +44,33 @@ export const mainBoxStyles = {
 export const linkStyle = {
     textDecoration: 'none',
 } as const
+
+const drawerWidth: number = 300
+
+export const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+        position: 'relative',
+        whiteSpace: 'nowrap',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        boxSizing: 'border-box',
+        ...(!open && {
+            overflowX: 'hidden',
+            transition: theme.transitions.create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            width: theme.spacing(7),
+            [theme.breakpoints.up('sm')]: {
+                width: theme.spacing(7),
+            },
+        }),
+    },
+}))
 
 export default useStyles

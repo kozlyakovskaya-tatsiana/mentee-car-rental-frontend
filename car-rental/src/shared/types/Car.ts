@@ -21,7 +21,7 @@ export enum Fuels {
     Ethanol,
 }
 
-export interface car {
+export interface Car {
     brand: Brand
     model: string
     fuel: number

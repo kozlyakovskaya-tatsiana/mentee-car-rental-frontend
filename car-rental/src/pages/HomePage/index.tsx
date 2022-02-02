@@ -24,16 +24,10 @@ const HomePage: React.FC = () => {
     const [countries, setCountries] = useState<Array<Country>>([
         { id: '', name: '' },
     ])
-    const [cities, setCities] = useState<Array<City>>([
-        { id: '', name: '' },
-    ])
+    const [cities, setCities] = useState<Array<City>>([{ id: '', name: '' }])
 
     const [countryChecked, setCountryChecked] = React.useState(false)
     const [cityChecked, setCityChecked] = React.useState(false)
-
-    useEffect(() => {
-        getAllCountries()
-    }, [])
 
     const getAllCountries = async () => {
         const countriesResponse = await getCountries()
@@ -60,6 +54,10 @@ const HomePage: React.FC = () => {
             setCities(cityResponse.data)
         }
     }
+
+    useEffect(() => {
+        getAllCountries()
+    }, [])
 
     const formik = useFormik({
         initialValues: {},

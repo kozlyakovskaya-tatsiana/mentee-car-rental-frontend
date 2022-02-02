@@ -24,7 +24,7 @@ import {
 const Img = styled('img')(customStyledImgStyles)
 
 const CarPage: React.FC = (filter: any) => {
-    const { isAuth } = useAuth()
+    const { isUserAuthenticate } = useAuth()
 
     // Here we get filtered car list by props from form on Home page
     const cars: Array<Car> = [

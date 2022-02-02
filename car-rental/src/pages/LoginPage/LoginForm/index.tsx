@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
         login(data.email, data.password)
             .then((response) => {
                 if (response) {
-                    changeAuth()
+                    changeAuth(true)
                     navigate('../', { replace: true })
                 }
             })

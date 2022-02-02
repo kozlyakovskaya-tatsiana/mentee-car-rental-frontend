@@ -5,6 +5,7 @@ import ManagementUserPage from 'pages/ManagementPage/UserPage'
 
 import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './contextes/authContext'
+import { PrivateRoute } from './components/PrivateRoute'
 
 import Header from './components/AppBar'
 
@@ -37,7 +38,9 @@ const App = () => {
                         <Route path="/register" element={<RegisterPage />} />
                         <Route
                             path="/management/*"
-                            element={<ManagementPage />}
+                            element={
+                                <PrivateRoute component={ManagementPage} />
+                            }
                         >
                             <Route
                                 path="home"

@@ -38,7 +38,7 @@ const ProfileCircle = () => {
         setAnchorElUser(null)
     }
 
-    const { isAuth, changeAuth } = useAuth()
+    const { changeAuth } = useAuth()
 
     return (
         <div>
@@ -84,7 +84,7 @@ const ProfileCircle = () => {
                             to="/"
                             style={linkStyle}
                             onClick={() => {
-                                changeAuth()
+                                changeAuth(false)
                                 logout()
                             }}
                         >

@@ -7,10 +7,15 @@ import React, {
 } from 'react'
 import { verifyAccessToken } from 'services/tokens.service'
 
-export const AuthContext = createContext({
-    isAuth: false,
-    changeAuth: () => {},
-})
+interface contextAuth {
+    isUserAuthenticate: () => boolean
+    changeAuth: (value: boolean) => {}
+}
+
+export const AuthContext = createContext<contextAuth>({
+    isUserAuthenticate: () => {},
+    changeAuth: (value: boolean) => {},
+} as contextAuth)
 
 export const useAuth = () => {
     return useContext(AuthContext)
@@ -19,20 +24,28 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: any) => {
     const [isAuth, setIsAuth] = useState(false)
 
-    const changeAuth = () => {
-        setIsAuth((auth) => !isAuth)
+    const isUserAuthenticate = () => {
+        return isAuth
     }
 
+    const changeAuth = (value: boolean) => {
+        setIsAuth(value)
+    }
+
+    const token = localStorage.getItem('accessToken')
     useEffect(() => {
-        const token = localStorage.getItem('accessToken')
         if (token)
             verifyAccessToken().then((res) => {
                 if (res) {
-                    changeAuth()
+                    changeAuth(true)
                 }
             })
-    }, [])
+    }, [token])
 
-    const value = useMemo(() => ({ isAuth, changeAuth }), [isAuth])
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    const value = useMemo(() => ({ isUserAuthenticate, changeAuth }), [isAuth])
+    return (
+        <AuthContext.Provider value={value as contextAuth}>
+            {children}
+        </AuthContext.Provider>
+    )
 }

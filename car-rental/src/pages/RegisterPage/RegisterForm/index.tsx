@@ -36,7 +36,7 @@ const RegisterForm: React.FC = () => {
             .then((response) => {
                 if (response) {
                     login(data.email, data.password).then(() => {
-                        changeAuth()
+                        changeAuth(true)
                         navigate('../', { replace: true })
                     })
                 }

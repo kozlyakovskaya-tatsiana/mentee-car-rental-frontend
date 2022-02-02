@@ -12,7 +12,7 @@ import ProfileCircle from './ProfileCircle'
 import PinnedPages from './PinnedPages'
 
 const Header = () => {
-    const { isAuth } = useAuth()
+    const { isUserAuthenticate } = useAuth()
 
     return (
         <AppBar position="static" color="primary">
@@ -21,7 +21,7 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <PinnedPages />
-                {isAuth ? (
+                {isUserAuthenticate() ? (
                     <ProfileCircle />
                 ) : (
                     <>

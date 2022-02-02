@@ -7,11 +7,16 @@ import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@material-ui/core/TextField'
+import { Alert, Fade } from '@mui/material'
 
 import { getAddressByCoordinates } from 'services/location.service'
 import { Coordinate } from 'shared/types/Locations'
 import { Address, RentalPointType } from 'shared/types/RentalPoint'
-import { createRentalPoint, getRentalPoints } from 'services/rentalPoint.service'
+import {
+    createRentalPoint,
+    deleteRentalPoint,
+    getRentalPoints,
+} from 'services/rentalPoint.service'
 
 import TextFieldComponent from './TextFieldComponent'
 import RentalPointsTable from './TableComponent'
@@ -21,6 +26,8 @@ import { fieldsHandler, mainBoxStyles, paperStyles, useStyles } from './styles'
 
 export const ManagementRentalPointsPage: React.FC = () => {
     const styles = useStyles()
+    const [isFirstClickOnMap, setIsFirstClickOnMap] = useState<boolean>(true)
+    const [alert, setAlert] = useState<boolean>(false)
 
     const [points, setPoints] = React.useState<google.maps.LatLng[]>([])
     const [rentalPoints, setRentalPoints] = useState<Array<RentalPointType>>([])
@@ -60,11 +67,24 @@ export const ManagementRentalPointsPage: React.FC = () => {
                     country: splittedAddress[2],
                     name: input.name,
                 })
-                setPoints([...points, e.latLng!])
+                if (isFirstClickOnMap) {
+                    setPoints([...points, e.latLng!])
+                    setIsFirstClickOnMap(false)
+                } else {
+                    const arr = points.pop()
+                    setPoints([...points, e.latLng!])
+                }
             } else {
-                alert()
+                showErrorAlert()
             }
         })
+    }
+
+    const showErrorAlert = () => {
+        setAlert(true)
+        setTimeout(() => {
+            setAlert(false)
+        }, 4000)
     }
 
     const loadAllRentalPoints = () => {
@@ -90,12 +110,15 @@ export const ManagementRentalPointsPage: React.FC = () => {
     }
 
     const onSubmit = () => {
-        console.log('input,', input)
-        const coordinates: Coordinate = {
-            lat: points[points.length - 1].lat.toString(),
-            lng: points[points.length - 1].lng.toString(),
-        }
-        createRentalPoint(input, coordinates)
+        const coordinates = points[points.length - 1].toJSON()
+        createRentalPoint(input, coordinates).then(() => {
+            loadAllRentalPoints()
+        })
+    }
+
+    const deleteRentalPointAsync = async (id: string) => {
+        await deleteRentalPoint(id)
+        loadAllRentalPoints()
     }
 
     return (
@@ -192,10 +215,22 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                     setClicks={setPoints}
                                     onMapClick={onMapClick}
                                 />
+                                {alert && (
+                                    <Fade in={alert}>
+                                        <Alert severity="error">
+                                            Choose another point. That mark
+                                            doesn&apos;t have good place for our
+                                            office
+                                        </Alert>
+                                    </Fade>
+                                )}
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>
-                            <RentalPointsTable rentalPoints={rentalPoints} />
+                            <RentalPointsTable
+                                rentalPoints={rentalPoints}
+                                deleteAction={deleteRentalPointAsync}
+                            />
                         </Grid>
                     </Grid>
                 </Box>

@@ -36,7 +36,6 @@ const MapHandlerComponent: React.VFC<Markers> = ({
         setZoom(m.getZoom()!)
         setCenter(m.getCenter()!.toJSON())
     }
-
     return (
         <Box component="div" style={mapHandlerStyles}>
             <Wrapper

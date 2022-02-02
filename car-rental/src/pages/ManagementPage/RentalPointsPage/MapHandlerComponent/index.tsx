@@ -40,7 +40,7 @@ const MapHandlerComponent: React.VFC<Markers> = ({
     return (
         <Box component="div" style={mapHandlerStyles}>
             <Wrapper
-                apiKey="AIzaSyBvynRbDYDXAlAZkk7s5lr0d7sO4aprDzc"
+                apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ''}
                 render={render}
             >
                 <Map

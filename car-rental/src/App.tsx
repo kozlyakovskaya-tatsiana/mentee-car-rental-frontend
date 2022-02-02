@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './contextes/authContext'
 
 import Header from './components/AppBar'
+import Auth from './components/Auth'
 
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -35,27 +36,32 @@ const App = () => {
                         <Route path="/cars" element={<CarPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
-                        <Route
-                            path="/management/*"
-                            element={<ManagementPage />}
-                        >
+                        <Route element={<Auth />}>
                             <Route
-                                path="home"
-                                element={<ManagementHomePage />}
-                            />
-                            <Route path="car" element={<ManagementCarPage />} />
-                            <Route
-                                path="user"
-                                element={<ManagementUserPage />}
-                            />
-                            <Route
-                                path="reports"
-                                element={<ManagementReportsPage />}
-                            />
-                            <Route
-                                path="rp"
-                                element={<ManagementRentalPointsPage />}
-                            />
+                                path="/management/*"
+                                element={<ManagementPage />}
+                            >
+                                <Route
+                                    path="home"
+                                    element={<ManagementHomePage />}
+                                />
+                                <Route
+                                    path="car"
+                                    element={<ManagementCarPage />}
+                                />
+                                <Route
+                                    path="user"
+                                    element={<ManagementUserPage />}
+                                />
+                                <Route
+                                    path="reports"
+                                    element={<ManagementReportsPage />}
+                                />
+                                <Route
+                                    path="rp"
+                                    element={<ManagementRentalPointsPage />}
+                                />
+                            </Route>
                         </Route>
                     </Routes>
                 </ThemeProvider>

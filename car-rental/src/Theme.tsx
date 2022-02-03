@@ -52,6 +52,25 @@ export const themeOptions = createTheme({
                 },
             },
         },
+        MuiInput: {
+            styleOverrides: {
+                underline: {
+                    '&&&:before': {
+                        borderBottomColor: 'white',
+                    },
+                    '&&:after': {
+                        borderBottom: '2px solid #ff2172',
+                    },
+                },
+            },
+        },
+        MuiNativeSelect: {
+            styleOverrides: {
+                icon: {
+                    color: 'white',
+                },
+            },
+        },
     },
 })
 

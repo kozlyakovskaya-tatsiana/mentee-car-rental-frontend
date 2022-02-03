@@ -5,5 +5,7 @@ export interface BrandInputType {
 }
 
 export interface ModelInputType {
-
+    inputValue?: string
+    id: string
+    name: string
 }

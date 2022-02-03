@@ -16,6 +16,43 @@ export const themeOptions = createTheme({
             main: '#ff2142',
         },
     },
+    components: {
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                },
+            },
+        },
+        MuiAutocomplete: {
+            styleOverrides: {
+                listbox: {
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #ffffff',
+                },
+            },
+        },
+        MuiFormLabel: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                    '&.Mui-focused': {
+                        color: '#ff2172',
+                    },
+                },
+            },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    borderColor: 'white',
+                },
+                notchedOutline: {
+                    borderColor: 'white',
+                },
+            },
+        },
+    },
 })
 
 export default themeOptions

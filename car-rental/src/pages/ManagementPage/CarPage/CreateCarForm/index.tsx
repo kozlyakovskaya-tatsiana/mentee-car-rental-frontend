@@ -1,95 +1,98 @@
 import * as React from 'react'
 
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
+import Grid from '@mui/material/Grid'
 
-import { InputLabel, Select, SelectChangeEvent, useTheme } from '@mui/material'
+import { createFilterOptions } from '@mui/material'
+import CarAutocompleteComponent from './CarAurocompleteComponent'
 
-import {
-    formHandlerStyle,
-    inputLabelStyles,
-    selectDisplayStyles,
-    selectStyles,
-    useStyles,
-} from './styles'
+interface FilmOptionType {
+    inputValue?: string
+    title: string
+    year?: number
+}
+
+const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 },
+    { title: 'The Dark Knight', year: 2008 },
+    { title: '12 Angry Men', year: 1957 },
+]
+
+const filter = createFilterOptions<FilmOptionType>()
 
 export const CreateCarForm: React.FC = () => {
-    const [age, setAge] = React.useState('')
+    const [brand, setBrand] = React.useState<FilmOptionType | null>(null)
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value)
+    const onChangeBrand = (event: any, newValue: any) => {
+        if (typeof newValue === 'string') {
+            setBrand({
+                title: newValue,
+            })
+        } else if (newValue && newValue.inputValue) {
+            setBrand({
+                title: newValue.inputValue,
+            })
+        } else {
+            setBrand(newValue)
+        }
     }
 
+    const filterOptions = (options: any, params: any) => {
+        const filtered = filter(options, params)
+        const { inputValue } = params
+        const isExisting = options.some(
+            (option: any) => inputValue === option.title
+        )
+        if (inputValue !== '' && !isExisting) {
+            filtered.push({
+                inputValue,
+                title: `Add "${inputValue}"`,
+            })
+        }
+        return filtered
+    }
+
+    const optionLabel = (option: any) => {
+        if (typeof option === 'string') {
+            return option
+        }
+        if (option.inputValue) {
+            return option.inputValue
+        }
+        return option.title
+    }
+
+    const renderOptions = (props: any, option: any) => (
+        <li {...props}>{option.title}</li>
+    )
+
     return (
-        <Box style={formHandlerStyle}>
-            <Typography component="h1" variant="h5" color="text.primary">
-                Create new car
-            </Typography>
-            <Box sx={{ mt: 3 }}>
-                <Grid
-                    container
-                    spacing={2}
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Grid item xs={5}>
-                        <InputLabel
-                            id="demo-simple-select-helper-label"
-                            style={inputLabelStyles}
-                        >
-                            Age
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            value={age}
-                            label="Age"
-                            style={selectStyles}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </Grid>
-                    <Grid item xs={5}>
-                        <InputLabel
-                            id="demo-simple-select-helper-label"
-                            style={inputLabelStyles}
-                        >
-                            Age
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            value={age}
-                            label="Age"
-                            style={selectStyles}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </Grid>
-                </Grid>
-                {/* <Grid item xs={12} sm={6}></Grid> */}
-                fuel fuel consumption Transmission Type Quantity of seats Price
-                per hour Photos Brand Rental pont
-            </Box>
-        </Box>
+        <Grid container spacing={1}>
+            <Grid item xs={6}>
+                <CarAutocompleteComponent
+                    value={brand}
+                    onChange={onChangeBrand}
+                    filterOptions={filterOptions}
+                    optionLabel={optionLabel}
+                    renderOptions={renderOptions}
+                    infoArray={top100Films}
+                    label="Car Brand"
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <CarAutocompleteComponent
+                    value={brand}
+                    onChange={onChangeBrand}
+                    filterOptions={filterOptions}
+                    optionLabel={optionLabel}
+                    renderOptions={renderOptions}
+                    infoArray={top100Films}
+                    label="Model"
+                />
+            </Grid>
+        </Grid>
     )
 }
 

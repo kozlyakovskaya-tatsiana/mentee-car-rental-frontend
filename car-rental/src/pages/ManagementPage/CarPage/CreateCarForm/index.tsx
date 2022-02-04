@@ -32,6 +32,7 @@ export const CreateCarForm: React.FC = () => {
     const [fuel, setFuel] = React.useState<string>('')
     const [transmission, setTransmission] = React.useState<string>('')
     const [quantityOfSeats, setQuantityOfSeats] = React.useState<string>('')
+    const [fuelConsumption, setFuelConsumption] = React.useState<string>('')
     const [price, setPrice] = React.useState<string>('')
     const [images, setImages] = React.useState<ImageListType>([])
     const [rentalPoint, setRentalPoint] = React.useState<string>('')
@@ -60,6 +61,13 @@ export const CreateCarForm: React.FC = () => {
             e.target.value = 0
         } else {
             setQuantityOfSeats(e.target.value)
+        }
+    }
+    const onFuelConsumptionChange = (e: any) => {
+        if (Number(e.target.value) < 0) {
+            e.target.value = 0
+        } else {
+            setFuelConsumption(e.target.value)
         }
     }
 
@@ -187,6 +195,16 @@ export const CreateCarForm: React.FC = () => {
                 />
             </Grid>
             <Grid item xs={6}>
+                <TextField
+                    label="Fuel consumption"
+                    color="secondary"
+                    type="number"
+                    fullWidth
+                    onChange={onFuelConsumptionChange}
+                    value={fuelConsumption}
+                />
+            </Grid>
+            <Grid item xs={12}>
                 <TextField
                     label="Price per hour"
                     color="secondary"

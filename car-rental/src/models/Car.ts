@@ -1,6 +1,6 @@
 import Fuel from 'shared/enums/Fuel'
 import Transmission from 'shared/enums/Transmission'
-import { CarPhotos } from './Attachment'
+import { CarPhoto } from './Attachment'
 import { Brand } from './Brand'
 import { RentalPoint } from './RentalPoint'
 
@@ -11,7 +11,7 @@ export interface Car {
     transmission: Transmission
     quantityOfSeats: number
     pricePerHour: number
-    Photos: CarPhotos[]
+    Photos: CarPhoto[]
     brand: Brand
     rentalPointId: string
 }

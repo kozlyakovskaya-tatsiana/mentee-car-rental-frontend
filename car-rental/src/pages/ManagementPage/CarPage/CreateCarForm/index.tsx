@@ -7,7 +7,11 @@ import Grid from '@mui/material/Grid'
 import { BrandInputType, ModelInputType } from 'shared/types/CarTypes'
 import Fuel from 'shared/enums/Fuel'
 import Transmission from 'shared/enums/Transmission'
+
 import { getAllCarBrands } from 'services/car.service'
+
+import { Car } from 'models/Car'
+import { CarPhoto } from 'models/Attachment'
 
 import { Button, createFilterOptions, TextField } from '@mui/material'
 import Zoom from '@material-ui/core/Zoom'
@@ -16,11 +20,14 @@ import CarAutocompleteComponent from './CarAurocompleteComponent'
 import CarSelectComponent from './CarSelectComponent'
 import UploaderComponent from './UploaderComponent'
 import RentalPointSelector from './RentalPointSelector'
+import { Brand } from '../../../../models/Brand'
 
 const filter = createFilterOptions<BrandInputType>()
 
 export const CreateCarForm: React.FC = () => {
-    const [zoomChecked, setZoomChecked] = React.useState<boolean | undefined>()
+    const [zoomAnimationChecked, setZoomAnimationChecked] = React.useState<
+        boolean | undefined
+    >()
 
     const [brandSelect, setBrandSelect] = React.useState<BrandInputType[]>([])
     const [modelSelect, setModelSelect] = React.useState<ModelInputType[]>([])
@@ -29,8 +36,8 @@ export const CreateCarForm: React.FC = () => {
 
     const [brand, setBrand] = React.useState<BrandInputType | null>(null)
     const [model, setModel] = React.useState<ModelInputType | null>(null)
-    const [fuel, setFuel] = React.useState<string>('')
-    const [transmission, setTransmission] = React.useState<string>('')
+    const [fuel, setFuel] = React.useState<number>(-1)
+    const [transmission, setTransmission] = React.useState<number>(-1)
     const [quantityOfSeats, setQuantityOfSeats] = React.useState<string>('')
     const [fuelConsumption, setFuelConsumption] = React.useState<string>('')
     const [price, setPrice] = React.useState<string>('')
@@ -39,16 +46,20 @@ export const CreateCarForm: React.FC = () => {
 
     React.useEffect(() => {
         if (brand && model && fuel && transmission && images.length > 0) {
-            setZoomChecked(true)
+            setZoomAnimationChecked(true)
         } else {
-            setZoomChecked(false)
+            setZoomAnimationChecked(false)
         }
     }, [brand, model, fuel, transmission, images])
+    React.useEffect(() => {
+        getAllCarBrands().then((response) => {
+            setBrandSelect([...response.data])
+        })
+    }, [])
 
     const onImagesChange = (imageList: ImageListType) => {
         setImages(imageList)
     }
-
     const onPriceChange = (e: any) => {
         if (Number(e.target.value) < 0) {
             e.target.value = 0
@@ -70,14 +81,7 @@ export const CreateCarForm: React.FC = () => {
             setFuelConsumption(e.target.value)
         }
     }
-
-    React.useEffect(() => {
-        getAllCarBrands().then((response) => {
-            setBrandSelect([...response.data])
-        })
-    }, [])
-
-    const onChangeBrand = (event: any, newValue: any) => {
+    const onBrandChange = (event: any, newValue: any) => {
         if (typeof newValue === 'string') {
             setBrand({
                 name: newValue,
@@ -90,8 +94,7 @@ export const CreateCarForm: React.FC = () => {
             setBrand(newValue)
         }
     }
-
-    const onChangeModel = (event: any, newValue: any) => {
+    const onModelChange = (event: any, newValue: any) => {
         if (typeof newValue === 'string') {
             setModel({
                 name: newValue,
@@ -106,13 +109,12 @@ export const CreateCarForm: React.FC = () => {
     }
 
     const onSelectFuel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFuel(event.target.value)
+        setFuel(Number(event.target.value))
     }
-
     const onSelectTransmission = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        setTransmission(event.target.value)
+        setTransmission(Number(event.target.value))
     }
 
     const filterOptions = (options: any, params: any) => {
@@ -129,7 +131,6 @@ export const CreateCarForm: React.FC = () => {
         }
         return filtered
     }
-
     const optionLabel = (option: any) => {
         if (typeof option === 'string') {
             return option
@@ -139,17 +140,39 @@ export const CreateCarForm: React.FC = () => {
         }
         return option.name
     }
-
     const renderOptions = (props: any, option: any) => (
         <li {...props}>{option.name}</li>
     )
+
+    const onSubmit = () => {
+        const photos: CarPhoto[] = images.map((image) => ({
+            fileFormat: image.file?.type,
+            content: image.dataURL!,
+        }))
+        const convertedBrand: Brand = {
+            id: '',
+            name: brand!.name,
+        }
+        /* eslint-disable */
+        const car: Car = {
+            model: model!.name,
+            fuel: Number(fuel),
+            fuelConsumption: Number(fuelConsumption),
+            transmission: transmission,
+            quantityOfSeats: Number(quantityOfSeats),
+            pricePerHour: Number(price),
+            Photos: photos,
+            brand: convertedBrand,
+            rentalPointId: 'dsaf',
+        }
+    }
 
     return (
         <Grid container spacing={1} rowSpacing={2}>
             <Grid item xs={6}>
                 <CarAutocompleteComponent
                     value={brand}
-                    onChange={onChangeBrand}
+                    onChange={onBrandChange}
                     filterOptions={filterOptions}
                     optionLabel={optionLabel}
                     renderOptions={renderOptions}
@@ -160,7 +183,7 @@ export const CreateCarForm: React.FC = () => {
             <Grid item xs={6}>
                 <CarAutocompleteComponent
                     value={model}
-                    onChange={onChangeModel}
+                    onChange={onModelChange}
                     filterOptions={filterOptions}
                     optionLabel={optionLabel}
                     renderOptions={renderOptions}
@@ -173,7 +196,7 @@ export const CreateCarForm: React.FC = () => {
                     enumerate={Fuel}
                     label="Fuel Type"
                     onSelect={onSelectFuel}
-                    value={fuel}
+                    value={fuel.toString()}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -181,7 +204,7 @@ export const CreateCarForm: React.FC = () => {
                     enumerate={Transmission}
                     label="Transmission Type"
                     onSelect={onSelectTransmission}
-                    value={transmission}
+                    value={transmission.toString()}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -222,8 +245,10 @@ export const CreateCarForm: React.FC = () => {
                 />
             </Grid>
             <Zoom
-                in={zoomChecked}
-                style={{ transitionDelay: zoomChecked ? '300ms' : '0ms' }}
+                in={zoomAnimationChecked}
+                style={{
+                    transitionDelay: zoomAnimationChecked ? '300ms' : '0ms',
+                }}
             >
                 <Grid container item component="div" rowSpacing={1}>
                     <Grid item xs={12}>

@@ -15,3 +15,4 @@ export const CREATE_RENTAL_POINT_POST_REQUEST_URL = `${API_URL}/rentalpoint`
 export const DELETE_RENTAL_POINT_REQUEST_URL = `${API_URL}/rentalpoint`
 
 export const GET_ALL_CAR_BRANDS_REQUEST_URL = `${API_MANAGEMENT_URL}/cars/brand`
+export const CREATE_CAR_POST_REQUEST_URL = `${API_MANAGEMENT_URL}/cars`

@@ -56,9 +56,11 @@ export const ManagementRentalPointsPage: React.FC = () => {
             lng: response.lng.toString(),
         }
         getAddressByCoordinates(coords).then((fullAddress) => {
-            const splittedAddress = fullAddress.toString().split(',')
+            let splittedAddress = fullAddress.toString().split(',')
             if (splittedAddress.length === 3) {
-                splittedAddress.map((address: any) => address.trim())
+                splittedAddress = splittedAddress.map((address: any) =>
+                    address.trim()
+                )
                 setInput({
                     address: splittedAddress[0],
                     city: splittedAddress[1],

@@ -18,7 +18,7 @@ export const ManagementCarPage: React.FC = () => {
                 sx={{
                     p: 2,
                     paperStyles,
-                    height: 540,
+                    minHeight: 540,
                 }}
                 className={styles.paper}
             >

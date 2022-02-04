@@ -17,7 +17,7 @@ const CarSelectComponent = (props: SelectProps) => {
     )
 
     return (
-        <FormControl>
+        <FormControl fullWidth>
             <InputLabel variant="standard">{label}</InputLabel>
             <NativeSelect onChange={onSelect} value={value}>
                 {array.map((element, index) => (

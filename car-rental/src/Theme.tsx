@@ -30,6 +30,12 @@ export const themeOptions = createTheme({
                     backgroundColor: '#1a1a1a',
                     border: '1px solid #ffffff',
                 },
+                clearIndicator: {
+                    color: 'white',
+                },
+                popupIndicator: {
+                    color: 'white',
+                },
             },
         },
         MuiFormLabel: {
@@ -68,6 +74,16 @@ export const themeOptions = createTheme({
             styleOverrides: {
                 icon: {
                     color: 'white',
+                },
+            },
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+                        {
+                            display: 'none',
+                        },
                 },
             },
         },

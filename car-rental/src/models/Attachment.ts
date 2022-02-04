@@ -1,1 +1,4 @@
-export interface CarPhotos {}
+export interface CarPhotos {
+    fileFormat: string
+    content: string
+}

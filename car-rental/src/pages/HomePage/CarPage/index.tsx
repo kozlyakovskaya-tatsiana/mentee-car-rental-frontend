@@ -29,19 +29,7 @@ const CarPage: React.FC = (filter: any) => {
     const { isUserAuthenticate } = useAuth()
 
     // Here we get filtered car list by props from form on Home page
-    const cars: Array<Car> = [
-        {
-            brand: { name: 'Audi', id: '1' },
-            model: 'A4',
-            fuel: 1,
-            fuelConsumption: 5.3,
-            transmission: 0,
-            quantityOfSeats: 5,
-            pricePerHour: 50,
-            Photos: [],
-            rentalPoint: { location: '1.23245, 3.112341212', id: '1' },
-        },
-    ]
+    const cars: Array<Car> = []
 
     return (
         <div>
@@ -104,7 +92,7 @@ const CarPage: React.FC = (filter: any) => {
                                             variant="body2"
                                             color="text.primary"
                                         >
-                                            {car.rentalPoint.location}
+                                            {car.rentalPointId}
                                         </Typography>
                                     </Grid>
                                 </Grid>

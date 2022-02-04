@@ -5,7 +5,6 @@ import { Brand } from './Brand'
 import { RentalPoint } from './RentalPoint'
 
 export interface Car {
-    brand: Brand
     model: string
     fuel: Fuel
     fuelConsumption: number
@@ -13,5 +12,6 @@ export interface Car {
     quantityOfSeats: number
     pricePerHour: number
     Photos: CarPhotos[]
-    rentalPoint: RentalPoint
+    brand: Brand
+    rentalPointId: string
 }

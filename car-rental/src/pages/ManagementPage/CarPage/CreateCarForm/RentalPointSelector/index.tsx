@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 
 import { Autocomplete, Box, CircularProgress, TextField } from '@mui/material'
 
@@ -6,7 +6,7 @@ import { getRentalPoints } from 'services/rentalPoint.service'
 import { RentalPointType } from 'shared/types/RentalPoint'
 
 interface FieldProps {
-    value: string
+    value: RentalPointType | null
     readonly?: boolean
     fieldLabel: string
     onChange: any
@@ -32,7 +32,6 @@ export const RentalPointSelector: React.FC<FieldProps> = ({
         ;(async () => {
             if (active) {
                 getRentalPoints().then((response) => {
-                    console.log(response.data)
                     setOptions([...response.data])
                 })
             }
@@ -48,6 +47,7 @@ export const RentalPointSelector: React.FC<FieldProps> = ({
             setOptions([])
         }
     }, [open])
+
     return (
         <Autocomplete
             id="asynchronous-demo"
@@ -64,6 +64,7 @@ export const RentalPointSelector: React.FC<FieldProps> = ({
             getOptionLabel={(option) => option.name}
             options={options}
             loading={loading}
+            onChange={onChange}
             fullWidth
             /* eslint-disable react/jsx-fragments */
             renderInput={(params) => (

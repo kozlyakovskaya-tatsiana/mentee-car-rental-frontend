@@ -1,4 +1,4 @@
 export interface CarPhoto {
     fileFormat?: string
-    content: string
+    content?: string
 }

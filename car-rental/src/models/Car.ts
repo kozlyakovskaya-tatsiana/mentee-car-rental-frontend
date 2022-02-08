@@ -12,6 +12,6 @@ export interface Car {
     quantityOfSeats: number
     pricePerHour: number
     Photos: CarPhoto[]
-    brand: Brand
+    brand: string
     rentalPointId: string
 }

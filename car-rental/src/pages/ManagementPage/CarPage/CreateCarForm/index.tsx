@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { ImageListType } from 'react-images-uploading/dist/typings'
 
 import Grid from '@mui/material/Grid'
@@ -8,7 +8,7 @@ import { BrandInputType, ModelInputType } from 'shared/types/CarTypes'
 import Fuel from 'shared/enums/Fuel'
 import Transmission from 'shared/enums/Transmission'
 
-import { getAllCarBrands } from 'services/car.service'
+import { createNewCar, getAllCarBrands } from 'services/car.service'
 
 import { Car } from 'models/Car'
 import { CarPhoto } from 'models/Attachment'
@@ -21,6 +21,7 @@ import CarSelectComponent from './CarSelectComponent'
 import UploaderComponent from './UploaderComponent'
 import RentalPointSelector from './RentalPointSelector'
 import { Brand } from '../../../../models/Brand'
+import { RentalPointType } from '../../../../shared/types/RentalPoint'
 
 const filter = createFilterOptions<BrandInputType>()
 
@@ -36,13 +37,14 @@ export const CreateCarForm: React.FC = () => {
 
     const [brand, setBrand] = React.useState<BrandInputType | null>(null)
     const [model, setModel] = React.useState<ModelInputType | null>(null)
-    const [fuel, setFuel] = React.useState<number>(-1)
-    const [transmission, setTransmission] = React.useState<number>(-1)
+    const [fuel, setFuel] = React.useState<number>(0)
+    const [transmission, setTransmission] = React.useState<number>(0)
     const [quantityOfSeats, setQuantityOfSeats] = React.useState<string>('')
     const [fuelConsumption, setFuelConsumption] = React.useState<string>('')
     const [price, setPrice] = React.useState<string>('')
     const [images, setImages] = React.useState<ImageListType>([])
-    const [rentalPoint, setRentalPoint] = React.useState<string>('')
+    const [rentalPoint, setRentalPoint] =
+        React.useState<RentalPointType | null>(null)
 
     React.useEffect(() => {
         if (brand && model && fuel && transmission && images.length > 0) {
@@ -50,7 +52,7 @@ export const CreateCarForm: React.FC = () => {
         } else {
             setZoomAnimationChecked(false)
         }
-    }, [brand, model, fuel, transmission, images])
+    }, [brand, model, quantityOfSeats, price, images])
     React.useEffect(() => {
         getAllCarBrands().then((response) => {
             setBrandSelect([...response.data])
@@ -147,12 +149,8 @@ export const CreateCarForm: React.FC = () => {
     const onSubmit = () => {
         const photos: CarPhoto[] = images.map((image) => ({
             fileFormat: image.file?.type,
-            content: image.dataURL!,
+            content: image!.data_url.slice(image.file!.type.length + 13),
         }))
-        const convertedBrand: Brand = {
-            id: '',
-            name: brand!.name,
-        }
         /* eslint-disable */
         const car: Car = {
             model: model!.name,
@@ -162,9 +160,11 @@ export const CreateCarForm: React.FC = () => {
             quantityOfSeats: Number(quantityOfSeats),
             pricePerHour: Number(price),
             Photos: photos,
-            brand: convertedBrand,
-            rentalPointId: 'dsaf',
+            brand: brand!.name,
+            rentalPointId: rentalPoint!.id,
         }
+        console.log(car)
+        createNewCar(car).then((res) => console.log(res))
     }
 
     return (
@@ -256,15 +256,19 @@ export const CreateCarForm: React.FC = () => {
                             value={rentalPoint}
                             readonly
                             fieldLabel="Rental point"
-                            onChange={(e: any) =>
-                                setRentalPoint(e.target.value)
-                            }
+                            onChange={(
+                                e: SyntheticEvent,
+                                v: RentalPointType | null
+                            ) => {
+                                console.log(v)
+                                setRentalPoint(v)
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <Button
                             type="submit"
-                            onClick={() => console.log('send to back')}
+                            onClick={onSubmit}
                             fullWidth
                             color="secondary"
                             variant="contained"

@@ -42,19 +42,19 @@ const App = () => {
                                 <PrivateRoute component={ManagementPage} />
                             }
                         >
-                            <Route
-                                path="home"
-                                element={<ManagementHomePage />}
-                            />
+                            {/* <Route */}
+                            {/*    path="home" */}
+                            {/*    element={<ManagementHomePage />} */}
+                            {/* /> */}
                             <Route path="car" element={<ManagementCarPage />} />
-                            <Route
-                                path="user"
-                                element={<ManagementUserPage />}
-                            />
-                            <Route
-                                path="reports"
-                                element={<ManagementReportsPage />}
-                            />
+                            {/* <Route */}
+                            {/*    path="user" */}
+                            {/*    element={<ManagementUserPage />} */}
+                            {/* /> */}
+                            {/* <Route */}
+                            {/*    path="reports" */}
+                            {/*    element={<ManagementReportsPage />} */}
+                            {/* /> */}
                             <Route
                                 path="rp"
                                 element={<ManagementRentalPointsPage />}

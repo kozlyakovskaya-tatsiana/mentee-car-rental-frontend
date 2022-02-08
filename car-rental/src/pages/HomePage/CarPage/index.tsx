@@ -35,10 +35,7 @@ const CarPage: React.FC = (filter: any) => {
         <div>
             <Box component="main" style={papersHandlerStyle}>
                 {cars.map((car: Car) => (
-                    <Paper
-                        sx={lotPaperStyle}
-                        key={`${car.brand.name.toString()} ${car.model}`}
-                    >
+                    <Paper sx={lotPaperStyle} key={`${car.brand} ${car.model}`}>
                         <Grid container spacing={2}>
                             <Grid item>
                                 <ButtonBase sx={lotPictureStyles}>
@@ -62,9 +59,7 @@ const CarPage: React.FC = (filter: any) => {
                                             variant="subtitle1"
                                             style={lotHeaderStyles}
                                         >
-                                            {`${car.brand.name.toString()} ${
-                                                car.model
-                                            }`}
+                                            {`${car.brand} ${car.model}`}
                                         </Typography>
                                         <Typography variant="body2">
                                             Seats: {car.quantityOfSeats}

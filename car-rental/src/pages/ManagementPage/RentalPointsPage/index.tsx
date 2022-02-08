@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import { Alert, Fade } from '@mui/material'
 
 import { getAddressByCoordinates } from 'services/location.service'
@@ -191,7 +191,7 @@ export const ManagementRentalPointsPage: React.FC = () => {
                                                             root: styles.label,
                                                         },
                                                     }}
-                                                    onChange={(e) => {
+                                                    onChange={(e: any) => {
                                                         setInput({
                                                             ...input,
                                                             name: e.target.value.toString(),

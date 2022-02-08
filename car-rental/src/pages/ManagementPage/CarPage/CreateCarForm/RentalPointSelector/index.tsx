@@ -1,6 +1,6 @@
-import React, { SyntheticEvent } from 'react'
+import React from 'react'
 
-import { Autocomplete, Box, CircularProgress, TextField } from '@mui/material'
+import { Autocomplete, CircularProgress, TextField } from '@mui/material'
 
 import { getRentalPoints } from 'services/rentalPoint.service'
 import { RentalPointType } from 'shared/types/RentalPoint'
@@ -12,7 +12,6 @@ interface FieldProps {
     onChange: any
 }
 
-const topFilms: any[] = []
 export const RentalPointSelector: React.FC<FieldProps> = ({
     value,
     readonly,

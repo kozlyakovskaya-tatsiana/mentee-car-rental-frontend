@@ -1,9 +1,7 @@
 import * as React from 'react'
 
 import Box from '@mui/material/Box'
-import Switch from '@mui/material/Switch'
 import Slide from '@mui/material/Slide'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'

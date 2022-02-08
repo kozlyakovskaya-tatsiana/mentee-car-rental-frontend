@@ -1,9 +1,6 @@
-import React, { ChangeEvent, ChangeEventHandler, Props, ReactNode } from 'react'
-import Box from '@material-ui/core/Box'
-import TextField from '@material-ui/core/TextField'
-import { Autocomplete } from '@mui/material'
-
-import { City, Country } from 'shared/types/Locations'
+import React from 'react'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
 
 import { useStyles } from './styles'
 

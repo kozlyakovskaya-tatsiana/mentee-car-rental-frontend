@@ -1,9 +1,9 @@
 import React from 'react'
+
 import ImageUploading, { ImageType } from 'react-images-uploading'
+import { ImageListType } from 'react-images-uploading/dist/typings'
 
 import { Box, Button, Grid } from '@mui/material'
-
-import { ImageListType } from 'react-images-uploading/dist/typings'
 
 interface UploaderProps {
     images: ImageType[]

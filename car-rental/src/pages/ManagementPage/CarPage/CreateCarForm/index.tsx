@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid'
 import { BrandInputType, ModelInputType } from 'shared/types/CarTypes'
 import Fuel from 'shared/enums/Fuel'
 import Transmission from 'shared/enums/Transmission'
+import { RentalPointType } from 'shared/types/RentalPoint'
 
 import { createNewCar, getAllCarBrands } from 'services/car.service'
 
@@ -20,8 +21,6 @@ import CarAutocompleteComponent from './CarAurocompleteComponent'
 import CarSelectComponent from './CarSelectComponent'
 import UploaderComponent from './UploaderComponent'
 import RentalPointSelector from './RentalPointSelector'
-import { Brand } from '../../../../models/Brand'
-import { RentalPointType } from '../../../../shared/types/RentalPoint'
 
 const filter = createFilterOptions<BrandInputType>()
 

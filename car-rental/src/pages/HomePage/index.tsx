@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import TextField from '@material-ui/core/TextField'
-import { Autocomplete, Grid, Grow } from '@mui/material'
+import TextField from '@mui/material/TextField'
+import Alert from '@mui/material/Alert'
+import Autocomplete from '@mui/material/Autocomplete'
+import Fade from '@mui/material/Fade'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
 import { City, Country } from 'shared/types/Locations'
@@ -20,26 +22,18 @@ import {
 
 const HomePage: React.FC = () => {
     const styles = useStyles()
+    const [checked, setChecked] = useState<boolean>(false)
 
-    const [countries, setCountries] = useState<Array<Country>>([
-        { id: '', name: '' },
-    ])
-    const [cities, setCities] = useState<Array<City>>([{ id: '', name: '' }])
+    const [countries, setCountries] = useState<Country[]>([])
+    const [cities, setCities] = useState<City[]>([])
 
-    const [countryChecked, setCountryChecked] = React.useState(false)
-    const [cityChecked, setCityChecked] = React.useState(false)
+    const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
+    const [selectedCity, setSelectedCity] = useState<City | null>(null)
+    const [allFieldsSelected, setAllFieldsSelected] = useState<boolean>(false)
 
     const getAllCountries = async () => {
         const countriesResponse = await getCountries()
         setCountries(countriesResponse.data)
-    }
-
-    const handleCountryFieldChange = () => {
-        setCountryChecked((prev) => true)
-    }
-
-    const handleCityFieldChange = () => {
-        setCityChecked((prev) => true)
     }
 
     const getCitiesByCountry = async (countryName: string) => {
@@ -59,13 +53,42 @@ const HomePage: React.FC = () => {
         getAllCountries()
     }, [])
 
-    const formik = useFormik({
-        initialValues: {},
-        onSubmit: (values: any) => {
-            console.log(values)
-        },
-    })
+    useEffect(() => {
+        if (selectedCity && selectedCountry) {
+            setAllFieldsSelected(true)
+        }
+    }, [selectedCountry, selectedCity])
 
+    const onCountrySelected = (event: any, value: any) => {
+        if (value) {
+            const selected = countries.find(
+                (element: Country) => element.name === value
+            )
+            getCitiesByCountry(value)
+            if (selected) {
+                setSelectedCountry(selected)
+            }
+        }
+    }
+    const onCitySelected = (event: any, value: any) => {
+        if (value) {
+            const selected = cities.find(
+                (element: City) => element.name === value
+            )
+            if (selected) {
+                setSelectedCity(selected)
+            }
+        }
+    }
+    const showWarningAlert = () => {
+        console.log('start')
+        setChecked(true)
+        setTimeout(() => setChecked(false), 3000)
+    }
+    const onSubmit = () => {
+        // Here request to back (filtering)
+        console.log('whooho')
+    }
     return (
         <Box component="main" style={PageHandlerStyle}>
             <Box style={papersHandlerStyle}>
@@ -75,19 +98,13 @@ const HomePage: React.FC = () => {
                             <Autocomplete
                                 classes={{
                                     inputRoot: styles.autoComplete,
-                                    paper: styles.paper,
                                 }}
                                 id="country-select"
                                 options={countries.map(
                                     (option: Country) => option.name
                                 )}
                                 forcePopupIcon={false}
-                                onChange={(event, value) => {
-                                    if (value) {
-                                        getCitiesByCountry(value)
-                                        handleCountryFieldChange()
-                                    }
-                                }}
+                                onChange={onCountrySelected}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
@@ -95,65 +112,31 @@ const HomePage: React.FC = () => {
                                         label="Country"
                                         margin="normal"
                                         variant="outlined"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            // readOnly: true,
-                                            classes: {
-                                                root: styles.input,
-                                            },
-                                        }}
-                                        InputLabelProps={{
-                                            classes: {
-                                                root: styles.label,
-                                            },
-                                        }}
                                     />
                                 )}
                             />
                         </Grid>
                         <Grid item xs={6}>
-                            <Grow
-                                in={countryChecked}
-                                style={{ transformOrigin: '0 0 0' }}
-                                {...(countryChecked ? { timeout: 700 } : {})}
-                            >
-                                <Autocomplete
-                                    classes={{
-                                        inputRoot: styles.autoComplete,
-                                        paper: styles.paper,
-                                    }}
-                                    id="city-select"
-                                    options={cities.map(
-                                        (option: City) => option.name
-                                    )}
-                                    forcePopupIcon={false}
-                                    onChange={(event, value) => {
-                                        if (value) {
-                                            handleCityFieldChange()
-                                        }
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={styles.field}
-                                            label="City"
-                                            margin="normal"
-                                            variant="outlined"
-                                            InputProps={{
-                                                ...params.InputProps,
-                                                classes: {
-                                                    root: styles.input,
-                                                },
-                                            }}
-                                            InputLabelProps={{
-                                                classes: {
-                                                    root: styles.label,
-                                                },
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grow>
+                            <Autocomplete
+                                classes={{
+                                    inputRoot: styles.autoComplete,
+                                }}
+                                id="city-select"
+                                options={cities.map(
+                                    (option: City) => option.name
+                                )}
+                                forcePopupIcon={false}
+                                onChange={onCitySelected}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        className={styles.field}
+                                        label="City"
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
+                                )}
+                            />
                         </Grid>
                         <Grid
                             container
@@ -167,93 +150,71 @@ const HomePage: React.FC = () => {
                             }}
                         >
                             <Grid item xs={4}>
-                                <Grow
-                                    in={cityChecked}
-                                    style={{ transformOrigin: '0 0 0' }}
-                                    {...(cityChecked ? { timeout: 700 } : {})}
+                                <Stack
+                                    component="form"
+                                    noValidate
+                                    spacing={1}
+                                    classes={{
+                                        inputRoot: styles.stack,
+                                    }}
                                 >
-                                    <Stack
-                                        component="form"
-                                        noValidate
-                                        spacing={1}
-                                        classes={{
-                                            inputRoot: styles.stack,
-                                        }}
-                                    >
-                                        <TextField
-                                            id="PickUpBookingTime"
-                                            label="Pick-up"
-                                            type="datetime-local"
-                                            classes={{ root: styles.field }}
-                                            defaultValue="1970-01-01T00:01"
-                                            InputProps={{
-                                                classes: {
-                                                    root: styles.input,
-                                                },
-                                            }}
-                                            InputLabelProps={{
-                                                classes: {
-                                                    root: styles.label,
-                                                },
-                                            }}
-                                        />
-                                    </Stack>
-                                </Grow>
+                                    <TextField
+                                        id="PickUpBookingTime"
+                                        label="Pick-up"
+                                        type="datetime-local"
+                                        classes={{ root: styles.field }}
+                                        defaultValue="2021-01-01T00:01"
+                                    />
+                                </Stack>
                             </Grid>
                             <Grid item xs={4}>
-                                <Grow
-                                    in={cityChecked}
-                                    style={{ transformOrigin: '0 0 0' }}
-                                    {...(cityChecked ? { timeout: 700 } : {})}
+                                <Stack
+                                    component="form"
+                                    noValidate
+                                    spacing={1}
+                                    classes={{
+                                        inputRoot: styles.stack,
+                                    }}
                                 >
-                                    <Stack
-                                        component="form"
-                                        noValidate
-                                        spacing={1}
-                                        classes={{
-                                            inputRoot: styles.stack,
-                                        }}
-                                    >
-                                        <TextField
-                                            id="DropOffBookingTime"
-                                            label="Drop-off"
-                                            type="datetime-local"
-                                            classes={{ root: styles.field }}
-                                            defaultValue="1970-01-01T00:01"
-                                            InputProps={{
-                                                classes: {
-                                                    root: styles.input,
-                                                },
-                                            }}
-                                            InputLabelProps={{
-                                                classes: {
-                                                    root: styles.label,
-                                                },
-                                            }}
-                                        />
-                                    </Stack>
-                                </Grow>
+                                    <TextField
+                                        id="DropOffBookingTime"
+                                        label="Drop-off"
+                                        type="datetime-local"
+                                        classes={{ root: styles.field }}
+                                        defaultValue="2021-01-01T00:01"
+                                    />
+                                </Stack>
                             </Grid>
                             <Grid item xs={4}>
-                                <Grow
-                                    in={cityChecked}
-                                    style={{ transformOrigin: '0 0 0' }}
-                                    {...(cityChecked ? { timeout: 700 } : {})}
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{
+                                        mt: 3,
+                                        mb: 2,
+                                    }}
+                                    color={
+                                        allFieldsSelected
+                                            ? 'secondary'
+                                            : 'primary'
+                                    }
+                                    onClick={
+                                        allFieldsSelected
+                                            ? onSubmit
+                                            : showWarningAlert
+                                    }
                                 >
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{
-                                            mt: 3,
-                                            mb: 2,
-                                            bgcolor: 'secondary.main',
-                                        }}
-                                    >
-                                        Search
-                                    </Button>
-                                </Grow>
+                                    Search
+                                </Button>
                             </Grid>
+                            <Fade in={checked}>
+                                <Grid item xs={12}>
+                                    <Alert severity="error">
+                                        Insert all fields!
+                                    </Alert>
+                                </Grid>
+                            </Fade>
                         </Grid>
                     </Grid>
                 </Paper>

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { Axios, AxiosResponse } from 'axios'
 import {
     CREATE_RENTAL_POINT_POST_REQUEST_URL,
     DELETE_RENTAL_POINT_REQUEST_URL,

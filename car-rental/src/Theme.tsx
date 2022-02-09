@@ -16,6 +16,78 @@ export const themeOptions = createTheme({
             main: '#ff2142',
         },
     },
+    components: {
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                },
+            },
+        },
+        MuiAutocomplete: {
+            styleOverrides: {
+                listbox: {
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #ffffff',
+                },
+                clearIndicator: {
+                    color: 'white',
+                },
+                popupIndicator: {
+                    color: 'white',
+                },
+            },
+        },
+        MuiFormLabel: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                    '&.Mui-focused': {
+                        color: '#ff2172',
+                    },
+                },
+            },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    borderColor: 'white',
+                },
+                notchedOutline: {
+                    borderColor: 'white',
+                },
+            },
+        },
+        MuiInput: {
+            styleOverrides: {
+                underline: {
+                    '&&&:before': {
+                        borderBottomColor: 'white',
+                    },
+                    '&&:after': {
+                        borderBottom: '2px solid #ff2172',
+                    },
+                },
+            },
+        },
+        MuiNativeSelect: {
+            styleOverrides: {
+                icon: {
+                    color: 'white',
+                },
+            },
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+                        {
+                            display: 'none',
+                        },
+                },
+            },
+        },
+    },
 })
 
 export default themeOptions

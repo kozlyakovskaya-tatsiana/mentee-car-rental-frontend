@@ -81,7 +81,6 @@ const HomePage: React.FC = () => {
         }
     }
     const showWarningAlert = () => {
-        console.log('start')
         setChecked(true)
         setTimeout(() => setChecked(false), 3000)
     }

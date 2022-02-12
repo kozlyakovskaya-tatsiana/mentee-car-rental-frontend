@@ -38,11 +38,9 @@ export const createRentalPoint = (
         },
     }
     console.log(requestData)
-    return axios
-        .post(`${CREATE_RENTAL_POINT_POST_REQUEST_URL}`, { ...requestData })
-        .then((response) => {
-            console.log('rp response', response)
-        })
+    return axios.post(`${CREATE_RENTAL_POINT_POST_REQUEST_URL}`, {
+        ...requestData,
+    })
 }
 
 export const deleteRentalPoint = (id: string) => {

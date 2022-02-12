@@ -46,7 +46,14 @@ export const CreateCarForm: React.FC = () => {
         React.useState<RentalPointType | null>(null)
 
     React.useEffect(() => {
-        if (brand && model && fuel && transmission && images.length > 0) {
+        if (
+            brand &&
+            model &&
+            quantityOfSeats &&
+            fuelConsumption &&
+            price &&
+            images
+        ) {
             setZoomAnimationChecked(true)
         } else {
             setZoomAnimationChecked(false)
@@ -150,6 +157,15 @@ export const CreateCarForm: React.FC = () => {
             fileFormat: image.file?.type,
             content: image!.data_url.slice(image.file!.type.length + 13),
         }))
+        setBrand(null)
+        setModel(null)
+        setFuel(0)
+        setTransmission(0)
+        setQuantityOfSeats('')
+        setFuelConsumption('')
+        setPrice('')
+        setImages([])
+        setRentalPoint(null)
         /* eslint-disable */
         const car: Car = {
             model: model!.name,
@@ -162,8 +178,7 @@ export const CreateCarForm: React.FC = () => {
             brand: brand!.name,
             rentalPointId: rentalPoint!.id,
         }
-        console.log(car)
-        createNewCar(car).then((res) => console.log(res))
+        createNewCar(car)
     }
 
     return (
@@ -259,7 +274,6 @@ export const CreateCarForm: React.FC = () => {
                                 e: SyntheticEvent,
                                 v: RentalPointType | null
                             ) => {
-                                console.log(v)
                                 setRentalPoint(v)
                             }}
                         />

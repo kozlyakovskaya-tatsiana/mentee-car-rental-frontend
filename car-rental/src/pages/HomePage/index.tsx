@@ -108,7 +108,7 @@ const HomePage: React.FC = () => {
             console.log(filterProps)
             getFilteredCars(filterProps).then((response) => {
                 setCars(response.data.cars)
-                setPagesQuantity(Math.ceil(response.data.quantityOfResults / 3))
+                setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
                 setSubmit(true)
             })
         }

@@ -1,121 +1,112 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
+import {
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Pagination,
+    useTheme,
+} from '@mui/material'
+import Button from '@mui/material/Button'
+import { BallTriangle } from 'react-loader-spinner'
 
 import { Car } from 'models/Car'
 import Transmission from 'shared/enums/Transmission'
 import Fuel from 'shared/enums/Fuel'
 
-import { useAuth } from 'contextes/authContext'
-import { styled } from '@mui/material/styles'
 import {
     bookButtonStyles,
-    customStyledImgStyles,
-    lotHeaderStyles,
+    cardStyle,
+    carLoaderStyle,
+    lotButtonStyles,
     lotPaperStyle,
-    lotPictureStyles,
-    lotPriceStyles,
     papersHandlerStyle,
 } from './styles'
 
-const Img = styled('img')(customStyledImgStyles)
+interface CarPageProps {
+    cars: Car[]
+}
 
-const CarPage: React.FC = (filter: any) => {
-    const { isUserAuthenticate } = useAuth()
-
-    // Here we get filtered car list by props from form on Home page
-    const cars: Array<Car> = []
+const CarPage: React.FC<CarPageProps> = (props: CarPageProps) => {
+    const { cars } = props
+    const theme = useTheme()
 
     return (
         <div>
             <Box component="main" style={papersHandlerStyle}>
-                {cars.map((car: Car) => (
-                    <Paper sx={lotPaperStyle} key={`${car.brand} ${car.model}`}>
-                        <Grid container spacing={2}>
-                            <Grid item>
-                                <ButtonBase sx={lotPictureStyles}>
-                                    <Img
-                                        alt="complex"
-                                        src="https://www.domkrat.by/upload/img_catalog/a4/audi_a4_2020_1.jpg"
+                {cars.length < 1 ? (
+                    <div style={carLoaderStyle}>
+                        <BallTriangle
+                            width="100"
+                            ariaLabel="loading"
+                            color="#ff2172"
+                        />
+                    </div>
+                ) : (
+                    cars.map((car: Car) => (
+                        <Card
+                            style={cardStyle}
+                            elevation={5}
+                            key={car.brand + car.model + car.rentalPointId}
+                        >
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <CardMedia
+                                        component="img"
+                                        alt={`${car.brand.name} ${car.model}`}
+                                        style={{ minHeight: '180px' }}
+                                        image={`data:${car.photos[0].fileFormat};base64,${car.photos[0].content}`}
                                     />
-                                </ButtonBase>
-                            </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid
-                                    item
-                                    xs
-                                    container
-                                    direction="column"
-                                    spacing={2}
-                                >
-                                    <Grid item xs>
-                                        <Typography
-                                            gutterBottom
-                                            variant="subtitle1"
-                                            style={lotHeaderStyles}
-                                        >
-                                            {`${car.brand} ${car.model}`}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            Seats: {car.quantityOfSeats}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.primary"
-                                        >
-                                            Transmission:{' '}
-                                            {Transmission[car.transmission]}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.primary"
-                                        >
-                                            Fuel type: {Fuel[car.fuel]}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.primary"
-                                        >
-                                            Fuel/100km: {car.fuelConsumption}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.primary"
-                                        >
-                                            {car.rentalPointId}
-                                        </Typography>
+                                </Grid>
+                                <Grid container item xs={9}>
+                                    <Grid item xs={10}>
+                                        <CardContent style={lotPaperStyle}>
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                color={
+                                                    theme.palette.secondary.main
+                                                }
+                                            >
+                                                {`${car.brand.name} ${car.model}`}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                Fuel: {Fuel[car.fuel]}
+                                                <br />
+                                                Fuel Consumption (liter/100km):{' '}
+                                                {car.fuelConsumption}
+                                                <br />
+                                                Transmission:{' '}
+                                                {Transmission[car.transmission]}
+                                                <br />
+                                                Quantity of seats:{' '}
+                                                {car.quantityOfSeats}
+                                            </Typography>
+                                        </CardContent>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <CardActions style={lotButtonStyles}>
+                                            <Typography variant="body2">
+                                                {car.pricePerHour} $
+                                            </Typography>
+                                            <Button
+                                                size="small"
+                                                style={bookButtonStyles}
+                                                color="secondary"
+                                            >
+                                                Book
+                                            </Button>
+                                        </CardActions>
                                     </Grid>
                                 </Grid>
-                                <Grid item>
-                                    <Typography
-                                        variant="subtitle1"
-                                        style={lotPriceStyles}
-                                    >
-                                        {car.pricePerHour}$
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Link
-                                        to="/"
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <Typography
-                                            sx={bookButtonStyles}
-                                            variant="body2"
-                                        >
-                                            Book
-                                        </Typography>
-                                    </Link>
-                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Paper>
-                ))}
+                        </Card>
+                    ))
+                )}
             </Box>
         </div>
     )

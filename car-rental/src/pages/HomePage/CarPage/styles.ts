@@ -3,42 +3,36 @@ export const papersHandlerStyle = {
     flexDirection: 'column',
     paddingTop: '15px',
     width: '100%',
+    height: 580,
 } as const
 
-export const customStyledImgStyles = {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
+export const cardStyle = {
+    maxWidth: 1160,
+    display: 'flex',
+    marginBottom: 10,
+    backgroundColor: '#1a1a1a',
 }
 
 export const lotPaperStyle = {
-    p: 2,
-    margin: 'auto',
-    marginTop: '10px',
     backgroundColor: '#1a1a1a',
-    width: '60%',
+    height: '100%',
 }
 
-export const lotPictureStyles = {
-    width: '100%',
-    height: 128,
-}
-
-export const lotHeaderStyles = {
-    color: '#ff2172',
-    marginRight: 'auto',
-} as const
-
-export const lotPriceStyles = {
-    color: 'white',
-    paddingRight: '10px',
+export const lotButtonStyles = {
+    backgroundColor: '#1a1a1a',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    height: '100%',
 } as const
 
 export const bookButtonStyles = {
-    color: 'white',
-    border: '1px black solid',
     borderRadius: '5px',
-    padding: '2px 10px 2px 10px',
-    backgroundColor: '#ff2172',
+    border: '1px solid #ff2172',
 } as const
+
+export const carLoaderStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+}

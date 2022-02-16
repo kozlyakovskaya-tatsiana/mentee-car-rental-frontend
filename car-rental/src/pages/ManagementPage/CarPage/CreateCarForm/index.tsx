@@ -13,6 +13,7 @@ import { createNewCar, getAllCarBrands } from 'services/car.service'
 
 import { Car } from 'models/Car'
 import { CarPhoto } from 'models/Attachment'
+import { Brand } from 'models/Brand'
 
 import { Button, createFilterOptions, TextField } from '@mui/material'
 import Zoom from '@material-ui/core/Zoom'
@@ -52,7 +53,7 @@ export const CreateCarForm: React.FC = () => {
             quantityOfSeats &&
             fuelConsumption &&
             price &&
-            images
+            images.length > 0
         ) {
             setZoomAnimationChecked(true)
         } else {
@@ -157,6 +158,23 @@ export const CreateCarForm: React.FC = () => {
             fileFormat: image.file?.type,
             content: image!.data_url.slice(image.file!.type.length + 13),
         }))
+        /* eslint-disable */
+        const convertedBrand: Brand = {
+            id: brand!.id,
+            name: brand!.name,
+        }
+        const car: Car = {
+            model: model!.name,
+            fuel: Number(fuel),
+            fuelConsumption: Number(fuelConsumption),
+            transmission: transmission,
+            quantityOfSeats: Number(quantityOfSeats),
+            pricePerHour: Number(price),
+            photos: photos,
+            brand: convertedBrand,
+            rentalPointId: rentalPoint!.id,
+        }
+        createNewCar(car).then((res) => console.log(res))
         setBrand(null)
         setModel(null)
         setFuel(0)
@@ -166,19 +184,6 @@ export const CreateCarForm: React.FC = () => {
         setPrice('')
         setImages([])
         setRentalPoint(null)
-        /* eslint-disable */
-        const car: Car = {
-            model: model!.name,
-            fuel: Number(fuel),
-            fuelConsumption: Number(fuelConsumption),
-            transmission: transmission,
-            quantityOfSeats: Number(quantityOfSeats),
-            pricePerHour: Number(price),
-            Photos: photos,
-            brand: brand!.name,
-            rentalPointId: rentalPoint!.id,
-        }
-        createNewCar(car)
     }
 
     return (

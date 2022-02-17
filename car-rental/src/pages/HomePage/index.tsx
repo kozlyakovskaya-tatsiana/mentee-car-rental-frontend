@@ -60,11 +60,8 @@ const HomePage: React.FC = () => {
     )
 
     // Filter options statements
-    // ** State with all available brands (loaded from back by useEffect)
     const [brandSelect, setBrandSelect] = React.useState<BrandInputType[]>([])
-    // ** Selected brand state
     const [brand, setBrand] = React.useState<BrandInputType | null>(null)
-    //
     const [fuel, setFuel] = React.useState<number | undefined>()
     const [transmission, setTransmission] = React.useState<number | undefined>()
     const [quantityOfSeats, setQuantityOfSeats] = React.useState<
@@ -144,6 +141,7 @@ const HomePage: React.FC = () => {
             LessThenPrice: price !== 551 ? price : undefined,
         })
     }, [brand, fuel, transmission, quantityOfSeats, fuelConsumption, price])
+
     // Change handlers
     const onCountrySelected = (event: any, value: any) => {
         if (value) {
@@ -207,6 +205,7 @@ const HomePage: React.FC = () => {
         setPrice(Number(value))
     }
 
+    // Submit button handler
     const onSubmit = () => {
         const params: FilteredOptions = {
             PageNumber: 1,

@@ -1,5 +1,19 @@
 import axios from 'axios'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { LOGIN_REQUEST_URL, REGISTER_REQUEST_URL } from 'consts'
+
+interface CarRentalJwtPayload {
+    id?: string
+    email?: string
+    iss?: string
+    sub?: string
+    aud?: string[] | string
+    exp?: number
+    nbf?: number
+    iat?: number
+    jti?: string
+    roles?: string
+}
 
 // Make request for register new user into system
 export const register = (
@@ -32,6 +46,11 @@ export const login = (email: string, password: string) => {
             if (response.data.accessToken) {
                 localStorage.setItem('accessToken', response.data.accessToken)
                 localStorage.setItem('refreshToken', response.data.refreshToken)
+                const decoded = jwtDecode<CarRentalJwtPayload>(
+                    response.data.accessToken
+                )
+                localStorage.setItem('email', <string>decoded.email)
+                localStorage.setItem('roles', <string>decoded.roles)
             }
 
             return response.data

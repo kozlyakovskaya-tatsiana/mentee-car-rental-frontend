@@ -13,7 +13,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 
-import CarPage from './pages/HomePage/CarPage'
+import CarListComponent from './pages/HomePage/CarListComponent'
 
 import ManagementPage from './pages/ManagementPage'
 import ManagementHomePage from './pages/ManagementPage/HomePage'

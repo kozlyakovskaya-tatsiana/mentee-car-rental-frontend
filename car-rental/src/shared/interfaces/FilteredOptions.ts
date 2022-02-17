@@ -7,8 +7,8 @@ interface FilteredOptions {
     CountryId?: string
     CityId?: string
     BrandId?: string
-    TransmissionType?: Transmission
-    FuelType?: Fuel
+    transmissionType?: Transmission
+    fuelType?: Fuel
     QuantityOfSeats?: number
     PickUpDateTime: string
     DropOffDateTime: string

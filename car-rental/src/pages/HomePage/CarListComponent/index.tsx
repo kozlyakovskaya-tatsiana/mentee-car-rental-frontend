@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable no-nested-ternary */
+import React, { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -8,7 +9,6 @@ import {
     CardActions,
     CardContent,
     CardMedia,
-    Pagination,
     useTheme,
 } from '@mui/material'
 import Button from '@mui/material/Button'
@@ -17,6 +17,7 @@ import { BallTriangle } from 'react-loader-spinner'
 import { Car } from 'models/Car'
 import Transmission from 'shared/enums/Transmission'
 import Fuel from 'shared/enums/Fuel'
+import FilteredOptions from 'shared/interfaces/FilteredOptions'
 
 import {
     bookButtonStyles,
@@ -27,12 +28,15 @@ import {
     papersHandlerStyle,
 } from './styles'
 
-interface CarPageProps {
+interface CarListComponentProps {
     cars: Car[]
+    filterOptions: FilteredOptions
 }
 
-const CarPage: React.FC<CarPageProps> = (props: CarPageProps) => {
-    const { cars } = props
+const CarListComponent: React.FC<CarListComponentProps> = (
+    props: CarListComponentProps
+) => {
+    const { cars, filterOptions } = props
     const theme = useTheme()
 
     return (
@@ -112,4 +116,4 @@ const CarPage: React.FC<CarPageProps> = (props: CarPageProps) => {
     )
 }
 
-export default CarPage
+export default CarListComponent

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -18,7 +18,7 @@ import { getCities, getCountries } from 'services/location.service'
 import { getAllCarBrands, getFilteredCars } from 'services/car.service'
 import FilteredOptions from 'shared/interfaces/FilteredOptions'
 
-import CarPage from './CarPage'
+import CarListComponent from './CarListComponent'
 
 import {
     papersHandlerStyle,
@@ -27,6 +27,7 @@ import {
     PageHandlerStyle,
 } from './styles'
 import { BrandInputType } from '../../shared/types/CarTypes'
+import FilterOptionsComponent from './FilterOptionsComponent'
 
 const HomePage: React.FC = () => {
     const styles = useStyles()
@@ -64,6 +65,15 @@ const HomePage: React.FC = () => {
     // ** Selected brand state
     const [brand, setBrand] = React.useState<BrandInputType | null>(null)
     //
+    const [fuel, setFuel] = React.useState<number | undefined>()
+    const [transmission, setTransmission] = React.useState<number | undefined>()
+    const [quantityOfSeats, setQuantityOfSeats] = React.useState<
+        string | undefined
+    >('')
+    const [fuelConsumption, setFuelConsumption] = React.useState<
+        string | undefined
+    >('')
+    const [price, setPrice] = React.useState<number | undefined>()
 
     // Pagination statement
     const [pagesQuantity, setPagesQuantity] = useState<number>(1)
@@ -104,22 +114,36 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (allFieldsSelected) {
-            // setFilterProps({ ...filterProps, BrandId: brand?.id })
-            console.log(filterProps)
             getFilteredCars(filterProps).then((response) => {
                 setCars(response.data.cars)
                 setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
                 setSubmit(true)
             })
+            console.log(filterProps)
         }
     }, [filterProps])
 
     useEffect(() => {
-        getAllCarBrands().then((response) => {
-            setBrandSelect([...response.data])
+        setFilterProps({
+            ...filterProps,
+            BrandId: brand?.id,
+            fuelType: !Number.isNaN(Number(fuel)) ? Number(fuel) : undefined,
+            transmissionType: !Number.isNaN(Number(transmission))
+                ? Number(transmission)
+                : undefined,
+            QuantityOfSeats:
+                !Number.isNaN(Number(quantityOfSeats)) &&
+                Number(quantityOfSeats) !== 0
+                    ? Number(quantityOfSeats)
+                    : undefined,
+            FuelConsumption:
+                !Number.isNaN(Number(fuelConsumption)) &&
+                Number(fuelConsumption) !== 0
+                    ? Number(fuelConsumption)
+                    : undefined,
+            LessThenPrice: price !== 551 ? price : undefined,
         })
-    }, [])
-
+    }, [brand, fuel, transmission, quantityOfSeats, fuelConsumption, price])
     // Change handlers
     const onCountrySelected = (event: any, value: any) => {
         if (value) {
@@ -151,14 +175,37 @@ const HomePage: React.FC = () => {
         const params: FilteredOptions = { ...filterProps, PageNumber: value }
         getFilteredCars(params).then((response) => {
             setCars(response.data.cars)
-            setPagesQuantity(Math.ceil(response.data.quantityOfResults / 3))
+            setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
         })
     }
-    const renderOptions = (props: any, option: any) => (
-        <li {...props} key={option.name}>
-            {option.name}
-        </li>
-    )
+    const onBrandSelected = (event: SyntheticEvent, value: any) => {
+        setBrand(value)
+    }
+    const onSelectFuel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFuel(Number(event.target.value))
+    }
+    const onSelectTransmission = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        setTransmission(Number(event.target.value))
+    }
+    const onQuantityChange = (e: any) => {
+        if (Number(e.target.value) < 0) {
+            e.target.value = 0
+        } else {
+            setQuantityOfSeats(e.target.value)
+        }
+    }
+    const onFuelConsumptionChange = (e: any) => {
+        if (Number(e.target.value) < 0) {
+            e.target.value = 0
+        } else {
+            setFuelConsumption(e.target.value)
+        }
+    }
+    const onPriceChange = (e: SyntheticEvent, value: number | number[]) => {
+        setPrice(Number(value))
+    }
 
     const onSubmit = () => {
         const params: FilteredOptions = {
@@ -310,32 +357,30 @@ const HomePage: React.FC = () => {
                 <Fade in={submit}>
                     <Grid container spacing={1}>
                         <Grid item xs={3}>
-                            <Paper
-                                style={{
-                                    marginTop: 11,
-                                    height: 580,
-                                    backgroundColor: '#1a1a1a',
-                                }}
-                            >
-                                Filter options
-                                <Autocomplete
-                                    disablePortal
-                                    id="combo-box-demo"
-                                    options={brandSelect}
-                                    sx={{ width: 300 }}
-                                    renderOption={renderOptions}
-                                    getOptionLabel={(option) => option.name}
-                                    renderInput={(params) => (
-                                        <TextField {...params} label="Brand" />
-                                    )}
-                                    onChange={(event, value) => {
-                                        setBrand(value)
-                                    }}
+                            <div>
+                                <FilterOptionsComponent
+                                    brandSelect={brandSelect}
+                                    onBrandSelected={onBrandSelected}
+                                    fuel={fuel}
+                                    onSelectFuel={onSelectFuel}
+                                    onSelectTransmission={onSelectTransmission}
+                                    transmission={transmission}
+                                    onQuantityChange={onQuantityChange}
+                                    quantityOfSeats={quantityOfSeats}
+                                    fuelConsumption={fuelConsumption}
+                                    onFuelConsumptionChange={
+                                        onFuelConsumptionChange
+                                    }
+                                    price={price}
+                                    onPriceChange={onPriceChange}
                                 />
-                            </Paper>
+                            </div>
                         </Grid>
                         <Grid item xs={9}>
-                            <CarPage cars={cars} />
+                            <CarListComponent
+                                cars={cars}
+                                filterOptions={filterProps}
+                            />
                         </Grid>
                         <Grid item xs={3} />
                         <Grid item xs={9}>

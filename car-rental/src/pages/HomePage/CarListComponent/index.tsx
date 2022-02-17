@@ -54,7 +54,7 @@ const CarListComponent: React.FC<CarListComponentProps> = (
                 setUpdated(true)
             }
             setLoading(false)
-        }, 1500)
+        }, 5000)
     }
 
     useEffect(() => {

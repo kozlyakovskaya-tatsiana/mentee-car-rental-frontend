@@ -1,30 +1,37 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../../contextes/authContext'
+import { useAuth } from 'contextes/authContext'
+import AccessDenied from 'components/AccessDenied'
 
 interface SProps {
     component: React.ComponentType
     // path?: string
-    // roles: Array<ROLE>
+    roles?: string[]
 }
 
 export const PrivateRoute: React.FC<SProps> = ({
     component: RouteComponent,
-    // roles,
+    roles,
 }) => {
     const { isUserAuthenticate } = useAuth()
     const isAuthenticated = isUserAuthenticate()
-    // const userHasRequiredRole = user && roles.includes(user.role) ? true : false
-
-    if (isAuthenticated === true) {
+    const userRole = localStorage.getItem('roles')?.toString() || null
+    const userHasRequiredRole = userRole
+        ? isAuthenticated && roles?.includes(userRole)
+        : false
+    if (isAuthenticated && roles && userHasRequiredRole) {
         return <RouteComponent />
     }
 
-    if (isAuthenticated /* && !userHasRequiredRole */) {
-        // return <AccessDenied />
+    if (isAuthenticated && !userHasRequiredRole) {
+        return <AccessDenied />
     }
 
     return <Navigate to="/login" />
+}
+
+PrivateRoute.defaultProps = {
+    roles: undefined,
 }
 
 export default PrivateRoute

@@ -7,6 +7,8 @@ import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './contextes/authContext'
 import { PrivateRoute } from './components/PrivateRoute'
 
+import { ADMIN_ROLE } from './shared/roles/Admin'
+
 import Header from './components/AppBar'
 
 import HomePage from './pages/HomePage'
@@ -38,7 +40,10 @@ const App = () => {
                         <Route
                             path="/management/*"
                             element={
-                                <PrivateRoute component={ManagementPage} />
+                                <PrivateRoute
+                                    component={ManagementPage}
+                                    roles={[ADMIN_ROLE]}
+                                />
                             }
                         >
                             {/* <Route */}

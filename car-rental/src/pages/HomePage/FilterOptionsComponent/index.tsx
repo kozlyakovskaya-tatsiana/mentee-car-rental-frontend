@@ -145,6 +145,7 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                             </Grid>
                         </Grid>
                         <Slider
+                            defaultValue={551}
                             size="small"
                             aria-label="Small"
                             color="secondary"
@@ -152,7 +153,12 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                             max={551}
                             valueLabelDisplay="auto"
                         />
-                        <Slider aria-label="Default" max={551} value={price} />
+                        <Slider
+                            aria-label="Default"
+                            max={551}
+                            value={price}
+                            defaultValue={551}
+                        />
                     </Grid>
                 </Grid>
             </Paper>

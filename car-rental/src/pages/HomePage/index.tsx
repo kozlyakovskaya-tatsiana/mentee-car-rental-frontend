@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
     const [fuelConsumption, setFuelConsumption] = React.useState<
         string | undefined
     >('')
-    const [price, setPrice] = React.useState<number | undefined>()
+    const [price, setPrice] = React.useState<number | undefined>(551)
 
     // Pagination statement
     const [pagesQuantity, setPagesQuantity] = useState<number>(1)
@@ -357,24 +357,22 @@ const HomePage: React.FC = () => {
                 <Fade in={submit}>
                     <Grid container spacing={1}>
                         <Grid item xs={3}>
-                            <div>
-                                <FilterOptionsComponent
-                                    brandSelect={brandSelect}
-                                    onBrandSelected={onBrandSelected}
-                                    fuel={fuel}
-                                    onSelectFuel={onSelectFuel}
-                                    onSelectTransmission={onSelectTransmission}
-                                    transmission={transmission}
-                                    onQuantityChange={onQuantityChange}
-                                    quantityOfSeats={quantityOfSeats}
-                                    fuelConsumption={fuelConsumption}
-                                    onFuelConsumptionChange={
-                                        onFuelConsumptionChange
-                                    }
-                                    price={price}
-                                    onPriceChange={onPriceChange}
-                                />
-                            </div>
+                            <FilterOptionsComponent
+                                brandSelect={brandSelect}
+                                onBrandSelected={onBrandSelected}
+                                fuel={fuel}
+                                onSelectFuel={onSelectFuel}
+                                onSelectTransmission={onSelectTransmission}
+                                transmission={transmission}
+                                onQuantityChange={onQuantityChange}
+                                quantityOfSeats={quantityOfSeats}
+                                fuelConsumption={fuelConsumption}
+                                onFuelConsumptionChange={
+                                    onFuelConsumptionChange
+                                }
+                                price={price}
+                                onPriceChange={onPriceChange}
+                            />
                         </Grid>
                         <Grid item xs={9}>
                             <CarListComponent

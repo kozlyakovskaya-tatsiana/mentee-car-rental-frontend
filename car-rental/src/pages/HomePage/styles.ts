@@ -10,7 +10,7 @@ export const PageHandlerStyle = {
 
 export const papersHandlerStyle = {
     paddingTop: '15px',
-    width: '800px',
+    width: '1400px',
 } as const
 
 export const lotPaperStyle = {

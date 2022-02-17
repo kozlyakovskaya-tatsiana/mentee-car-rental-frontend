@@ -13,7 +13,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 
-import CarPage from './pages/HomePage/CarPage'
+import CarListComponent from './pages/HomePage/CarListComponent'
 
 import ManagementPage from './pages/ManagementPage'
 import ManagementHomePage from './pages/ManagementPage/HomePage'
@@ -33,7 +33,6 @@ const App = () => {
                     <Header />
                     <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/cars" element={<CarPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route

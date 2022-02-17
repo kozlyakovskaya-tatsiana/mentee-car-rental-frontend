@@ -13,6 +13,7 @@ import { createNewCar, getAllCarBrands } from 'services/car.service'
 
 import { Car } from 'models/Car'
 import { CarPhoto } from 'models/Attachment'
+import { Brand } from 'models/Brand'
 
 import { Button, createFilterOptions, TextField } from '@mui/material'
 import Zoom from '@material-ui/core/Zoom'
@@ -46,7 +47,14 @@ export const CreateCarForm: React.FC = () => {
         React.useState<RentalPointType | null>(null)
 
     React.useEffect(() => {
-        if (brand && model && fuel && transmission && images.length > 0) {
+        if (
+            brand &&
+            model &&
+            quantityOfSeats &&
+            fuelConsumption &&
+            price &&
+            images.length > 0
+        ) {
             setZoomAnimationChecked(true)
         } else {
             setZoomAnimationChecked(false)
@@ -151,6 +159,10 @@ export const CreateCarForm: React.FC = () => {
             content: image!.data_url.slice(image.file!.type.length + 13),
         }))
         /* eslint-disable */
+        const convertedBrand: Brand = {
+            id: brand!.id,
+            name: brand!.name,
+        }
         const car: Car = {
             model: model!.name,
             fuel: Number(fuel),
@@ -158,12 +170,20 @@ export const CreateCarForm: React.FC = () => {
             transmission: transmission,
             quantityOfSeats: Number(quantityOfSeats),
             pricePerHour: Number(price),
-            Photos: photos,
-            brand: brand!.name,
+            photos: photos,
+            brand: convertedBrand,
             rentalPointId: rentalPoint!.id,
         }
-        console.log(car)
         createNewCar(car).then((res) => console.log(res))
+        setBrand(null)
+        setModel(null)
+        setFuel(0)
+        setTransmission(0)
+        setQuantityOfSeats('')
+        setFuelConsumption('')
+        setPrice('')
+        setImages([])
+        setRentalPoint(null)
     }
 
     return (
@@ -259,7 +279,6 @@ export const CreateCarForm: React.FC = () => {
                                 e: SyntheticEvent,
                                 v: RentalPointType | null
                             ) => {
-                                console.log(v)
                                 setRentalPoint(v)
                             }}
                         />

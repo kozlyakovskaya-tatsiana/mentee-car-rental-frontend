@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react'
 
 import {
@@ -23,13 +24,15 @@ import {
 } from '../styles'
 
 interface CarListProps {
-    handleClickOpen: () => void
+    handleClickOpen: (carId: string) => void
     cars: Car[]
+    isUserAuthenticate: () => boolean
 }
 
 export const CarList: React.FC<CarListProps> = (props) => {
     const theme = useTheme()
-    const { cars, handleClickOpen } = props
+    const { cars, handleClickOpen, isUserAuthenticate } = props
+    const isAuth = isUserAuthenticate()
     return (
         <div>
             {cars.map((car: Car) => (
@@ -75,14 +78,19 @@ export const CarList: React.FC<CarListProps> = (props) => {
                                     <Typography variant="body2">
                                         {car.pricePerHour} $
                                     </Typography>
-                                    <Button
-                                        size="small"
-                                        style={bookButtonStyles}
-                                        color="secondary"
-                                        onClick={handleClickOpen}
-                                    >
-                                        Book
-                                    </Button>
+                                    {isAuth && (
+                                        <Button
+                                            size="small"
+                                            style={bookButtonStyles}
+                                            color="secondary"
+                                            variant="outlined"
+                                            onClick={() => {
+                                                handleClickOpen(car.id!)
+                                            }}
+                                        >
+                                            Book
+                                        </Button>
+                                    )}
                                 </CardActions>
                             </Grid>
                         </Grid>

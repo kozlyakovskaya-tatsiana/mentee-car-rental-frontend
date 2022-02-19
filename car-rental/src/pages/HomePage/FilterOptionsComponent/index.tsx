@@ -15,6 +15,7 @@ import CarSelectComponent from './CarSelectComponent'
 import { papersHandlerStyle } from '../CarListComponent/styles'
 
 interface FilterOptionsProps {
+    brand: BrandInputType | null
     brandSelect: BrandInputType[]
     onBrandSelected: (event: SyntheticEvent, value: any) => void
     onSelectFuel: (event: React.ChangeEvent<HTMLSelectElement>) => void
@@ -39,6 +40,7 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
     )
 
     const {
+        brand,
         brandSelect,
         onBrandSelected,
         onSelectFuel,
@@ -57,7 +59,7 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
         <Box component="main" style={papersHandlerStyle}>
             <Paper
                 style={{
-                    height: 570,
+                    height: 580,
                     backgroundColor: '#1a1a1a',
                     padding: 10,
                 }}
@@ -74,6 +76,7 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                                 <TextField {...params} label="Brand" />
                             )}
                             onChange={onBrandSelected}
+                            value={brand}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -138,26 +141,26 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                                 >
                                     {price === undefined
                                         ? '0'
-                                        : price === 551
+                                        : price === 1501
                                         ? '∞'
                                         : price}
                                 </Typography>
                             </Grid>
                         </Grid>
                         <Slider
-                            defaultValue={551}
+                            defaultValue={1501}
                             size="small"
                             aria-label="Small"
                             color="secondary"
                             onChangeCommitted={onPriceChange}
-                            max={551}
+                            max={1501}
                             valueLabelDisplay="auto"
                         />
                         <Slider
                             aria-label="Default"
-                            max={551}
+                            max={1501}
                             value={price}
-                            defaultValue={551}
+                            defaultValue={1501}
                         />
                     </Grid>
                 </Grid>

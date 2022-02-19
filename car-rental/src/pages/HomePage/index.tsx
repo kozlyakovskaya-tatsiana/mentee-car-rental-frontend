@@ -16,7 +16,7 @@ import { City, Country } from 'shared/types/Locations'
 import { Car } from 'models/Car'
 import { getCities, getCountries } from 'services/location.service'
 import { getAllCarBrands, getFilteredCars } from 'services/car.service'
-import FilteredOptions from 'shared/interfaces/FilteredOptions'
+import FilterOptions from 'shared/interfaces/FilterOptions'
 
 import CarListComponent from './CarListComponent'
 
@@ -55,8 +55,8 @@ const HomePage: React.FC = () => {
     const [allFieldsSelected, setAllFieldsSelected] = useState<boolean>(false)
 
     // Filter statement
-    const [filterProps, setFilterProps] = useState<FilteredOptions>(
-        {} as FilteredOptions
+    const [filterProps, setFilterProps] = useState<FilterOptions>(
+        {} as FilterOptions
     )
 
     // Filter options statements
@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
     const [fuelConsumption, setFuelConsumption] = React.useState<
         string | undefined
     >('')
-    const [price, setPrice] = React.useState<number | undefined>(551)
+    const [price, setPrice] = React.useState<number | undefined>(1501)
 
     // Pagination statement
     const [pagesQuantity, setPagesQuantity] = useState<number>(1)
@@ -104,9 +104,8 @@ const HomePage: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        if (selectedCountry && selectedCity) {
-            setAllFieldsSelected(true)
-        }
+        if (selectedCountry && selectedCity) setAllFieldsSelected(true)
+        else setAllFieldsSelected(false)
     }, [selectedCountry, selectedCity])
 
     useEffect(() => {
@@ -138,7 +137,7 @@ const HomePage: React.FC = () => {
                 Number(fuelConsumption) !== 0
                     ? Number(fuelConsumption)
                     : undefined,
-            LessThenPrice: price !== 551 ? price : undefined,
+            LessThenPrice: price !== 1501 ? price : undefined,
         })
     }, [brand, fuel, transmission, quantityOfSeats, fuelConsumption, price])
 
@@ -159,18 +158,17 @@ const HomePage: React.FC = () => {
             const selected = cities.find(
                 (element: City) => element.name === value
             )
-            if (selected) {
-                setSelectedCity(selected)
-            }
+            if (selected) setSelectedCity(selected)
         }
     }
     const showWarningAlert = () => {
         setChecked(true)
         setTimeout(() => setChecked(false), 3000)
     }
+
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
         setCars([])
-        const params: FilteredOptions = { ...filterProps, PageNumber: value }
+        const params: FilterOptions = { ...filterProps, PageNumber: value }
         getFilteredCars(params).then((response) => {
             setCars(response.data.cars)
             setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
@@ -207,7 +205,13 @@ const HomePage: React.FC = () => {
 
     // Submit button handler
     const onSubmit = () => {
-        const params: FilteredOptions = {
+        setBrand(null)
+        setFuel(undefined)
+        setTransmission(undefined)
+        setQuantityOfSeats('')
+        setFuelConsumption('')
+        setPrice(1501)
+        const params: FilterOptions = {
             PageNumber: 1,
             PageSize: 3,
             CountryId: selectedCountry!.id,
@@ -355,39 +359,45 @@ const HomePage: React.FC = () => {
                 </Paper>
                 <Fade in={submit}>
                     <Grid container spacing={1}>
-                        <Grid item xs={3}>
-                            <FilterOptionsComponent
-                                brandSelect={brandSelect}
-                                onBrandSelected={onBrandSelected}
-                                fuel={fuel}
-                                onSelectFuel={onSelectFuel}
-                                onSelectTransmission={onSelectTransmission}
-                                transmission={transmission}
-                                onQuantityChange={onQuantityChange}
-                                quantityOfSeats={quantityOfSeats}
-                                fuelConsumption={fuelConsumption}
-                                onFuelConsumptionChange={
-                                    onFuelConsumptionChange
-                                }
-                                price={price}
-                                onPriceChange={onPriceChange}
-                            />
+                        <Grid item container spacing={1}>
+                            <Grid item xs={3}>
+                                <FilterOptionsComponent
+                                    brand={brand}
+                                    brandSelect={brandSelect}
+                                    onBrandSelected={onBrandSelected}
+                                    fuel={fuel}
+                                    onSelectFuel={onSelectFuel}
+                                    onSelectTransmission={onSelectTransmission}
+                                    transmission={transmission}
+                                    onQuantityChange={onQuantityChange}
+                                    quantityOfSeats={quantityOfSeats}
+                                    fuelConsumption={fuelConsumption}
+                                    onFuelConsumptionChange={
+                                        onFuelConsumptionChange
+                                    }
+                                    price={price}
+                                    onPriceChange={onPriceChange}
+                                />
+                            </Grid>
+                            <Grid item xs={9}>
+                                <CarListComponent
+                                    cars={cars}
+                                    filterOptions={filterProps}
+                                    updateCars={onSubmit}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={9}>
-                            <CarListComponent
-                                cars={cars}
-                                filterOptions={filterProps}
-                            />
-                        </Grid>
-                        <Grid item xs={3} />
-                        <Grid item xs={9}>
-                            <Pagination
-                                count={pagesQuantity}
-                                variant="outlined"
-                                shape="rounded"
-                                color="secondary"
-                                onChange={handlePageChange}
-                            />
+                        <Grid item container spacing={1}>
+                            <Grid item xs={3} />
+                            <Grid item xs={9}>
+                                <Pagination
+                                    count={pagesQuantity}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    color="secondary"
+                                    onChange={handlePageChange}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Fade>

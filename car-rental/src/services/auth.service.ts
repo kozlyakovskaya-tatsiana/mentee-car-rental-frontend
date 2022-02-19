@@ -13,6 +13,8 @@ interface CarRentalJwtPayload {
     iat?: number
     jti?: string
     roles?: string
+    name?: string
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'?: string
 }
 
 // Make request for register new user into system
@@ -49,6 +51,10 @@ export const login = (email: string, password: string) => {
                 const decoded = jwtDecode<CarRentalJwtPayload>(
                     response.data.accessToken
                 )
+                console.log(decoded)
+                const name = decoded.name?.split(' ')
+                localStorage.setItem('firstName', name![0])
+                localStorage.setItem('lastName', name![1])
                 localStorage.setItem('email', <string>decoded.email)
                 localStorage.setItem('roles', <string>decoded.roles)
             }

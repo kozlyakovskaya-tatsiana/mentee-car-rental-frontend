@@ -18,3 +18,7 @@ export const GET_ALL_CAR_BRANDS_REQUEST_URL = `${API_MANAGEMENT_URL}/cars/brand`
 export const CREATE_CAR_POST_REQUEST_URL = `${API_MANAGEMENT_URL}/cars`
 
 export const GET_FILTERED_CARS_REQUEST_URL = `${API_URL}/CarView`
+
+export const LOCK_CAR_REQUEST = `${API_URL}/Booking/lock`
+export const UNLOCK_CAR_REQUEST = `${API_URL}/Booking/unlock`
+export const BOOK_CAR_REQUEST = `${API_URL}/Booking/book`

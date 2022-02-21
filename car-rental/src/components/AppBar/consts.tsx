@@ -1,4 +1,4 @@
 import React from 'react'
 
-export const pages = ['Rights']
-export const settings = ['Profile', 'Account']
+export const pages: string[] = []
+export const settings: string[] = []

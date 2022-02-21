@@ -8,8 +8,11 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 import { pages } from '../consts'
+import { useAuth } from '../../../contextes/authContext'
 
 const PinnedPages = () => {
+    const { checkRole } = useAuth()
+    const role = checkRole()
     return (
         <>
             <Box
@@ -45,6 +48,24 @@ const PinnedPages = () => {
                     display: { xs: 'none', md: 'flex' },
                 }}
             >
+                {role === 'superadmin' ? (
+                    <Link
+                        to="management"
+                        key="management"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <Button
+                            key="management"
+                            sx={{
+                                my: 2,
+                                color: 'white',
+                                display: 'block',
+                            }}
+                        >
+                            Management
+                        </Button>
+                    </Link>
+                ) : null}
                 {pages.map((page) => (
                     <Link
                         to={page.toLowerCase()}
@@ -63,6 +84,7 @@ const PinnedPages = () => {
                         </Button>
                     </Link>
                 ))}
+                {}
             </Box>
         </>
     )

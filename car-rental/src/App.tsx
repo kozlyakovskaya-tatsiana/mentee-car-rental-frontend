@@ -1,8 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import ManagementUserPage from 'pages/ManagementPage/UserPage'
-
 import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './contextes/authContext'
 import { PrivateRoute } from './components/PrivateRoute'

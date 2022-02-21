@@ -11,6 +11,7 @@ export const GET_ALL_COUNTRIES_REQUEST_URL = `${API_URL}/country`
 export const GET_ALL_CITIES_REQUEST_URL = `${API_URL}/city`
 
 export const GET_ALL_RENTAL_POINTS_REQUEST_URL = `${API_URL}/rentalpoint`
+export const GET_RENTAL_POINTS_BY_CITY_REQUEST_URL = `${API_URL}/rentalpoint/city`
 export const CREATE_RENTAL_POINT_POST_REQUEST_URL = `${API_URL}/rentalpoint`
 export const DELETE_RENTAL_POINT_REQUEST_URL = `${API_URL}/rentalpoint`
 

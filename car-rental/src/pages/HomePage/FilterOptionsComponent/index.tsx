@@ -13,6 +13,7 @@ import { BrandInputType } from 'shared/types/CarTypes'
 
 import CarSelectComponent from './CarSelectComponent'
 import { papersHandlerStyle } from '../CarListComponent/styles'
+import { RentalPointType } from '../../../shared/types/RentalPoint'
 
 interface FilterOptionsProps {
     brand: BrandInputType | null
@@ -28,12 +29,21 @@ interface FilterOptionsProps {
     onFuelConsumptionChange: (e: any) => void
     price: number | undefined
     onPriceChange: (e: any, value: number | number[]) => void
+    rentalPoint: RentalPointType | null
+    rentalPoints: RentalPointType[]
+    onRentalPointSelected: (event: SyntheticEvent, value: any) => void
 }
 
 const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
-    const renderOptions = (renderProps: any, option: any) => (
+    const brandRenderOptions = (renderProps: any, option: any) => (
         <li {...renderProps} key={option.name}>
             {option.name}
+        </li>
+    )
+
+    const rentalPointRenderOptions = (renderProps: any, option: any) => (
+        <li {...renderProps} key={option.name}>
+            {option.location.address}
         </li>
     )
 
@@ -51,6 +61,9 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
         onFuelConsumptionChange,
         price,
         onPriceChange,
+        rentalPoint,
+        rentalPoints,
+        onRentalPointSelected,
     } = props
 
     return (
@@ -68,7 +81,7 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                             disablePortal
                             id="brand-autocomplete-box"
                             options={brandSelect}
-                            renderOption={renderOptions}
+                            renderOption={brandRenderOptions}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
                                 <TextField {...params} label="Brand" />
@@ -120,6 +133,20 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                             fullWidth
                             onChange={onFuelConsumptionChange}
                             value={fuelConsumption}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Autocomplete
+                            disablePortal
+                            id="rental-point-autocomplete-box"
+                            options={rentalPoints}
+                            renderOption={rentalPointRenderOptions}
+                            getOptionLabel={(option) => option.location.address}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Rental Point" />
+                            )}
+                            onChange={onRentalPointSelected}
+                            value={rentalPoint}
                         />
                     </Grid>
                     <Grid item xs={12}>

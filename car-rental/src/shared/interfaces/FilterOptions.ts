@@ -14,6 +14,7 @@ interface FilterOptions {
     DropOffDateTime: string
     LessThenPrice?: number
     FuelConsumption?: number
+    rentalPointId?: string
 }
 
 export default FilterOptions

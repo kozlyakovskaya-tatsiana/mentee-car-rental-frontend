@@ -31,8 +31,6 @@ interface FilterOptionsProps {
 }
 
 const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
-    const theme = useTheme()
-
     const renderOptions = (renderProps: any, option: any) => (
         <li {...renderProps} key={option.name}>
             {option.name}

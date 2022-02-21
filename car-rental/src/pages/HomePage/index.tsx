@@ -76,13 +76,11 @@ const HomePage: React.FC = () => {
     const [pagesQuantity, setPagesQuantity] = useState<number>(1)
 
     // Main form loader methods
-    const getAllCountries = async () => {
-        const countriesResponse = await getCountries()
-        setCountries(countriesResponse.data)
+    const getAllCountries = () => {
+        getCountries().then((response) => setCountries(response.data))
     }
-    const getAllBrands = async () => {
-        const brandsResponse = await getAllCarBrands()
-        setBrandSelect([...brandsResponse.data])
+    const getAllBrands = () => {
+        getAllCarBrands().then((response) => setBrandSelect([...response.data]))
     }
     const getCitiesByCountry = async (countryName: string) => {
         const country = countries.find((element, index, array) => {
@@ -115,7 +113,6 @@ const HomePage: React.FC = () => {
                 setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
                 setSubmit(true)
             })
-            console.log(filterProps)
         }
     }, [filterProps])
 

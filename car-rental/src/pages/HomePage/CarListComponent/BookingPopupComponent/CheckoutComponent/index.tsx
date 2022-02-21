@@ -1,4 +1,6 @@
 import React from 'react'
+import moment from 'moment'
+
 import {
     Button,
     Dialog,
@@ -25,19 +27,23 @@ const CheckoutComponent: React.FC<CheckoutProps> = (props) => {
                     flexDirection: 'column',
                 }}
             >
-                <Typography color="secondary">Pick-up time: </Typography>
-                {`${checkout.startTimeOfBooking} `}
+                <Typography color="secondary">Pick up time: </Typography>
+                {`${moment(checkout.startTimeOfBooking).format(
+                    'DD MMMM YYYY HH:mm'
+                )} `}
                 <br />
-                <Typography color="secondary">Drop-off time: </Typography>
-                {`${checkout.endTimeOfBooking}`}
+                <Typography color="secondary">Drop off time: </Typography>
+                {`${moment(checkout.endTimeOfBooking).format(
+                    'DD MMMM YYYY HH:mm'
+                )}`}
                 <br />
                 <Typography color="secondary">Total price: </Typography>
                 {`${checkout.totalPrice}`}
                 <br />
                 <Typography color="secondary">
-                    Your car uniq number:{' '}
+                    Your booking uniq number:{' '}
                 </Typography>
-                {`${checkout.carId}`}
+                {`${checkout.id}`}
             </DialogContent>
             <DialogActions>
                 <Button

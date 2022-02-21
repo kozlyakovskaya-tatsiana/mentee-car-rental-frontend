@@ -26,6 +26,7 @@ interface HeadFilteringProps {
     showWarningAlert: () => void
     checked: boolean
     onSubmit: () => void
+    dataTimeApproved: boolean
 }
 
 const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
@@ -42,6 +43,7 @@ const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
         showWarningAlert,
         checked,
         onSubmit,
+        dataTimeApproved,
     } = props
     const styles = useStyles()
     return (
@@ -114,7 +116,7 @@ const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
                                 label="Pick-up"
                                 type="datetime-local"
                                 classes={{ root: styles.field }}
-                                defaultValue={pickUp}
+                                value={pickUp}
                                 onChange={updatePickUp}
                             />
                         </Stack>
@@ -133,7 +135,7 @@ const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
                                 label="Drop-off"
                                 type="datetime-local"
                                 classes={{ root: styles.field }}
-                                defaultValue={dropOff}
+                                value={dropOff}
                                 onChange={updateDropOff}
                             />
                         </Stack>
@@ -143,10 +145,7 @@ const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{
-                                mt: 3,
-                                mb: 2,
-                            }}
+                            sx={{ mt: 3, mb: 2 }}
                             color={allFieldsSelected ? 'secondary' : 'primary'}
                             onClick={
                                 allFieldsSelected ? onSubmit : showWarningAlert
@@ -157,7 +156,15 @@ const HeadFilteringComponent: React.FC<HeadFilteringProps> = (props) => {
                     </Grid>
                     <Fade in={checked}>
                         <Grid item xs={12}>
-                            <Alert severity="error">Insert all fields!</Alert>
+                            {dataTimeApproved ? (
+                                <Alert severity="error">
+                                    Insert all fields!
+                                </Alert>
+                            ) : (
+                                <Alert severity="error">
+                                    Wrong data selected!
+                                </Alert>
+                            )}
                         </Grid>
                     </Fade>
                 </Grid>

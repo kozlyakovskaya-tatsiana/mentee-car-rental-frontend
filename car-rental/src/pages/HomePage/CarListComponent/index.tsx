@@ -54,7 +54,7 @@ const CarListComponent: React.FC<CarListComponentProps> = (
         setOpen(false)
         setChosenCar(undefined)
     }
-    const handleSubmitted = async () => {
+    const handleSubmitted = () => {
         setSubmitted(true)
     }
     const handleApproved = () => {
@@ -71,9 +71,9 @@ const CarListComponent: React.FC<CarListComponentProps> = (
     const loader = async () => {
         await setLoading(true)
         await setUpdated(false)
+        if (cars.length < 1) setUpdated(false)
+        else setUpdated(true)
         await setTimeout(() => {
-            if (cars.length < 1) setUpdated(false)
-            else setUpdated(true)
             setLoading(false)
         }, 1500)
     }
@@ -81,7 +81,7 @@ const CarListComponent: React.FC<CarListComponentProps> = (
     useEffect(() => {
         if (!isFirstLoad) loader()
         else setIsFirstLoad(false)
-    }, [cars])
+    }, [filterOptions, cars])
 
     if (updated)
         return (

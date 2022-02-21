@@ -1,4 +1,5 @@
 export interface BookingReport {
+    id: string
     startTimeOfBooking: string
     endTimeOfBooking: string
     totalPrice: string

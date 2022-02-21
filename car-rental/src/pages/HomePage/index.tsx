@@ -1,4 +1,5 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
+import moment from 'moment'
 
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -17,16 +18,13 @@ import { papersHandlerStyle, useStyles, PageHandlerStyle } from './styles'
 import { BrandInputType } from '../../shared/types/CarTypes'
 import FilterOptionsComponent from './FilterOptionsComponent'
 import HeadFilteringComponent from './HeadFilteringComponent'
-import { RentalPoint } from '../../models/RentalPoint'
-import {
-    getRentalPoints,
-    getRentalPointsByCity,
-} from '../../services/rentalPoint.service'
+
+import { getRentalPointsByCity } from '../../services/rentalPoint.service'
 import { RentalPointType } from '../../shared/types/RentalPoint'
 
 const HomePage: React.FC = () => {
     const styles = useStyles()
-
+    const now = moment(new Date().toISOString().slice(0, 16))
     // Activate button statement
     const [checked, setChecked] = useState<boolean>(false)
 
@@ -41,6 +39,7 @@ const HomePage: React.FC = () => {
     // Head filter selectors
     const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
     const [selectedCity, setSelectedCity] = useState<City | null>(null)
+    const [dataTimeApproved, setDataTimeApproved] = useState<boolean>(false)
     const [pickUp, setPickUp] = useState<string>(
         new Date().toISOString().slice(0, 16)
     )
@@ -94,6 +93,10 @@ const HomePage: React.FC = () => {
             })
         }
     }
+    const showWarningAlert = () => {
+        setChecked(true)
+        setTimeout(() => setChecked(false), 3000)
+    }
 
     // Use effects
     useEffect(() => {
@@ -102,9 +105,16 @@ const HomePage: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        if (selectedCountry && selectedCity) setAllFieldsSelected(true)
+        if (moment(dropOff).diff(moment(pickUp)) < 60000 * 10) {
+            setDataTimeApproved(false)
+        } else setDataTimeApproved(true)
+    }, [pickUp, dropOff])
+
+    useEffect(() => {
+        if (selectedCountry && selectedCity && dataTimeApproved)
+            setAllFieldsSelected(true)
         else setAllFieldsSelected(false)
-    }, [selectedCountry, selectedCity])
+    }, [selectedCountry, selectedCity, dataTimeApproved])
 
     useEffect(() => {
         if (selectedCity)
@@ -172,11 +182,23 @@ const HomePage: React.FC = () => {
             if (selected) setSelectedCity(selected)
         }
     }
-    const showWarningAlert = () => {
-        setChecked(true)
-        setTimeout(() => setChecked(false), 3000)
+    const onPickUpChanged = (e: any) => {
+        const pickUpDate = moment(e.target.value)
+        if (now > pickUpDate) {
+            showWarningAlert()
+        } else {
+            setPickUp(e.target.value)
+        }
     }
-
+    const onDropOffChanged = (e: any) => {
+        const dropOffDate = moment(e.target.value)
+        const pickUpD = moment(pickUp)
+        if (now > dropOffDate || pickUpD > dropOffDate) {
+            showWarningAlert()
+        } else {
+            setDropOff(e.target.value)
+        }
+    }
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
         setCars([])
         const params: FilterOptions = { ...filterProps, PageNumber: value }
@@ -245,13 +267,14 @@ const HomePage: React.FC = () => {
                     cities={cities}
                     onCitySelected={onCitySelected}
                     pickUp={pickUp}
-                    updatePickUp={(e) => setPickUp(e.target.value)}
+                    updatePickUp={onPickUpChanged}
                     dropOff={dropOff}
-                    updateDropOff={(e) => setDropOff(e.target.value)}
+                    updateDropOff={onDropOffChanged}
                     allFieldsSelected={allFieldsSelected}
                     showWarningAlert={showWarningAlert}
                     checked={checked}
                     onSubmit={onSubmit}
+                    dataTimeApproved={dataTimeApproved}
                 />
                 <Fade in={submit}>
                     <Grid container spacing={1}>

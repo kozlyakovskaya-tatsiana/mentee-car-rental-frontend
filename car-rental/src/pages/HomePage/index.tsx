@@ -121,16 +121,14 @@ const HomePage: React.FC = () => {
             ...filterProps,
             BrandId: brand?.id,
             fuelType: !Number.isNaN(Number(fuel)) ? Number(fuel) : undefined,
-            transmissionType: !Number.isNaN(Number(transmission))
-            quantityOfSeats: Number(quantityOfSeats),
+            transmissionType: !Number.isNaN(transmission)
+                ? transmission
                 : undefined,
-            QuantityOfSeats:
-                !Number.isNaN(Number(quantityOfSeats)) &&
+            quantityOfSeats:
                 Number(quantityOfSeats) !== 0
                     ? Number(quantityOfSeats)
                     : undefined,
             FuelConsumption:
-                !Number.isNaN(Number(fuelConsumption)) &&
                 Number(fuelConsumption) !== 0
                     ? Number(fuelConsumption)
                     : undefined,

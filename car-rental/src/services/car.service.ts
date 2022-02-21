@@ -4,6 +4,7 @@ import {
     BOOK_CAR_REQUEST,
     CREATE_CAR_POST_REQUEST_URL,
     GET_ALL_CAR_BRANDS_REQUEST_URL,
+    GET_ALL_CARS_REQUEST_URL,
     GET_FILTERED_CARS_REQUEST_URL,
     LOCK_CAR_REQUEST,
     UNLOCK_CAR_REQUEST,
@@ -15,6 +16,10 @@ import FilterOptions from 'shared/interfaces/FilterOptions'
 
 export const getAllCarBrands = () => {
     return axios.get(`${GET_ALL_CAR_BRANDS_REQUEST_URL}`, {})
+}
+
+export const getAllCars = () => {
+    return axios.get(`${GET_ALL_CARS_REQUEST_URL}`, {})
 }
 
 export const createNewCar = (car: Car) => {

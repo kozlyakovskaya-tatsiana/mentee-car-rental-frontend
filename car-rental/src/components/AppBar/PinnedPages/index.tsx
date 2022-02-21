@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import Box from '@mui/material/Box'
@@ -8,11 +8,9 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 import { pages } from '../consts'
-import { useAuth } from '../../../contextes/authContext'
 
 const PinnedPages = () => {
-    const { checkRole } = useAuth()
-    const role = checkRole()
+    const navigate = useNavigate()
     return (
         <>
             <Box
@@ -48,23 +46,18 @@ const PinnedPages = () => {
                     display: { xs: 'none', md: 'flex' },
                 }}
             >
-                {role === 'superadmin' ? (
-                    <Link
-                        to="management"
+                {localStorage.getItem('roles') === 'superadmin' ? (
+                    <Button
                         key="management"
-                        style={{ textDecoration: 'none' }}
+                        sx={{
+                            my: 2,
+                            color: 'white',
+                            display: 'block',
+                        }}
+                        onClick={() => navigate('management')}
                     >
-                        <Button
-                            key="management"
-                            sx={{
-                                my: 2,
-                                color: 'white',
-                                display: 'block',
-                            }}
-                        >
-                            Management
-                        </Button>
-                    </Link>
+                        Management
+                    </Button>
                 ) : null}
                 {pages.map((page) => (
                     <Link
@@ -84,7 +77,6 @@ const PinnedPages = () => {
                         </Button>
                     </Link>
                 ))}
-                {}
             </Box>
         </>
     )

@@ -51,7 +51,6 @@ export const login = (email: string, password: string) => {
                 const decoded = jwtDecode<CarRentalJwtPayload>(
                     response.data.accessToken
                 )
-                console.log(decoded)
                 const name = decoded.name?.split(' ')
                 localStorage.setItem('firstName', name![0])
                 localStorage.setItem('lastName', name![1])

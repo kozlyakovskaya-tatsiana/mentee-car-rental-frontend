@@ -11,19 +11,15 @@ import Box from '@mui/material/Box'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import Button from '@mui/material/Button'
 
-import { RentalPointType } from 'shared/types/RentalPoint'
-
-function createData(name: string, coords: string) {
-    return { name, coords }
-}
+import { Car } from 'models/Car'
 
 interface TableProps {
-    rentalPoints: Array<RentalPointType>
+    cars: Car[]
     deleteAction: (name: string) => {}
 }
 
-export const RentalPointsTable: React.FC<TableProps> = ({
-    rentalPoints,
+export const CarsTable: React.FC<TableProps> = ({
+    cars,
     deleteAction,
 }: TableProps) => {
     return (
@@ -33,20 +29,21 @@ export const RentalPointsTable: React.FC<TableProps> = ({
                 sx={{ backgroundColor: '#2d2d2d', height: '100%' }}
             >
                 <Table
-                    sx={{ minWidth: 300 }}
+                    sx={{ minWidth: 400 }}
                     size="small"
                     aria-label="a dense table"
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell>Rental Point name</TableCell>
+                            <TableCell>Car</TableCell>
+                            <TableCell>Rental Point Id</TableCell>
                             <TableCell align="right">Delete?</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rentalPoints.map((row) => (
+                        {cars.map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.id}
                                 sx={{
                                     '&:last-child td, &:last-child th': {
                                         border: 0,
@@ -54,11 +51,14 @@ export const RentalPointsTable: React.FC<TableProps> = ({
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {`${row.brand.name} ${row.model}`}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {row.rentalPointId}
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button
-                                        onClick={() => deleteAction(row.id)}
+                                        onClick={() => deleteAction(row.id!)}
                                         style={{ margin: 0, padding: 0 }}
                                     >
                                         <DeleteOutlineOutlinedIcon
@@ -76,4 +76,4 @@ export const RentalPointsTable: React.FC<TableProps> = ({
     )
 }
 
-export default RentalPointsTable
+export default CarsTable

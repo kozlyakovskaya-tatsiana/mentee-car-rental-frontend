@@ -38,10 +38,23 @@ const App = () => {
                                 />
                             }
                         >
-                            <Route path="car" element={<ManagementCarPage />} />
+                            <Route
+                                path="car"
+                                element={
+                                    <PrivateRoute
+                                        component={ManagementCarPage}
+                                        roles={[ADMIN_ROLE]}
+                                    />
+                                }
+                            />
                             <Route
                                 path="rental-point"
-                                element={<ManagementRentalPointsPage />}
+                                element={
+                                    <PrivateRoute
+                                        component={ManagementRentalPointsPage}
+                                        roles={[ADMIN_ROLE]}
+                                    />
+                                }
                             />
                         </Route>
                     </Routes>

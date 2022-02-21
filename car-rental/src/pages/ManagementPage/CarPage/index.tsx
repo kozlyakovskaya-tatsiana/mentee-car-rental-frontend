@@ -1,13 +1,18 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Slide from '@mui/material/Slide'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import { Typography, useTheme } from '@mui/material'
+import { useTheme } from '@mui/material'
+
+import { deleteRentalPoint } from 'services/rentalPoint.service'
+import { getAllCars } from 'services/car.service'
+import { Car } from 'models/Car'
 
 import CreateCarForm from './CreateCarForm'
+import CarsTable from './TableComponent'
 
 import {
     gridAnimationStyles,
@@ -22,11 +27,22 @@ export const ManagementCarPage: React.FC = () => {
 
     const [checked, setChecked] = React.useState(false)
     const containerRef = React.useRef(null)
-
+    const [cars, setCars] = React.useState<Car[]>([])
     const handleChange = () => {
         setChecked((prev) => !prev)
     }
 
+    useEffect(() => {
+        getAllCars().then((response) => {
+            setCars(response.data)
+            console.log(response.data)
+        })
+    }, [])
+
+    const deleteCar = async (id: string) => {
+        await deleteRentalPoint(id)
+        getAllCars().then((response) => setCars(response.data))
+    }
     return (
         <Box component="main" sx={mainBoxStyles}>
             <Paper
@@ -72,18 +88,18 @@ export const ManagementCarPage: React.FC = () => {
 
                     <Grid item xs={checked ? 6 : 12} display="flex">
                         {!checked && (
-                            <Button
-                                onClick={handleChange}
-                                color="secondary"
-                                variant="outlined"
-                            >
-                                Create new car
-                            </Button>
+                            <Box>
+                                <Button
+                                    onClick={handleChange}
+                                    color="secondary"
+                                    variant="outlined"
+                                >
+                                    Create new car
+                                </Button>
+                            </Box>
                         )}
-                        <Box>
-                            <Typography variant="body1">
-                                dvasd vov asdv as dvasd vo
-                            </Typography>
+                        <Box style={{ width: '100%' }}>
+                            <CarsTable cars={cars} deleteAction={deleteCar} />
                         </Box>
                     </Grid>
                 </Grid>

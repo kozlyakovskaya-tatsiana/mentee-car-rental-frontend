@@ -122,7 +122,7 @@ const HomePage: React.FC = () => {
             BrandId: brand?.id,
             fuelType: !Number.isNaN(Number(fuel)) ? Number(fuel) : undefined,
             transmissionType: !Number.isNaN(Number(transmission))
-                ? Number(transmission)
+            quantityOfSeats: Number(quantityOfSeats),
                 : undefined,
             QuantityOfSeats:
                 !Number.isNaN(Number(quantityOfSeats)) &&

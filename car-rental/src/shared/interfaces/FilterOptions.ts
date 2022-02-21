@@ -9,7 +9,7 @@ interface FilterOptions {
     BrandId?: string
     transmissionType?: Transmission
     fuelType?: Fuel
-    QuantityOfSeats?: number
+    quantityOfSeats?: number
     PickUpDateTime: string
     DropOffDateTime: string
     LessThenPrice?: number

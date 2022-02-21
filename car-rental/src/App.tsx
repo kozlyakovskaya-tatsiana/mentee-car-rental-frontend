@@ -14,14 +14,8 @@ import Header from './components/AppBar'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
-
-import CarListComponent from './pages/HomePage/CarListComponent'
-
 import ManagementPage from './pages/ManagementPage'
-import ManagementHomePage from './pages/ManagementPage/HomePage'
 import ManagementCarPage from './pages/ManagementPage/CarPage'
-
-import ManagementReportsPage from './pages/ManagementPage/ReportsPage'
 import ManagementRentalPointsPage from './pages/ManagementPage/RentalPointsPage'
 
 import './App.scss'
@@ -46,21 +40,9 @@ const App = () => {
                                 />
                             }
                         >
-                            {/* <Route */}
-                            {/*    path="home" */}
-                            {/*    element={<ManagementHomePage />} */}
-                            {/* /> */}
                             <Route path="car" element={<ManagementCarPage />} />
-                            {/* <Route */}
-                            {/*    path="user" */}
-                            {/*    element={<ManagementUserPage />} */}
-                            {/* /> */}
-                            {/* <Route */}
-                            {/*    path="reports" */}
-                            {/*    element={<ManagementReportsPage />} */}
-                            {/* /> */}
                             <Route
-                                path="rp"
+                                path="rental-point"
                                 element={<ManagementRentalPointsPage />}
                             />
                         </Route>

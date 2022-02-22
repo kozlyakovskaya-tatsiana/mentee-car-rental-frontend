@@ -23,7 +23,6 @@ import { getRentalPointsByCity } from '../../services/rentalPoint.service'
 import { RentalPointType } from '../../shared/types/RentalPoint'
 
 const HomePage: React.FC = () => {
-    const styles = useStyles()
     const now = moment(new Date().toISOString().slice(0, 16))
     // Activate button statement
     const [checked, setChecked] = useState<boolean>(false)
@@ -69,7 +68,7 @@ const HomePage: React.FC = () => {
     const [fuelConsumption, setFuelConsumption] = React.useState<
         string | undefined
     >('')
-    const [price, setPrice] = React.useState<number | undefined>(1501)
+    const [price, setPrice] = React.useState<number | undefined>(151)
     const [rentalPoint, setRentalPoint] =
         React.useState<RentalPointType | null>(null)
 
@@ -125,6 +124,7 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (allFieldsSelected) {
+            setCars([])
             getFilteredCars(filterProps).then((response) => {
                 setCars(response.data.cars)
                 setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
@@ -149,7 +149,7 @@ const HomePage: React.FC = () => {
                 Number(fuelConsumption) !== 0
                     ? Number(fuelConsumption)
                     : undefined,
-            LessThenPrice: price !== 1501 ? price : undefined,
+            LessThenPrice: price !== 151 ? price : undefined,
             rentalPointId: rentalPoint?.id,
         })
     }, [
@@ -246,7 +246,7 @@ const HomePage: React.FC = () => {
         setTransmission(undefined)
         setQuantityOfSeats('')
         setFuelConsumption('')
-        setPrice(1501)
+        setPrice(151)
         const params: FilterOptions = {
             PageNumber: 1,
             PageSize: 3,

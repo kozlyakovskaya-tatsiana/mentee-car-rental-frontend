@@ -166,26 +166,26 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                                 >
                                     {price === undefined
                                         ? '0'
-                                        : price === 1501
+                                        : price === 151
                                         ? '∞'
                                         : price}
                                 </Typography>
                             </Grid>
                         </Grid>
                         <Slider
-                            defaultValue={1501}
+                            defaultValue={151}
                             size="small"
                             aria-label="Small"
                             color="secondary"
                             onChangeCommitted={onPriceChange}
-                            max={1501}
+                            max={151}
                             valueLabelDisplay="auto"
                         />
                         <Slider
                             aria-label="Default"
-                            max={1501}
+                            max={151}
                             value={price}
-                            defaultValue={1501}
+                            defaultValue={151}
                         />
                     </Grid>
                 </Grid>

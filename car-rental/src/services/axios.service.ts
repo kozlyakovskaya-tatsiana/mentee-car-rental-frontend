@@ -1,20 +1,30 @@
+/* eslint-disable */
 import axios from 'axios'
 import { refreshTokenPair } from './tokens.service'
+import { API_URL } from '../consts'
 
-axios.interceptors.request.use(
-    (config) => {
+export const axiosInstance = axios.create({
+    baseURL: API_URL,
+    timeout: 3000,
+})
+
+axiosInstance.interceptors.request.use(
+    async (config) => {
         const token = localStorage.getItem('accessToken')
         if (token) {
-            if (config.headers) {
-                config.headers['Authorization'] = 'Bearer ' + token
+            config.headers = {
+                ...config.headers,
+                Authorization: `Bearer ${token}`,
             }
         }
         return config
     },
-    (error) => {}
+    (error) => {
+        return Promise.reject(error)
+    }
 )
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
     (response) => {
         return response
     },
@@ -27,3 +37,5 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+export default axiosInstance

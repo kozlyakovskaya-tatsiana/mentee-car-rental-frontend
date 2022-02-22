@@ -1,11 +1,17 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import {
     Card,
     CardActions,
     CardContent,
     CardMedia,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     useTheme,
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
@@ -33,8 +39,76 @@ export const CarList: React.FC<CarListProps> = (props) => {
     const theme = useTheme()
     const { cars, handleClickOpen, isUserAuthenticate } = props
     const isAuth = isUserAuthenticate()
+
+    const [open, setOpen] = React.useState(false)
+
+    const ErrorDialogOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
     return (
         <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle
+                    id="alert-dialog-title"
+                    style={{ textAlign: 'center' }}
+                >
+                    Whoops.
+                </DialogTitle>
+                <DialogContent style={{ width: 300, height: 70 }}>
+                    <DialogContentText
+                        id="alert-dialog-description"
+                        textAlign="center"
+                    >
+                        You are unauthorized. <br />
+                        Please login or register
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Grid container spacing={1}>
+                        <Grid
+                            item
+                            xs={6}
+                            alignItems="center"
+                            display="flex"
+                            justifyContent="center"
+                        >
+                            <Link
+                                to="/login"
+                                onClick={handleClose}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <Button variant="outlined" color="secondary">
+                                    Login page
+                                </Button>
+                            </Link>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={6}
+                            alignItems="center"
+                            display="flex"
+                            justifyContent="center"
+                        >
+                            <Button
+                                onClick={handleClose}
+                                variant="outlined"
+                                color="secondary"
+                            >
+                                Ok
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DialogActions>
+            </Dialog>
             {cars.map((car: Car) => (
                 <Card
                     style={cardStyle}
@@ -78,19 +152,19 @@ export const CarList: React.FC<CarListProps> = (props) => {
                                     <Typography variant="body2">
                                         {car.pricePerHour} $
                                     </Typography>
-                                    {isAuth && (
-                                        <Button
-                                            size="small"
-                                            style={bookButtonStyles}
-                                            color="secondary"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                handleClickOpen(car.id!)
-                                            }}
-                                        >
-                                            Book
-                                        </Button>
-                                    )}
+                                    <Button
+                                        size="small"
+                                        style={bookButtonStyles}
+                                        color="secondary"
+                                        variant="outlined"
+                                        onClick={() => {
+                                            isAuth
+                                                ? handleClickOpen(car.id!)
+                                                : ErrorDialogOpen()
+                                        }}
+                                    >
+                                        Book
+                                    </Button>
                                 </CardActions>
                             </Grid>
                         </Grid>

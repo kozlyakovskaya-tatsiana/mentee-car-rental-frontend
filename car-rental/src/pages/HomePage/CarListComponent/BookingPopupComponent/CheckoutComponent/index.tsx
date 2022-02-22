@@ -38,7 +38,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = (props) => {
                 )}`}
                 <br />
                 <Typography color="secondary">Total price: </Typography>
-                {`${checkout.totalPrice}`}
+                {`${checkout.totalPrice} $`}
                 <br />
                 <Typography color="secondary">
                     Your booking uniq number:{' '}

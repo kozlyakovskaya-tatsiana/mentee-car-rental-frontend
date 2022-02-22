@@ -7,16 +7,17 @@ import {
     GET_ALL_CITIES_REQUEST_URL,
     GET_ALL_COUNTRIES_REQUEST_URL,
 } from '../consts'
+import axiosInstance from './axios.service'
 
-Geocode.setApiKey('AIzaSyBE3ualJBuhhpiQF7d0lM8C6PhuH1TPyDo')
+Geocode.setApiKey('your_geocode_api_key')
 Geocode.setLanguage('en')
 
 export const getCountries = () => {
-    return axios.get(`${GET_ALL_COUNTRIES_REQUEST_URL}`, {})
+    return axiosInstance.get(`${GET_ALL_COUNTRIES_REQUEST_URL}`, {})
 }
 
 export const getCities = (country: Country) => {
-    return axios.get(`${GET_ALL_CITIES_REQUEST_URL}/${country.id}`, {})
+    return axiosInstance.get(`${GET_ALL_CITIES_REQUEST_URL}/${country.id}`, {})
 }
 
 export const getAddressByCoordinates = (coords: Coordinate) => {

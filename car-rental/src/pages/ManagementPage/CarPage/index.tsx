@@ -32,11 +32,12 @@ export const ManagementCarPage: React.FC = () => {
         setChecked((prev) => !prev)
     }
 
+    const getCars = () => {
+        getAllCars().then((response) => setCars(response.data))
+    }
+
     useEffect(() => {
-        getAllCars().then((response) => {
-            setCars(response.data)
-            console.log(response.data)
-        })
+        getCars()
     }, [])
 
     const deleteCar = async (id: string) => {
@@ -71,7 +72,7 @@ export const ManagementCarPage: React.FC = () => {
                                 container={containerRef.current}
                             >
                                 <Box display="flex">
-                                    <CreateCarForm />
+                                    <CreateCarForm getCars={getCars} />
                                     <Box sx={{ marginLeft: 1 }}>
                                         <Button
                                             onClick={handleChange}

@@ -29,16 +29,17 @@ const CarListComponent: React.FC<CarListComponentProps> = (
     const { isUserAuthenticate } = useAuth()
 
     const { cars, filterOptions, updateCars } = props
-    const [loading, setLoading] = React.useState<boolean>(true)
-    const [updated, setUpdated] = React.useState<boolean>(true)
-    const [isFirstLoad, setIsFirstLoad] = React.useState<boolean>(true)
 
     const [chosenCar, setChosenCar] = React.useState<Car | undefined>()
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState<boolean>(false)
+    const [isNotFound, setIsNotFound] = React.useState<boolean>(false)
+    const [submitted, setSubmitted] = React.useState<boolean>(false)
+    const [approved, setApproved] = React.useState<boolean>(false)
 
-    const [submitted, setSubmitted] = React.useState(false)
-    const [approved, setApproved] = React.useState(false)
+    React.useEffect(() => {
+        setIsNotFound(false)
+    }, [cars])
 
     const handleClickOpen = (carId: string) => {
         const carForBooking = cars.find((car, index, array) => {
@@ -67,23 +68,10 @@ const CarListComponent: React.FC<CarListComponentProps> = (
         setChosenCar(undefined)
         updateCars()
     }
-
-    const loader = async () => {
-        await setLoading(true)
-        await setUpdated(false)
-        if (cars.length < 1) setUpdated(false)
-        else setUpdated(true)
-        await setTimeout(() => {
-            setLoading(false)
-        }, 1500)
+    const changeIsNotFound = () => {
+        setIsNotFound(true)
     }
-
-    useEffect(() => {
-        if (!isFirstLoad) loader()
-        else setIsFirstLoad(false)
-    }, [filterOptions, cars])
-
-    if (updated)
+    if (cars.length > 0)
         return (
             <div>
                 <Box component="main" style={papersHandlerStyle}>
@@ -106,7 +94,8 @@ const CarListComponent: React.FC<CarListComponentProps> = (
                 </Box>
             </div>
         )
-    if (loading) return <LoadingComponent />
+    if (!isNotFound)
+        return <LoadingComponent changeIsNotFound={changeIsNotFound} />
     return <NotFound />
 }
 

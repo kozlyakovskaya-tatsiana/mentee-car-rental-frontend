@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -36,12 +37,11 @@ export const CarsTable: React.FC<TableProps> = ({
                     <TableHead>
                         <TableRow>
                             <TableCell>Car</TableCell>
-                            <TableCell>Rental Point Id</TableCell>
                             <TableCell align="right">Delete?</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {cars.map((row) => (
+                        {cars.map((row, iterator) => (
                             <TableRow
                                 key={row.id}
                                 sx={{
@@ -52,9 +52,6 @@ export const CarsTable: React.FC<TableProps> = ({
                             >
                                 <TableCell component="th" scope="row">
                                     {`${row.brand.name} ${row.model}`}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.rentalPointId}
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button

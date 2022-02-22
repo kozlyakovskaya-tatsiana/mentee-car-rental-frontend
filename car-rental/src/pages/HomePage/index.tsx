@@ -203,12 +203,14 @@ const HomePage: React.FC = () => {
         }
     }
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
-        setCars([])
+        setLoading(true)
         const params: FilterOptions = { ...filterProps, PageNumber: value }
-        getFilteredCars(params).then((response) => {
-            setCars(response.data.cars)
-            setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
-        })
+        getFilteredCars(params)
+            .then((response) => {
+                setCars(response.data.cars)
+                setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
+            })
+            .finally(() => setLoading(false))
     }
     const onBrandSelected = (event: SyntheticEvent, value: any) => {
         setBrand(value)

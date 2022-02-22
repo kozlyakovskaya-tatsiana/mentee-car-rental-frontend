@@ -15,7 +15,13 @@ import { Car } from 'models/Car'
 import { CarPhoto } from 'models/Attachment'
 import { Brand } from 'models/Brand'
 
-import { Button, createFilterOptions, TextField } from '@mui/material'
+import {
+    Button,
+    createFilterOptions,
+    InputAdornment,
+    TextField,
+    Typography,
+} from '@mui/material'
 import Zoom from '@material-ui/core/Zoom'
 
 import CarAutocompleteComponent from './CarAurocompleteComponent'
@@ -25,7 +31,13 @@ import RentalPointSelector from './RentalPointSelector'
 
 const filter = createFilterOptions<BrandInputType>()
 
-export const CreateCarForm: React.FC = () => {
+interface FormProps {
+    getCars: () => void
+}
+
+export const CreateCarForm: React.FC<FormProps> = (formProps) => {
+    const { getCars } = formProps
+
     const [zoomAnimationChecked, setZoomAnimationChecked] = React.useState<
         boolean | undefined
     >()
@@ -174,7 +186,7 @@ export const CreateCarForm: React.FC = () => {
             brand: convertedBrand,
             rentalPointId: rentalPoint!.id,
         }
-        createNewCar(car).then((res) => console.log(res))
+        createNewCar(car).then(() => getCars())
         setBrand(null)
         setModel(null)
         setFuel(0)
@@ -254,6 +266,15 @@ export const CreateCarForm: React.FC = () => {
                     fullWidth
                     onChange={onPriceChange}
                     value={price}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <Typography style={{ color: 'white' }}>
+                                    $
+                                </Typography>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </Grid>
             <Grid item xs={12}>

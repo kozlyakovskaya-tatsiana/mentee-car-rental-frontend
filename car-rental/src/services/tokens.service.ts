@@ -28,7 +28,7 @@ export const verifyAccessToken = () => {
             accessToken,
         })
         .then((response: AxiosResponse<any>) => {
-            return true
+            return response.data
         })
         .catch((error) => {
             if (error.response) {

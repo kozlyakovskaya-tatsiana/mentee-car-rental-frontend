@@ -87,6 +87,29 @@ export const themeOptions = createTheme({
                 },
             },
         },
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    backgroundColor: '#1a1a1a',
+                    color: '#ffffff',
+                },
+            },
+        },
+        MuiDialogContentText: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                },
+            },
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#1a1a1a',
+                    color: '#ffffff',
+                },
+            },
+        },
     },
 })
 

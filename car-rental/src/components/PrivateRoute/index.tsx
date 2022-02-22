@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from 'contextes/authContext'
 import AccessDenied from 'components/AccessDenied'
+import { verifyAccessToken } from '../../services/tokens.service'
 
 interface SProps {
     component: React.ComponentType

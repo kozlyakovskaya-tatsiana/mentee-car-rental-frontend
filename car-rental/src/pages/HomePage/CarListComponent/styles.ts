@@ -3,7 +3,7 @@ export const papersHandlerStyle = {
     flexDirection: 'column',
     paddingTop: '15px',
     width: '100%',
-    height: 580,
+    height: 595,
 } as const
 
 export const cardStyle = {
@@ -35,4 +35,5 @@ export const carLoaderStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '400px',
 }

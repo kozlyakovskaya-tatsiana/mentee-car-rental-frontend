@@ -1,40 +1,32 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
+import moment from 'moment'
 
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
-import Alert from '@mui/material/Alert'
-import Autocomplete from '@mui/material/Autocomplete'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
 import Pagination from '@mui/material/Pagination'
-import Collapse from '@mui/material/Collapse'
 
 import { City, Country } from 'shared/types/Locations'
 import { Car } from 'models/Car'
 import { getCities, getCountries } from 'services/location.service'
 import { getAllCarBrands, getFilteredCars } from 'services/car.service'
-import FilteredOptions from 'shared/interfaces/FilteredOptions'
+import FilterOptions from 'shared/interfaces/FilterOptions'
 
 import CarListComponent from './CarListComponent'
 
-import {
-    papersHandlerStyle,
-    lotPaperStyle,
-    useStyles,
-    PageHandlerStyle,
-} from './styles'
+import { papersHandlerStyle, useStyles, PageHandlerStyle } from './styles'
 import { BrandInputType } from '../../shared/types/CarTypes'
 import FilterOptionsComponent from './FilterOptionsComponent'
+import HeadFilteringComponent from './HeadFilteringComponent'
+
+import { getRentalPointsByCity } from '../../services/rentalPoint.service'
+import { RentalPointType } from '../../shared/types/RentalPoint'
 
 const HomePage: React.FC = () => {
-    const styles = useStyles()
-
+    const now = moment(new Date().toISOString().slice(0, 16))
     // Activate button statement
     const [checked, setChecked] = useState<boolean>(false)
-
+    const [loading, setLoading] = useState<boolean>(false)
     // Statement for submitting button event
     const [submit, setSubmit] = useState<boolean>(false)
 
@@ -43,9 +35,10 @@ const HomePage: React.FC = () => {
     const [cities, setCities] = useState<City[]>([])
     const [cars, setCars] = useState<Car[]>([])
 
-    // Main selectors
+    // Head filter selectors
     const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
     const [selectedCity, setSelectedCity] = useState<City | null>(null)
+    const [dataTimeApproved, setDataTimeApproved] = useState<boolean>(false)
     const [pickUp, setPickUp] = useState<string>(
         new Date().toISOString().slice(0, 16)
     )
@@ -55,12 +48,17 @@ const HomePage: React.FC = () => {
     const [allFieldsSelected, setAllFieldsSelected] = useState<boolean>(false)
 
     // Filter statement
-    const [filterProps, setFilterProps] = useState<FilteredOptions>(
-        {} as FilteredOptions
+    const [filterProps, setFilterProps] = useState<FilterOptions>(
+        {} as FilterOptions
+    )
+
+    // available filters selects
+    const [brandSelect, setBrandSelect] = React.useState<BrandInputType[]>([])
+    const [rentalPoints, setRentalPoints] = React.useState<RentalPointType[]>(
+        []
     )
 
     // Filter options statements
-    const [brandSelect, setBrandSelect] = React.useState<BrandInputType[]>([])
     const [brand, setBrand] = React.useState<BrandInputType | null>(null)
     const [fuel, setFuel] = React.useState<number | undefined>()
     const [transmission, setTransmission] = React.useState<number | undefined>()
@@ -70,33 +68,34 @@ const HomePage: React.FC = () => {
     const [fuelConsumption, setFuelConsumption] = React.useState<
         string | undefined
     >('')
-    const [price, setPrice] = React.useState<number | undefined>(551)
+    const [price, setPrice] = React.useState<number | undefined>(151)
+    const [rentalPoint, setRentalPoint] =
+        React.useState<RentalPointType | null>(null)
 
     // Pagination statement
     const [pagesQuantity, setPagesQuantity] = useState<number>(1)
 
     // Main form loader methods
-    const getAllCountries = async () => {
-        const countriesResponse = await getCountries()
-        setCountries(countriesResponse.data)
+    const getAllCountries = () => {
+        getCountries().then((response) => setCountries(response.data))
     }
-    const getAllBrands = async () => {
-        const brandsResponse = await getAllCarBrands()
-        setBrandSelect([...brandsResponse.data])
+    const getAllBrands = () => {
+        getAllCarBrands().then((response) => setBrandSelect([...response.data]))
     }
     const getCitiesByCountry = async (countryName: string) => {
         const country = countries.find((element, index, array) => {
-            if (element.name === countryName) {
-                return true
-            }
-            return false
+            return element.name === countryName
         })
         if (country) {
-            const cityResponse = await getCities(country)
-            setCities(cityResponse.data)
+            getCities(country).then((response) => {
+                setCities(response.data)
+            })
         }
     }
-
+    const showWarningAlert = () => {
+        setChecked(true)
+        setTimeout(() => setChecked(false), 3000)
+    }
     // Use effects
     useEffect(() => {
         getAllCountries()
@@ -104,19 +103,36 @@ const HomePage: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        if (selectedCountry && selectedCity) {
+        if (moment(dropOff).diff(moment(pickUp)) < 60000 * 10) {
+            setDataTimeApproved(false)
+        } else setDataTimeApproved(true)
+    }, [pickUp, dropOff])
+
+    useEffect(() => {
+        if (selectedCountry && selectedCity && dataTimeApproved)
             setAllFieldsSelected(true)
-        }
-    }, [selectedCountry, selectedCity])
+        else setAllFieldsSelected(false)
+    }, [selectedCountry, selectedCity, dataTimeApproved])
+
+    useEffect(() => {
+        if (selectedCity)
+            getRentalPointsByCity(selectedCity).then((response) =>
+                setRentalPoints(response.data)
+            )
+    }, [selectedCity])
 
     useEffect(() => {
         if (allFieldsSelected) {
-            getFilteredCars(filterProps).then((response) => {
-                setCars(response.data.cars)
-                setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
-                setSubmit(true)
-            })
-            console.log(filterProps)
+            setLoading(true)
+            getFilteredCars(filterProps)
+                .then((response) => {
+                    setCars(response.data.cars)
+                    setPagesQuantity(
+                        Math.ceil(response.data.totalCarsCount / 3)
+                    )
+                    setSubmit(true)
+                })
+                .finally(() => setLoading(false))
         }
     }, [filterProps])
 
@@ -125,22 +141,29 @@ const HomePage: React.FC = () => {
             ...filterProps,
             BrandId: brand?.id,
             fuelType: !Number.isNaN(Number(fuel)) ? Number(fuel) : undefined,
-            transmissionType: !Number.isNaN(Number(transmission))
-                ? Number(transmission)
+            transmissionType: !Number.isNaN(transmission)
+                ? transmission
                 : undefined,
-            QuantityOfSeats:
-                !Number.isNaN(Number(quantityOfSeats)) &&
+            quantityOfSeats:
                 Number(quantityOfSeats) !== 0
                     ? Number(quantityOfSeats)
                     : undefined,
             FuelConsumption:
-                !Number.isNaN(Number(fuelConsumption)) &&
                 Number(fuelConsumption) !== 0
                     ? Number(fuelConsumption)
                     : undefined,
-            LessThenPrice: price !== 551 ? price : undefined,
+            LessThenPrice: price !== 151 ? price : undefined,
+            rentalPointId: rentalPoint?.id,
         })
-    }, [brand, fuel, transmission, quantityOfSeats, fuelConsumption, price])
+    }, [
+        brand,
+        fuel,
+        transmission,
+        quantityOfSeats,
+        fuelConsumption,
+        price,
+        rentalPoint,
+    ])
 
     // Change handlers
     const onCountrySelected = (event: any, value: any) => {
@@ -159,18 +182,29 @@ const HomePage: React.FC = () => {
             const selected = cities.find(
                 (element: City) => element.name === value
             )
-            if (selected) {
-                setSelectedCity(selected)
-            }
+            if (selected) setSelectedCity(selected)
         }
     }
-    const showWarningAlert = () => {
-        setChecked(true)
-        setTimeout(() => setChecked(false), 3000)
+    const onPickUpChanged = (e: any) => {
+        const pickUpDate = moment(e.target.value)
+        if (now > pickUpDate) {
+            showWarningAlert()
+        } else {
+            setPickUp(e.target.value)
+        }
+    }
+    const onDropOffChanged = (e: any) => {
+        const dropOffDate = moment(e.target.value)
+        const pickUpD = moment(pickUp)
+        if (now > dropOffDate || pickUpD > dropOffDate) {
+            showWarningAlert()
+        } else {
+            setDropOff(e.target.value)
+        }
     }
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
         setCars([])
-        const params: FilteredOptions = { ...filterProps, PageNumber: value }
+        const params: FilterOptions = { ...filterProps, PageNumber: value }
         getFilteredCars(params).then((response) => {
             setCars(response.data.cars)
             setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
@@ -178,6 +212,9 @@ const HomePage: React.FC = () => {
     }
     const onBrandSelected = (event: SyntheticEvent, value: any) => {
         setBrand(value)
+    }
+    const onRentalPointSelected = (event: SyntheticEvent, value: any) => {
+        setRentalPoint(value)
     }
     const onSelectFuel = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFuel(Number(event.target.value))
@@ -207,7 +244,8 @@ const HomePage: React.FC = () => {
 
     // Submit button handler
     const onSubmit = () => {
-        const params: FilteredOptions = {
+        const params: FilterOptions = {
+            ...filterProps,
             PageNumber: 1,
             PageSize: 3,
             CountryId: selectedCountry!.id,
@@ -221,173 +259,68 @@ const HomePage: React.FC = () => {
     return (
         <Box component="main" style={PageHandlerStyle}>
             <Box style={papersHandlerStyle}>
-                <Paper sx={lotPaperStyle}>
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <Autocomplete
-                                classes={{
-                                    inputRoot: styles.autoComplete,
-                                }}
-                                id="country-select"
-                                options={countries.map(
-                                    (option: Country) => option.name
-                                )}
-                                forcePopupIcon={false}
-                                onChange={onCountrySelected}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        className={styles.field}
-                                        label="Country"
-                                        margin="normal"
-                                        variant="outlined"
-                                    />
-                                )}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Autocomplete
-                                classes={{
-                                    inputRoot: styles.autoComplete,
-                                }}
-                                id="city-select"
-                                options={cities.map(
-                                    (option: City) => option.name
-                                )}
-                                forcePopupIcon={false}
-                                onChange={onCitySelected}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        className={styles.field}
-                                        label="City"
-                                        margin="normal"
-                                        variant="outlined"
-                                    />
-                                )}
-                            />
-                        </Grid>
-                        <Grid
-                            container
-                            item
-                            spacing={1}
-                            xs={12}
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Grid item xs={4}>
-                                <Stack
-                                    component="form"
-                                    noValidate
-                                    spacing={1}
-                                    classes={{
-                                        inputRoot: styles.stack,
-                                    }}
-                                >
-                                    <TextField
-                                        id="PickUpBookingTime"
-                                        label="Pick-up"
-                                        type="datetime-local"
-                                        classes={{ root: styles.field }}
-                                        defaultValue={pickUp}
-                                        onChange={(e: any) =>
-                                            setPickUp(e.target.value)
-                                        }
-                                    />
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Stack
-                                    component="form"
-                                    noValidate
-                                    spacing={1}
-                                    classes={{
-                                        inputRoot: styles.stack,
-                                    }}
-                                >
-                                    <TextField
-                                        id="DropOffBookingTime"
-                                        label="Drop-off"
-                                        type="datetime-local"
-                                        classes={{ root: styles.field }}
-                                        defaultValue={dropOff}
-                                        onChange={(e: any) =>
-                                            setDropOff(e.target.value)
-                                        }
-                                    />
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{
-                                        mt: 3,
-                                        mb: 2,
-                                    }}
-                                    color={
-                                        allFieldsSelected
-                                            ? 'secondary'
-                                            : 'primary'
-                                    }
-                                    onClick={
-                                        allFieldsSelected
-                                            ? onSubmit
-                                            : showWarningAlert
-                                    }
-                                >
-                                    Search
-                                </Button>
-                            </Grid>
-                            <Fade in={checked}>
-                                <Grid item xs={12}>
-                                    <Alert severity="error">
-                                        Insert all fields!
-                                    </Alert>
-                                </Grid>
-                            </Fade>
-                        </Grid>
-                    </Grid>
-                </Paper>
+                <HeadFilteringComponent
+                    countries={countries}
+                    onCountrySelected={onCountrySelected}
+                    cities={cities}
+                    onCitySelected={onCitySelected}
+                    pickUp={pickUp}
+                    updatePickUp={onPickUpChanged}
+                    dropOff={dropOff}
+                    updateDropOff={onDropOffChanged}
+                    allFieldsSelected={allFieldsSelected}
+                    showWarningAlert={showWarningAlert}
+                    checked={checked}
+                    onSubmit={onSubmit}
+                    dataTimeApproved={dataTimeApproved}
+                />
                 <Fade in={submit}>
                     <Grid container spacing={1}>
-                        <Grid item xs={3}>
-                            <FilterOptionsComponent
-                                brandSelect={brandSelect}
-                                onBrandSelected={onBrandSelected}
-                                fuel={fuel}
-                                onSelectFuel={onSelectFuel}
-                                onSelectTransmission={onSelectTransmission}
-                                transmission={transmission}
-                                onQuantityChange={onQuantityChange}
-                                quantityOfSeats={quantityOfSeats}
-                                fuelConsumption={fuelConsumption}
-                                onFuelConsumptionChange={
-                                    onFuelConsumptionChange
-                                }
-                                price={price}
-                                onPriceChange={onPriceChange}
-                            />
+                        <Grid item container spacing={1}>
+                            <Grid item xs={3}>
+                                <FilterOptionsComponent
+                                    brand={brand}
+                                    brandSelect={brandSelect}
+                                    onBrandSelected={onBrandSelected}
+                                    fuel={fuel}
+                                    onSelectFuel={onSelectFuel}
+                                    onSelectTransmission={onSelectTransmission}
+                                    transmission={transmission}
+                                    onQuantityChange={onQuantityChange}
+                                    quantityOfSeats={quantityOfSeats}
+                                    fuelConsumption={fuelConsumption}
+                                    onFuelConsumptionChange={
+                                        onFuelConsumptionChange
+                                    }
+                                    price={price}
+                                    onPriceChange={onPriceChange}
+                                    rentalPoints={rentalPoints}
+                                    rentalPoint={rentalPoint}
+                                    onRentalPointSelected={
+                                        onRentalPointSelected
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={9}>
+                                <CarListComponent
+                                    cars={cars}
+                                    filterOptions={filterProps}
+                                    updateCars={onSubmit}
+                                    loading={loading}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={9}>
-                            <CarListComponent
-                                cars={cars}
-                                filterOptions={filterProps}
-                            />
-                        </Grid>
-                        <Grid item xs={3} />
-                        <Grid item xs={9}>
-                            <Pagination
-                                count={pagesQuantity}
-                                variant="outlined"
-                                shape="rounded"
-                                color="secondary"
-                                onChange={handlePageChange}
-                            />
+                        <Grid item container spacing={1}>
+                            <Grid item xs={3} />
+                            <Grid item xs={9}>
+                                <Pagination
+                                    count={pagesQuantity}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    color="secondary"
+                                    onChange={handlePageChange}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Fade>

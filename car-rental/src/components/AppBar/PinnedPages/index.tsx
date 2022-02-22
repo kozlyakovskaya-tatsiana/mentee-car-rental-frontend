@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import Box from '@mui/material/Box'
@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import { pages } from '../consts'
 
 const PinnedPages = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Box
@@ -45,6 +46,19 @@ const PinnedPages = () => {
                     display: { xs: 'none', md: 'flex' },
                 }}
             >
+                {localStorage.getItem('roles') === 'superadmin' ? (
+                    <Button
+                        key="management"
+                        sx={{
+                            my: 2,
+                            color: 'white',
+                            display: 'block',
+                        }}
+                        onClick={() => navigate('management')}
+                    >
+                        Management
+                    </Button>
+                ) : null}
                 {pages.map((page) => (
                     <Link
                         to={page.toLowerCase()}

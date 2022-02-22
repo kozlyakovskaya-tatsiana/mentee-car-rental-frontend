@@ -11,11 +11,15 @@ import { MutatingDots } from 'react-loader-spinner'
 interface contextAuth {
     isUserAuthenticate: () => boolean
     changeAuth: (value: boolean) => {}
+    checkRole: () => string
+    clearRoles: () => void
 }
 
 export const AuthContext = createContext<contextAuth>({
     isUserAuthenticate: () => {},
     changeAuth: (value: boolean) => {},
+    checkRole: () => {},
+    clearRoles: () => {},
 } as contextAuth)
 
 export const useAuth = () => {
@@ -32,27 +36,43 @@ const loaderHandlerStyles = {
 export const AuthProvider = ({ children }: any) => {
     const [isAuth, setIsAuth] = useState<boolean>(false)
     const [loader, setLoader] = useState<boolean>(true)
+    const [role, setRole] = useState<string | null>(null)
 
     const isUserAuthenticate = () => {
         return isAuth
+    }
+
+    const checkRole = () => {
+        return role
     }
 
     const changeAuth = (value: boolean) => {
         setIsAuth(value)
     }
 
+    const clearRoles = () => {
+        setRole(null)
+    }
+
     const token = localStorage.getItem('accessToken')
+    const roles = localStorage.getItem('roles')
+
     useEffect(() => {
         if (token)
-            verifyAccessToken().then((res) => {
-                if (res) {
+            verifyAccessToken().then((data) => {
+                if (data) {
                     changeAuth(true)
+                    // setRole(data.role)
+                    setRole(roles)
                 }
             })
         setTimeout(() => setLoader(false), 500)
     }, [token])
 
-    const value = useMemo(() => ({ isUserAuthenticate, changeAuth }), [isAuth])
+    const value = useMemo(
+        () => ({ isUserAuthenticate, changeAuth, checkRole, clearRoles }),
+        [isAuth]
+    )
     if (loader) {
         return (
             <div style={loaderHandlerStyles}>

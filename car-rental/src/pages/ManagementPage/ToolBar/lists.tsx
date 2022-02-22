@@ -14,16 +14,6 @@ import { linkStyle } from '../../LoginPage/LoginForm/styles'
 
 export const itemsList = (
     <div>
-        {/* <Link to="/management/home" style={linkStyle}> */}
-        {/*    <ListItem button> */}
-        {/*        <ListItemIcon> */}
-        {/*            <DashboardIcon */}
-        {/*                style={{ fill: theme.palette.secondary.main }} */}
-        {/*            /> */}
-        {/*        </ListItemIcon> */}
-        {/*        <ListItemText primary="Dashboard" /> */}
-        {/*    </ListItem> */}
-        {/* </Link> */}
         <Link to="/management/car" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
@@ -34,25 +24,7 @@ export const itemsList = (
                 <ListItemText primary="Car Management" />
             </ListItem>
         </Link>
-        {/* <Link to="/management/user" style={linkStyle}> */}
-        {/*    <ListItem button> */}
-        {/*        <ListItemIcon> */}
-        {/*            <PeopleIcon style={{ fill: theme.palette.text.primary }} /> */}
-        {/*        </ListItemIcon> */}
-        {/*        <ListItemText primary="User Management" /> */}
-        {/*    </ListItem> */}
-        {/* </Link> */}
-        {/* <Link to="/management/reports" style={linkStyle}> */}
-        {/*    <ListItem button> */}
-        {/*        <ListItemIcon> */}
-        {/*            <BarChartIcon */}
-        {/*                style={{ fill: theme.palette.text.primary }} */}
-        {/*            /> */}
-        {/*        </ListItemIcon> */}
-        {/*        <ListItemText primary="Reports" /> */}
-        {/*    </ListItem> */}
-        {/* </Link> */}
-        <Link to="/management/rp" style={linkStyle}>
+        <Link to="/management/rental-point" style={linkStyle}>
             <ListItem button>
                 <ListItemIcon>
                     <LayersIcon style={{ fill: theme.palette.text.primary }} />

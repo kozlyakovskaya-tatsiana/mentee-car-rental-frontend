@@ -1,7 +1,7 @@
 import Transmission from '../enums/Transmission'
 import Fuel from '../enums/Fuel'
 
-interface FilteredOptions {
+interface FilterOptions {
     PageNumber: number
     PageSize: number
     CountryId?: string
@@ -9,11 +9,12 @@ interface FilteredOptions {
     BrandId?: string
     transmissionType?: Transmission
     fuelType?: Fuel
-    QuantityOfSeats?: number
+    quantityOfSeats?: number
     PickUpDateTime: string
     DropOffDateTime: string
     LessThenPrice?: number
     FuelConsumption?: number
+    rentalPointId?: string
 }
 
-export default FilteredOptions
+export default FilterOptions

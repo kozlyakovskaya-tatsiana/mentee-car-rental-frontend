@@ -13,8 +13,10 @@ import { BrandInputType } from 'shared/types/CarTypes'
 
 import CarSelectComponent from './CarSelectComponent'
 import { papersHandlerStyle } from '../CarListComponent/styles'
+import { RentalPointType } from '../../../shared/types/RentalPoint'
 
 interface FilterOptionsProps {
+    brand: BrandInputType | null
     brandSelect: BrandInputType[]
     onBrandSelected: (event: SyntheticEvent, value: any) => void
     onSelectFuel: (event: React.ChangeEvent<HTMLSelectElement>) => void
@@ -27,18 +29,26 @@ interface FilterOptionsProps {
     onFuelConsumptionChange: (e: any) => void
     price: number | undefined
     onPriceChange: (e: any, value: number | number[]) => void
+    rentalPoint: RentalPointType | null
+    rentalPoints: RentalPointType[]
+    onRentalPointSelected: (event: SyntheticEvent, value: any) => void
 }
 
 const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
-    const theme = useTheme()
-
-    const renderOptions = (renderProps: any, option: any) => (
+    const brandRenderOptions = (renderProps: any, option: any) => (
         <li {...renderProps} key={option.name}>
             {option.name}
         </li>
     )
 
+    const rentalPointRenderOptions = (renderProps: any, option: any) => (
+        <li {...renderProps} key={option.name}>
+            {option.location.address}
+        </li>
+    )
+
     const {
+        brand,
         brandSelect,
         onBrandSelected,
         onSelectFuel,
@@ -51,13 +61,16 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
         onFuelConsumptionChange,
         price,
         onPriceChange,
+        rentalPoint,
+        rentalPoints,
+        onRentalPointSelected,
     } = props
 
     return (
         <Box component="main" style={papersHandlerStyle}>
             <Paper
                 style={{
-                    height: 570,
+                    height: 580,
                     backgroundColor: '#1a1a1a',
                     padding: 10,
                 }}
@@ -68,12 +81,13 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                             disablePortal
                             id="brand-autocomplete-box"
                             options={brandSelect}
-                            renderOption={renderOptions}
+                            renderOption={brandRenderOptions}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
                                 <TextField {...params} label="Brand" />
                             )}
                             onChange={onBrandSelected}
+                            value={brand}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -122,6 +136,20 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
+                        <Autocomplete
+                            disablePortal
+                            id="rental-point-autocomplete-box"
+                            options={rentalPoints}
+                            renderOption={rentalPointRenderOptions}
+                            getOptionLabel={(option) => option.location.address}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Rental Point" />
+                            )}
+                            onChange={onRentalPointSelected}
+                            value={rentalPoint}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
                         <Grid container item>
                             <Grid item xs={6}>
                                 <Typography style={{ fontSize: '10pt' }}>
@@ -138,26 +166,26 @@ const FilterOptionsComponent: React.FC<FilterOptionsProps> = (props) => {
                                 >
                                     {price === undefined
                                         ? '0'
-                                        : price === 551
+                                        : price === 151
                                         ? '∞'
                                         : price}
                                 </Typography>
                             </Grid>
                         </Grid>
                         <Slider
-                            defaultValue={551}
+                            defaultValue={151}
                             size="small"
                             aria-label="Small"
                             color="secondary"
                             onChangeCommitted={onPriceChange}
-                            max={551}
+                            max={151}
                             valueLabelDisplay="auto"
                         />
                         <Slider
                             aria-label="Default"
-                            max={551}
+                            max={151}
                             value={price}
-                            defaultValue={551}
+                            defaultValue={151}
                         />
                     </Grid>
                 </Grid>

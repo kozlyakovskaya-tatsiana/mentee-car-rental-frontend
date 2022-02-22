@@ -136,11 +136,6 @@ const LoginForm: React.FC = () => {
                             {message}
                         </Typography>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Link to="/restore" style={linkStyle}>
-                            Forgot password?
-                        </Link>
-                    </Grid>
                 </Grid>
                 <Box sx={{ mt: 1, width: '100%' }}>
                     <Button

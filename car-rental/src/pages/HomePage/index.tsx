@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
     const now = moment(new Date().toISOString().slice(0, 16))
     // Activate button statement
     const [checked, setChecked] = useState<boolean>(false)
-
+    const [loading, setLoading] = useState<boolean>(false)
     // Statement for submitting button event
     const [submit, setSubmit] = useState<boolean>(false)
 
@@ -96,7 +96,6 @@ const HomePage: React.FC = () => {
         setChecked(true)
         setTimeout(() => setChecked(false), 3000)
     }
-
     // Use effects
     useEffect(() => {
         getAllCountries()
@@ -124,12 +123,16 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (allFieldsSelected) {
-            setCars([])
-            getFilteredCars(filterProps).then((response) => {
-                setCars(response.data.cars)
-                setPagesQuantity(Math.ceil(response.data.totalCarsCount / 3))
-                setSubmit(true)
-            })
+            setLoading(true)
+            getFilteredCars(filterProps)
+                .then((response) => {
+                    setCars(response.data.cars)
+                    setPagesQuantity(
+                        Math.ceil(response.data.totalCarsCount / 3)
+                    )
+                    setSubmit(true)
+                })
+                .finally(() => setLoading(false))
         }
     }, [filterProps])
 
@@ -241,13 +244,8 @@ const HomePage: React.FC = () => {
 
     // Submit button handler
     const onSubmit = () => {
-        setBrand(null)
-        setFuel(undefined)
-        setTransmission(undefined)
-        setQuantityOfSeats('')
-        setFuelConsumption('')
-        setPrice(151)
         const params: FilterOptions = {
+            ...filterProps,
             PageNumber: 1,
             PageSize: 3,
             CountryId: selectedCountry!.id,
@@ -308,6 +306,7 @@ const HomePage: React.FC = () => {
                                     cars={cars}
                                     filterOptions={filterProps}
                                     updateCars={onSubmit}
+                                    loading={loading}
                                 />
                             </Grid>
                         </Grid>

@@ -1,8 +1,14 @@
 import React from 'react'
+
 import Typography from '@mui/material/Typography'
 
-export const NotFound: React.FC = () => {
-    return (
+interface NotFoundProps {
+    visible: boolean
+}
+
+export const NotFound: React.FC<NotFoundProps> = (props) => {
+    const { visible } = props
+    return visible ? (
         <div
             style={{
                 display: 'flex',
@@ -12,7 +18,7 @@ export const NotFound: React.FC = () => {
         >
             <Typography variant="h1">Not found!</Typography>
         </div>
-    )
+    ) : null
 }
 
 export default NotFound

@@ -5,20 +5,17 @@ import { BallTriangle } from 'react-loader-spinner'
 import { carLoaderStyle } from '../styles'
 
 interface LoadingProps {
-    changeIsNotFound: () => void
+    loading: boolean
 }
 
 export const LoadingComponent: React.FC<LoadingProps> = (props) => {
-    const { changeIsNotFound } = props
-    React.useEffect(() => {
-        setTimeout(() => changeIsNotFound(), 3000)
-    }, [])
-
-    return (
+    const { loading } = props
+    console.log('loading', loading)
+    return loading ? (
         <div style={carLoaderStyle}>
             <BallTriangle width="100" ariaLabel="loading" color="#ff2172" />
         </div>
-    )
+    ) : null
 }
 
 export default LoadingComponent

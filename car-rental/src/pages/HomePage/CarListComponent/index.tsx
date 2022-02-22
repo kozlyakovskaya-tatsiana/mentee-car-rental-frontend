@@ -21,6 +21,7 @@ interface CarListComponentProps {
     cars: Car[]
     filterOptions: FilterOptions
     updateCars: () => void
+    loading: boolean
 }
 
 const CarListComponent: React.FC<CarListComponentProps> = (
@@ -28,7 +29,7 @@ const CarListComponent: React.FC<CarListComponentProps> = (
 ) => {
     const { isUserAuthenticate } = useAuth()
 
-    const { cars, filterOptions, updateCars } = props
+    const { cars, filterOptions, updateCars, loading } = props
 
     const [chosenCar, setChosenCar] = React.useState<Car | undefined>()
 
@@ -68,35 +69,32 @@ const CarListComponent: React.FC<CarListComponentProps> = (
         setChosenCar(undefined)
         updateCars()
     }
-    const changeIsNotFound = () => {
-        setIsNotFound(true)
-    }
-    if (cars.length > 0)
-        return (
-            <div>
-                <Box component="main" style={papersHandlerStyle}>
-                    <BookingPopupComponent
-                        open={open}
-                        submitted={submitted}
-                        approved={approved}
-                        handleCanceledClose={handleCanceledClose}
-                        handleSubmitted={handleSubmitted}
-                        handleApproved={handleApproved}
-                        chosenCar={chosenCar}
-                        filterOptions={filterOptions}
-                        handleClose={handleClose}
-                    />
+    return (
+        <div>
+            <Box component="main" style={papersHandlerStyle}>
+                <BookingPopupComponent
+                    open={open}
+                    submitted={submitted}
+                    approved={approved}
+                    handleCanceledClose={handleCanceledClose}
+                    handleSubmitted={handleSubmitted}
+                    handleApproved={handleApproved}
+                    chosenCar={chosenCar}
+                    filterOptions={filterOptions}
+                    handleClose={handleClose}
+                />
+                {!loading && (
                     <CarList
                         cars={cars}
                         handleClickOpen={handleClickOpen}
                         isUserAuthenticate={isUserAuthenticate}
                     />
-                </Box>
-            </div>
-        )
-    if (!isNotFound)
-        return <LoadingComponent changeIsNotFound={changeIsNotFound} />
-    return <NotFound />
+                )}
+                <LoadingComponent loading={loading} />
+                <NotFound visible={!loading && cars.length === 0} />
+            </Box>
+        </div>
+    )
 }
 
 export default CarListComponent

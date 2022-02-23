@@ -13,6 +13,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import Button from '@mui/material/Button'
 
 import { Car } from 'models/Car'
+import Fuel from '../../../../shared/enums/Fuel'
+import Transmission from '../../../../shared/enums/Transmission'
 
 interface TableProps {
     cars: Car[]
@@ -37,6 +39,9 @@ export const CarsTable: React.FC<TableProps> = ({
                     <TableHead>
                         <TableRow>
                             <TableCell>Car</TableCell>
+                            <TableCell>Price per hour</TableCell>
+                            <TableCell>Transmission</TableCell>
+                            <TableCell>Fuel</TableCell>
                             <TableCell align="right">Delete?</TableCell>
                         </TableRow>
                     </TableHead>
@@ -52,6 +57,15 @@ export const CarsTable: React.FC<TableProps> = ({
                             >
                                 <TableCell component="th" scope="row">
                                     {`${row.brand.name} ${row.model}`}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {`${row.pricePerHour} $`}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {`${Transmission[row.transmission]}`}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {`${Fuel[row.fuel]}`}
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button

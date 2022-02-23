@@ -59,7 +59,7 @@ export const CarsTable: React.FC<TableProps> = ({
                                     {`${row.brand.name} ${row.model}`}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {`${row.pricePerHour}`}
+                                    {`${row.pricePerHour} $`}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     {`${Transmission[row.transmission]}`}
